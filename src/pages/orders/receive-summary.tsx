@@ -1,17 +1,17 @@
 import { CONFIG } from 'src/global-config';
 
-import { OrderListView } from 'src/sections/orders';
+import { ReceiveSummaryView } from 'src/sections/orders/receive-summary';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `收款订单明细 - ${CONFIG.appName}` };
+const metadata = { title: `收款汇总 - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
     <>
       <title>{metadata.title}</title>
 
-      <OrderListView />
+      <ReceiveSummaryView />
     </>
   );
 }

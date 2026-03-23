@@ -9,6 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
+import { useLanguage } from 'src/context/language-provider';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -23,6 +25,7 @@ type Props = {
 export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { t } = useLanguage();
 
   return (
     <>
@@ -47,7 +50,7 @@ export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }:
             <ListItemIcon>
               <Iconify icon="solar:refresh-bold" />
             </ListItemIcon>
-            <ListItemText>更新状态</ListItemText>
+            <ListItemText>{t('orders.paymentOrders.updateStatus')}</ListItemText>
           </MenuItem>
         )}
 
@@ -60,7 +63,7 @@ export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }:
           <ListItemIcon>
             <Iconify icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
           </ListItemIcon>
-          <ListItemText>成功通知</ListItemText>
+          <ListItemText>{t('orders.paymentOrders.successNotification')}</ListItemText>
         </MenuItem>
 
         <MenuItem
@@ -72,7 +75,7 @@ export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }:
           <ListItemIcon>
             <Iconify icon="solar:close-circle-bold" sx={{ color: 'error.main' }} />
           </ListItemIcon>
-          <ListItemText>失败通知</ListItemText>
+          <ListItemText>{t('orders.paymentOrders.failureNotification')}</ListItemText>
         </MenuItem>
 
         <Divider />
@@ -86,7 +89,7 @@ export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }:
           <ListItemIcon>
             <Iconify icon="solar:info-circle-bold" />
           </ListItemIcon>
-          <ListItemText>查看详情</ListItemText>
+          <ListItemText>{t('orders.receiveOrders.orderDetails')}</ListItemText>
         </MenuItem>
       </Menu>
     </>

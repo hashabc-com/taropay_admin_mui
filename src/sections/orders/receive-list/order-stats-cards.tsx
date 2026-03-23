@@ -5,6 +5,8 @@ import Card from '@mui/material/Card';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 
+import { useLanguage } from 'src/context/language-provider';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -67,23 +69,25 @@ type Props = {
 };
 
 export function OrderStatsCards({ stats, isLoading }: Props) {
+  const { t } = useLanguage();
+
   const cards: StatCardData[] = [
     {
-      label: '总订单',
+      label: t('orders.stats.totalOrders'),
       value: isLoading ? '-' : stats.totalOrders.toLocaleString(),
       icon: 'solar:hashtag-bold',
       color: 'primary.main',
       bgcolor: 'primary.lighter',
     },
     {
-      label: '成功订单',
+      label: t('orders.stats.successOrders'),
       value: isLoading ? '-' : stats.successOrders.toLocaleString(),
       icon: 'solar:check-circle-bold',
       color: 'success.main',
       bgcolor: 'success.lighter',
     },
     {
-      label: '成功率',
+      label: t('orders.stats.successRate'),
       value: isLoading ? '-' : `${stats.successRate}%`,
       icon: 'solar:graph-up-bold',
       color: 'warning.main',
@@ -94,7 +98,12 @@ export function OrderStatsCards({ stats, isLoading }: Props) {
   if (isLoading) {
     return (
       <Box
-        sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 2 }}
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+          gap: 2,
+          mb: 3,
+        }}
       >
         {[1, 2, 3].map((i) => (
           <Skeleton key={i} variant="rounded" height={80} />

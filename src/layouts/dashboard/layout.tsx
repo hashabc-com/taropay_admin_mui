@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles';
 import { iconButtonClasses } from '@mui/material/IconButton';
 
 import { Logo } from 'src/components/logo';
+import { CountryTime } from 'src/components/country-time';
 import { useSettingsContext } from 'src/components/settings';
 import { CountryMerchantSelector } from 'src/components/country-merchant-selector';
 
@@ -140,6 +141,9 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
+          {/** @slot Country time */}
+          <CountryTime />
+
           {/** @slot Country / Merchant selector */}
           <CountryMerchantSelector />
 
@@ -149,11 +153,8 @@ export function DashboardLayout({
           {/** @slot Language popover */}
           <LanguagePopover
             data={[
+              { value: 'zh', label: '中文', countryCode: 'CN' },
               { value: 'en', label: 'English', countryCode: 'GB' },
-              { value: 'fr', label: 'French', countryCode: 'FR' },
-              { value: 'vi', label: 'Vietnamese', countryCode: 'VN' },
-              { value: 'cn', label: 'Chinese', countryCode: 'CN' },
-              { value: 'ar', label: 'Arabic', countryCode: 'SA' },
             ]}
           />
 

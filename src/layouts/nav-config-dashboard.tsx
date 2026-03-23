@@ -4,7 +4,6 @@ import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/global-config';
 
-import { Label } from 'src/components/label';
 import { SvgColor } from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
@@ -46,52 +45,18 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export const navData: NavSectionProps['data'] = [
-  /**
-   * Overview
-   */
   {
-    subheader: 'Overview',
     items: [
       {
-        title: 'One',
-        path: paths.dashboard.root,
-        icon: ICONS.dashboard,
-        info: <Label>v{CONFIG.appVersion}</Label>,
-      },
-      { title: 'Two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-      { title: 'Three', path: paths.dashboard.three, icon: ICONS.analytics },
-    ],
-  },
-  /**
-   * Management
-   */
-  {
-    subheader: 'Management',
-    items: [
-      {
-        title: 'Group',
-        path: paths.dashboard.group.root,
-        icon: ICONS.user,
-        children: [
-          { title: 'Four', path: paths.dashboard.group.root },
-          { title: 'Five', path: paths.dashboard.group.five },
-          { title: 'Six', path: paths.dashboard.group.six },
-        ],
-      },
-    ],
-  },
-  /**
-   * Orders
-   */
-  {
-    subheader: '订单管理',
-    items: [
-      {
-        title: '收款订单',
-        path: paths.dashboard.orders.root,
+        title: '订单管理',
+        path: paths.orders.root,
         icon: ICONS.order,
         children: [
-          { title: '收款订单明细', path: paths.dashboard.orders.receiveList },
+          { title: '收款订单明细', path: paths.orders.receiveList },
+          { title: '收款汇总', path: paths.orders.receiveSummary },
+          { title: '付款订单明细', path: paths.orders.paymentList },
+          { title: '付款汇总', path: paths.orders.paymentSummary },
+          { title: '代收成功率', path: paths.orders.collectionRate },
         ],
       },
     ],

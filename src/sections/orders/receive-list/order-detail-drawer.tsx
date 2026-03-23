@@ -9,6 +9,8 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
+import { useLanguage } from 'src/context/language-provider';
+
 import { Iconify } from 'src/components/iconify';
 
 import { ORDER_STATUS_MAP } from './types';
@@ -22,6 +24,7 @@ type Props = {
 };
 
 export function OrderDetailDrawer({ open, onClose, order }: Props) {
+  const { t } = useLanguage();
   const statusInfo = order
     ? (ORDER_STATUS_MAP[order.status] ?? { label: order.status, color: 'default' as const })
     : { label: '', color: 'default' as const };
@@ -43,7 +46,7 @@ export function OrderDetailDrawer({ open, onClose, order }: Props) {
             justifyContent="space-between"
             sx={{ px: 2.5, py: 2 }}
           >
-            <Typography variant="h6">订单详情</Typography>
+            <Typography variant="h6">{t('orders.receiveOrders.orderDetails')}</Typography>
             <IconButton onClick={onClose}>
               <Iconify icon="mingcute:close-line" />
             </IconButton>
@@ -54,8 +57,7 @@ export function OrderDetailDrawer({ open, onClose, order }: Props) {
           {/* Content */}
           <Box sx={{ px: 2.5, py: 3, overflowY: 'auto', flex: 1 }}>
             <Stack spacing={3}>
-              {/* 状态 */}
-              <DetailRow label="状态">
+              <DetailRow label={t('orders.receiveOrders.status')}>
                 <Chip
                   label={statusInfo.label}
                   color={statusInfo.color}
@@ -66,72 +68,70 @@ export function OrderDetailDrawer({ open, onClose, order }: Props) {
 
               <Divider />
 
-              {/* 商户信息 */}
-              <SectionTitle>商户信息</SectionTitle>
+              <SectionTitle>{t('orders.receiveOrders.merchant')}</SectionTitle>
 
-              <DetailRow label="商户">{order.companyName || '-'}</DetailRow>
-              <DetailRow label="手机号">{order.mobile || '-'}</DetailRow>
-              <DetailRow label="用户名">{order.userName || '-'}</DetailRow>
+              <DetailRow label={t('orders.receiveOrders.merchant')}>
+                {order.companyName || '-'}
+              </DetailRow>
+              <DetailRow label={t('orders.receiveOrders.mobile')}>{order.mobile || '-'}</DetailRow>
+              <DetailRow label={t('signIn.username')}>{order.userName || '-'}</DetailRow>
 
               <Divider />
 
-              {/* 订单号 */}
-              <SectionTitle>订单号</SectionTitle>
+              <SectionTitle>{t('orders.receiveOrders.merchantOrderNo')}</SectionTitle>
 
-              <DetailRow label="商户订单号" mono>
+              <DetailRow label={t('orders.receiveOrders.merchantOrderNo')} mono>
                 {order.referenceno || '-'}
               </DetailRow>
-              <DetailRow label="平台订单号" mono>
+              <DetailRow label={t('orders.receiveOrders.platformOrderNo')} mono>
                 {order.transId || '-'}
               </DetailRow>
-              <DetailRow label="三方订单号" mono>
+              <DetailRow label={t('orders.receiveOrders.thirdPartyOrderNo')} mono>
                 {order.tripartiteOrder || '-'}
               </DetailRow>
 
               <Divider />
 
-              {/* 产品 & 渠道 */}
-              <SectionTitle>产品信息</SectionTitle>
+              <SectionTitle>{t('orders.receiveOrders.product')}</SectionTitle>
 
-              <DetailRow label="产品">
+              <DetailRow label={t('orders.receiveOrders.product')}>
                 {order.pickupCenter ? (
                   <Chip label={order.pickupCenter} size="small" variant="outlined" />
                 ) : (
                   '-'
                 )}
               </DetailRow>
-              <DetailRow label="渠道">{order.paymentCompany || '-'}</DetailRow>
+              <DetailRow label={t('common.channel')}>{order.paymentCompany || '-'}</DetailRow>
 
               <Divider />
 
-              {/* 金额 */}
-              <SectionTitle>金额信息</SectionTitle>
+              <SectionTitle>{t('orders.receiveOrders.orderAmount')}</SectionTitle>
 
-              <DetailRow label="订单金额" bold>
+              <DetailRow label={t('orders.receiveOrders.orderAmount')} bold>
                 {order.amount ?? '-'}
               </DetailRow>
-              <DetailRow label="实际金额" bold>
+              <DetailRow label={t('orders.receiveOrders.realAmount')} bold>
                 {order.realAmount ?? '-'}
               </DetailRow>
-              <DetailRow label="手续费" bold>
+              <DetailRow label={t('orders.receiveOrders.serviceFee')} bold>
                 {order.serviceAmount ?? '-'}
               </DetailRow>
 
               <Divider />
 
-              {/* 时间 */}
-              <SectionTitle>时间信息</SectionTitle>
+              <SectionTitle>{t('orders.receiveOrders.createTime')}</SectionTitle>
 
-              <DetailRow label="创建时间">{order.localTime || order.createTime || '-'}</DetailRow>
-              <DetailRow label="完成时间">
+              <DetailRow label={t('orders.receiveOrders.createTime')}>
+                {order.localTime || order.createTime || '-'}
+              </DetailRow>
+              <DetailRow label={t('orders.receiveOrders.finishTime')}>
                 {order.status === '2' ? order.updateTime || '-' : order.localPaymentDate || '-'}
               </DetailRow>
 
-              {/* 失败原因 */}
               {order.status === '2' && order.message && (
                 <>
                   <Divider />
-                  <DetailRow label="失败原因">
+                  <DetailRow label={t('orders.receiveOrders.failReason')}>
                     <Typography variant="body2" color="error.main">
                       {order.message}
                     </Typography>
@@ -145,7 +145,7 @@ export function OrderDetailDrawer({ open, onClose, order }: Props) {
           <Divider />
           <Box sx={{ p: 2.5 }}>
             <Button variant="outlined" fullWidth onClick={onClose}>
-              关闭
+              {t('common.close')}
             </Button>
           </Box>
         </>

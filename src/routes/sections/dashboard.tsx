@@ -14,15 +14,12 @@ import { usePathname } from '../hooks';
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('src/pages/dashboard/one'));
-const PageTwo = lazy(() => import('src/pages/dashboard/two'));
-const PageThree = lazy(() => import('src/pages/dashboard/three'));
-const PageFour = lazy(() => import('src/pages/dashboard/four'));
-const PageFive = lazy(() => import('src/pages/dashboard/five'));
-const PageSix = lazy(() => import('src/pages/dashboard/six'));
-
 // Orders
-const OrderReceiveList = lazy(() => import('src/pages/dashboard/orders/receive-list'));
+const OrderReceiveList = lazy(() => import('src/pages/orders/receive-list'));
+const OrderReceiveSummary = lazy(() => import('src/pages/orders/receive-summary'));
+const OrderPaymentList = lazy(() => import('src/pages/orders/payment-list'));
+const OrderPaymentSummary = lazy(() => import('src/pages/orders/payment-summary'));
+const OrderCollectionRate = lazy(() => import('src/pages/orders/collection-rate'));
 
 // ----------------------------------------------------------------------
 
@@ -43,24 +40,16 @@ const dashboardLayout = () => (
 
 export const dashboardRoutes: RouteObject[] = [
   {
-    path: 'dashboard',
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [
-      { element: <IndexPage />, index: true },
-      { path: 'two', element: <PageTwo /> },
-      { path: 'three', element: <PageThree /> },
-      {
-        path: 'group',
-        children: [
-          { element: <PageFour />, index: true },
-          { path: 'five', element: <PageFive /> },
-          { path: 'six', element: <PageSix /> },
-        ],
-      },
       {
         path: 'orders',
         children: [
           { path: 'receive-list', element: <OrderReceiveList /> },
+          { path: 'receive-summary', element: <OrderReceiveSummary /> },
+          { path: 'payment-list', element: <OrderPaymentList /> },
+          { path: 'payment-summary', element: <OrderPaymentSummary /> },
+          { path: 'collection-rate', element: <OrderCollectionRate /> },
         ],
       },
     ],

@@ -8,6 +8,7 @@ import { usePathname } from 'src/routes/hooks';
 
 import { swrConfig } from 'src/lib/swr-config';
 import { themeConfig, ThemeProvider } from 'src/theme';
+import { LanguageProvider } from 'src/context/language-provider';
 
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
@@ -26,21 +27,23 @@ export default function App({ children }: AppProps) {
 
   return (
     <AuthProvider>
-      <SWRConfig value={swrConfig}>
-        <SettingsProvider defaultSettings={defaultSettings}>
-          <ThemeProvider
-            modeStorageKey={themeConfig.modeStorageKey}
-            defaultMode={themeConfig.defaultMode}
-          >
-            <MotionLazy>
-              <ProgressBar />
-              <SettingsDrawer defaultSettings={defaultSettings} />
-              <Toaster richColors position="top-right" />
-              {children}
-            </MotionLazy>
-          </ThemeProvider>
-        </SettingsProvider>
-      </SWRConfig>
+      <LanguageProvider>
+        <SWRConfig value={swrConfig}>
+          <SettingsProvider defaultSettings={defaultSettings}>
+            <ThemeProvider
+              modeStorageKey={themeConfig.modeStorageKey}
+              defaultMode={themeConfig.defaultMode}
+            >
+              <MotionLazy>
+                <ProgressBar />
+                <SettingsDrawer defaultSettings={defaultSettings} />
+                <Toaster richColors position="top-right" />
+                {children}
+              </MotionLazy>
+            </ThemeProvider>
+          </SettingsProvider>
+        </SWRConfig>
+      </LanguageProvider>
     </AuthProvider>
   );
 }

@@ -95,6 +95,19 @@ export function CountryMerchantSelector() {
         slotProps={{ inputLabel: { shrink: true } }}
         label="国家"
       >
+        {/*
+         * 当 countries 还未加载完但 selectedCountry 已从 persist 恢复时，
+         * 注入一个隐藏占位 MenuItem，避免 MUI Select out-of-range 警告。
+         */}
+        {selectedCountry && !countries.some((c) => String(c.id) === String(selectedCountry.id)) && (
+          <MenuItem
+            key={selectedCountry.id}
+            value={String(selectedCountry.id)}
+            sx={{ display: 'none' }}
+          >
+            {selectedCountry.code}
+          </MenuItem>
+        )}
         {countries.map((c) => (
           <MenuItem key={c.id} value={String(c.id)}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -161,6 +174,16 @@ export function CountryMerchantSelector() {
             ) : null
           }
         >
+          {selectedMerchant &&
+            !merchants.some((m) => String(m.appid) === String(selectedMerchant.appid)) && (
+              <MenuItem
+                key={selectedMerchant.appid}
+                value={String(selectedMerchant.appid)}
+                sx={{ display: 'none' }}
+              >
+                {selectedMerchant.companyName}
+              </MenuItem>
+            )}
           {merchants.map((m) => (
             <MenuItem key={m.appid} value={String(m.appid)}>
               {m.companyName}

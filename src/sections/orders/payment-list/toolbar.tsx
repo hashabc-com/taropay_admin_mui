@@ -15,21 +15,24 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+import { useLanguage } from 'src/context/language-provider';
+
 import { Iconify } from 'src/components/iconify';
 
-import { ORDER_STATUS_MAP } from './types';
+import { PAYMENT_STATUS_MAP } from './hooks';
 
 // ----------------------------------------------------------------------
 
-export function OrderListToolbar() {
+export function PaymentListToolbar() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useLanguage();
 
-  // Local state mirrors URL params for controlled inputs
   const [fields, setFields] = useState({
-    referenceno: searchParams.get('referenceno') || '',
+    refNo: searchParams.get('refNo') || '',
     transId: searchParams.get('transId') || '',
     mobile: searchParams.get('mobile') || '',
     userName: searchParams.get('userName') || '',
+    accountNumber: searchParams.get('accountNumber') || '',
     status: searchParams.get('status') || '',
     startTime: searchParams.get('startTime') || '',
     endTime: searchParams.get('endTime') || '',
@@ -42,35 +45,30 @@ export function OrderListToolbar() {
   const hasFilters = Object.values(fields).some(Boolean);
 
   const handleSearch = useCallback(() => {
-    const params = new URLSearchParams(searchParams);
-    // Reset to page 1
-    params.set('pageNum', '1');
-
+    const p = new URLSearchParams(searchParams);
+    p.set('pageNum', '1');
     Object.entries(fields).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
+      if (value) p.set(key, value);
+      else p.delete(key);
     });
-
-    setSearchParams(params);
+    setSearchParams(p);
   }, [fields, searchParams, setSearchParams]);
 
   const handleReset = useCallback(() => {
     setFields({
-      referenceno: '',
+      refNo: '',
       transId: '',
       mobile: '',
       userName: '',
+      accountNumber: '',
       status: '',
       startTime: '',
       endTime: '',
     });
-    const params = new URLSearchParams();
-    params.set('pageNum', '1');
-    params.set('pageSize', searchParams.get('pageSize') || '10');
-    setSearchParams(params);
+    const p = new URLSearchParams();
+    p.set('pageNum', '1');
+    p.set('pageSize', searchParams.get('pageSize') || '10');
+    setSearchParams(p);
   }, [searchParams, setSearchParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -80,42 +78,36 @@ export function OrderListToolbar() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, mb: 3 }}>
-        {/* Date range */}
         <DateTimePicker
-          label="开始时间"
+          label={t('common.startTime')}
           value={fields.startTime ? dayjs(fields.startTime) : null}
           onChange={(val: Dayjs | null) =>
             setField('startTime', val ? val.format('YYYY-MM-DD HH:mm:ss') : '')
           }
-          slotProps={{
-            textField: { size: 'small', sx: { width: 220 }, placeholder: '选择开始时间' },
-          }}
+          slotProps={{ textField: { size: 'small', sx: { width: 220 } } }}
           format="YYYY-MM-DD HH:mm:ss"
         />
         <DateTimePicker
-          label="结束时间"
+          label={t('common.endTime')}
           value={fields.endTime ? dayjs(fields.endTime) : null}
           onChange={(val: Dayjs | null) =>
             setField('endTime', val ? val.format('YYYY-MM-DD HH:mm:ss') : '')
           }
-          slotProps={{
-            textField: { size: 'small', sx: { width: 220 }, placeholder: '选择结束时间' },
-          }}
+          slotProps={{ textField: { size: 'small', sx: { width: 220 } } }}
           format="YYYY-MM-DD HH:mm:ss"
         />
 
-        {/* Search inputs */}
         <TextField
           size="small"
-          placeholder="商户订单号"
-          value={fields.referenceno}
-          onChange={(e) => setField('referenceno', e.target.value)}
+          placeholder={t('orders.paymentOrders.merchantOrderNo')}
+          value={fields.refNo}
+          onChange={(e) => setField('refNo', e.target.value)}
           onKeyDown={handleKeyDown}
           sx={{ width: 160 }}
         />
         <TextField
           size="small"
-          placeholder="平台订单号"
+          placeholder={t('orders.paymentOrders.platformOrderNo')}
           value={fields.transId}
           onChange={(e) => setField('transId', e.target.value)}
           onKeyDown={handleKeyDown}
@@ -123,7 +115,7 @@ export function OrderListToolbar() {
         />
         <TextField
           size="small"
-          placeholder="手机号"
+          placeholder={t('orders.receiveOrders.mobile')}
           value={fields.mobile}
           onChange={(e) => setField('mobile', e.target.value)}
           onKeyDown={handleKeyDown}
@@ -131,30 +123,27 @@ export function OrderListToolbar() {
         />
         <TextField
           size="small"
-          placeholder="用户名"
-          value={fields.userName}
-          onChange={(e) => setField('userName', e.target.value)}
+          placeholder={t('orders.paymentOrders.receivingAccount')}
+          value={fields.accountNumber}
+          onChange={(e) => setField('accountNumber', e.target.value)}
           onKeyDown={handleKeyDown}
-          sx={{ width: 130 }}
+          sx={{ width: 140 }}
         />
 
-        {/* Status select */}
         <FormControl size="small" sx={{ width: 130 }}>
-          <InputLabel shrink>状态</InputLabel>
+          <InputLabel shrink>{t('orders.paymentOrders.status')}</InputLabel>
           <Select
             displayEmpty
-            label="状态"
+            label={t('orders.paymentOrders.status')}
             notched
             value={fields.status}
             onChange={(e) => setField('status', e.target.value)}
-            renderValue={(selected) => {
-              if (!selected) {
-                return <span style={{ color: '#aaa' }}>请选择</span>;
-              }
-              return ORDER_STATUS_MAP[selected]?.label || selected;
+            renderValue={(sel) => {
+              if (!sel) return <span style={{ color: '#aaa' }}>{t('common.pleaseSelect')}</span>;
+              return PAYMENT_STATUS_MAP[sel]?.label || sel;
             }}
           >
-            {Object.entries(ORDER_STATUS_MAP).map(([key, { label }]) => (
+            {Object.entries(PAYMENT_STATUS_MAP).map(([key, { label }]) => (
               <MenuItem key={key} value={key}>
                 {label}
               </MenuItem>
@@ -162,14 +151,13 @@ export function OrderListToolbar() {
           </Select>
         </FormControl>
 
-        {/* Buttons */}
         <Button
           variant="contained"
           size="small"
           onClick={handleSearch}
-          startIcon={<Iconify icon="solar:magnifer-bold" />}
+          startIcon={<Iconify icon="eva:search-fill" />}
         >
-          搜索
+          {t('common.search')}
         </Button>
 
         {hasFilters && (
@@ -179,7 +167,7 @@ export function OrderListToolbar() {
             onClick={handleReset}
             startIcon={<Iconify icon="solar:close-circle-bold" />}
           >
-            重置
+            {t('common.reset')}
           </Button>
         )}
       </Box>

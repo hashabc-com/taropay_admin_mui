@@ -10,6 +10,7 @@ import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data
 
 import { DashboardContent } from 'src/layouts/dashboard';
 import { payOutNotify, updateStatus } from 'src/api/common';
+import { useLanguage } from 'src/context/language-provider';
 
 import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
@@ -27,6 +28,7 @@ export function OrderListView() {
   const { stats, isLoading: statsLoading } = useOrderStats();
   const [searchParams, setSearchParams] = useSearchParams();
   const { dialog: googleAuthDialog, withGoogleAuth } = useGoogleAuthDialog();
+  const { t } = useLanguage();
 
   // -- detail drawer --
   const [detailOrder, setDetailOrder] = useState<Order | null>(null);
@@ -60,18 +62,21 @@ export function OrderListView() {
   );
 
   // -- row actions --
-  const handleNotify = useCallback(async (record: Order, status: number) => {
-    try {
-      const res = await payOutNotify({ transId: record.transId, status });
-      if (res.code == 200) {
-        toast.success('操作成功');
-      } else {
-        toast.error(res.message || '操作失败');
+  const handleNotify = useCallback(
+    async (record: Order, status: number) => {
+      try {
+        const res = await payOutNotify({ transId: record.transId, status });
+        if (res.code == 200) {
+          toast.success(t('common.operationSuccess'));
+        } else {
+          toast.error(res.message || t('common.operationFailed'));
+        }
+      } catch {
+        toast.error(t('common.operationFailed'));
       }
-    } catch {
-      toast.error('操作失败');
-    }
-  }, []);
+    },
+    [t]
+  );
 
   const handleUpdateStatus = useCallback(
     (record: Order) => {
@@ -82,14 +87,14 @@ export function OrderListView() {
         fd.append('gauthKey', gauthKey);
         const res = await updateStatus(fd);
         if (res.code == 200) {
-          toast.success('状态更新成功');
+          toast.success(t('common.statusUpdateSuccess'));
           mutate();
         } else {
-          toast.error(res.message || '状态更新失败');
+          toast.error(res.message || t('common.statusUpdateFailed'));
         }
       });
     },
-    [withGoogleAuth, mutate]
+    [withGoogleAuth, mutate, t]
   );
 
   // -- columns --
@@ -97,7 +102,7 @@ export function OrderListView() {
     () => [
       {
         field: 'companyName',
-        headerName: '商户',
+        headerName: t('orders.receiveOrders.merchant'),
         width: 120,
         renderCell: ({ value }) => (
           <Tooltip title={value || ''} arrow>
@@ -109,12 +114,12 @@ export function OrderListView() {
       },
       {
         field: 'localTime',
-        headerName: '创建/完成时间',
+        headerName: t('orders.receiveOrders.createTime'),
         width: 170,
         renderCell: ({ row }) => {
           const finish = row.status === '2' ? row.updateTime : row.localPaymentDate;
           return (
-            <Stack sx={{ py: 0.5, fontSize: 12, color: 'text.secondary' }}>
+            <Stack sx={{ py: 0.5, color: 'text.secondary' }}>
               <span>{row.localTime || '-'}</span>
               <span>{finish || '-'}</span>
             </Stack>
@@ -123,7 +128,7 @@ export function OrderListView() {
       },
       {
         field: 'referenceno',
-        headerName: '三方/平台/商户单号',
+        headerName: t('orders.receiveOrders.thirdPartyOrderNo'),
         width: 200,
         headerClassName: 'align-left',
         cellClassName: 'align-left',
@@ -132,7 +137,6 @@ export function OrderListView() {
             sx={{
               py: 0.5,
               fontFamily: 'monospace',
-              fontSize: 12,
               color: 'text.secondary',
               width: '100%',
             }}
@@ -145,7 +149,7 @@ export function OrderListView() {
       },
       {
         field: 'mobile',
-        headerName: '手机号',
+        headerName: t('orders.receiveOrders.mobile'),
         width: 120,
         renderCell: ({ value }) => (
           <Tooltip title={value || ''} arrow>
@@ -157,7 +161,7 @@ export function OrderListView() {
       },
       {
         field: 'userName',
-        headerName: '用户名',
+        headerName: t('signIn.username'),
         width: 100,
         renderCell: ({ value }) => (
           <Tooltip title={value || ''} arrow>
@@ -169,18 +173,18 @@ export function OrderListView() {
       },
       {
         field: 'pickupCenter',
-        headerName: '产品',
+        headerName: t('orders.receiveOrders.product'),
         width: 100,
         renderCell: ({ value }) =>
           value ? <Chip label={value} size="small" variant="outlined" /> : '-',
       },
-      { field: 'paymentCompany', headerName: '渠道', width: 100 },
-      { field: 'amount', headerName: '订单金额', width: 110 },
-      { field: 'realAmount', headerName: '实际金额', width: 110 },
-      { field: 'serviceAmount', headerName: '手续费', width: 110 },
+      { field: 'paymentCompany', headerName: t('common.channel'), width: 100 },
+      { field: 'amount', headerName: t('orders.receiveOrders.orderAmount'), width: 110 },
+      { field: 'realAmount', headerName: t('orders.receiveOrders.realAmount'), width: 110 },
+      { field: 'serviceAmount', headerName: t('orders.receiveOrders.serviceFee'), width: 110 },
       {
         field: 'status',
-        headerName: '状态',
+        headerName: t('orders.receiveOrders.status'),
         width: 110,
         renderCell: ({ value }) => {
           const info = ORDER_STATUS_MAP[value as string];
@@ -190,7 +194,7 @@ export function OrderListView() {
       },
       {
         field: 'actions',
-        headerName: '操作',
+        headerName: t('orders.receiveOrders.action'),
         flex: 1,
         sortable: false,
         filterable: false,
@@ -204,13 +208,13 @@ export function OrderListView() {
         ),
       },
     ],
-    [handleNotify, handleUpdateStatus, handleViewDetail]
+    [handleNotify, handleUpdateStatus, handleViewDetail, t]
   );
 
   return (
     <DashboardContent maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 3 }}>
-        收款订单明细
+        {t('orders.receiveOrders.title')}
       </Typography>
 
       <OrderListToolbar />

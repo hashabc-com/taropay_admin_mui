@@ -22,3 +22,75 @@ export const getOrderList = (params: OrderListParams) =>
 
 export const getCollectionOrderStats = (params: { startTime?: string; endTime?: string }) =>
   http.get('/admin/collection/orderdata', params);
+
+// -- Receive summary --
+
+export interface ReceiveSummaryParams {
+  pageNum: number;
+  pageSize: number;
+  channel?: string;
+  startTime?: string;
+  endTime?: string;
+}
+
+export const getReceiveSummary = (params: ReceiveSummaryParams) =>
+  http.get('/admin/collection/v1/summaryList', params);
+
+export const prepareExportReceive = (params: { startTime?: string; endTime?: string }) =>
+  http.get('/admin/collection/prepareExportData', params);
+
+// -- Payment (disbursement) list --
+
+export interface PaymentListParams {
+  pageNum: number;
+  pageSize: number;
+  refNo?: string;
+  transId?: string;
+  mobile?: string;
+  status?: string;
+  startTime?: string;
+  endTime?: string;
+  userName?: string;
+  accountNumber?: string;
+}
+
+export const getPaymentLists = (params: PaymentListParams) =>
+  http.get('/admin/disbursement/v1/list', params);
+
+export const getDisbursementOrderStats = (params: { startTime?: string; endTime?: string }) =>
+  http.get('/admin/disbursement/orderdata', params);
+
+// -- Payment summary --
+
+export interface PaymentSummaryParams {
+  pageNum: number;
+  pageSize: number;
+  channel?: string;
+  startTime?: string;
+  endTime?: string;
+}
+
+export const getPaymentSummary = (params: PaymentSummaryParams) =>
+  http.get('/admin/disbursement/v1/summaryList', params);
+
+export const prepareExportPayment = (params: { startTime?: string; endTime?: string }) =>
+  http.get('/admin/disbursement/prepareExportData', params);
+
+// -- Collection success rate --
+
+export interface CollectionRateParams {
+  pageNum: number;
+  pageSize: number;
+  channel?: string;
+  startTime?: string;
+  endTime?: string;
+  pickupCenter?: string;
+}
+
+export const getCollectionSuccessRate = (params: CollectionRateParams) =>
+  http.get('/admin/collection/v1/orderdata', params);
+
+// -- Common dicts --
+
+export const getPaymentChannels = (type: string) =>
+  http.get('/admin/interface/v1/channelDetails', { type });
