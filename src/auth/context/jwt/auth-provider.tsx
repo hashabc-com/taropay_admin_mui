@@ -3,44 +3,31 @@ import type { AuthState } from '../../types';
 import { useSetState } from 'minimal-shared/hooks';
 import { useMemo, useEffect, useCallback } from 'react';
 
-import axios, { endpoints } from 'src/lib/axios';
+import { useAuthStore } from 'src/stores/auth-store';
 
-import { JWT_STORAGE_KEY } from './constant';
 import { AuthContext } from '../auth-context';
-import { setSession, isValidToken } from './utils';
 
 // ----------------------------------------------------------------------
-
-/**
- * NOTE:
- * We only build demo at basic level.
- * Customer will need to do some extra handling yourself if you want to extend the logic and other features...
- */
 
 type Props = {
   children: React.ReactNode;
 };
 
+/**
+ * AuthProvider bridges the Zustand auth store with the existing
+ * AuthContext consumed by guards & hooks.
+ */
 export function AuthProvider({ children }: Props) {
   const { state, setState } = useSetState<AuthState>({ user: null, loading: true });
 
+  const authStore = useAuthStore();
+
   const checkUserSession = useCallback(async () => {
-    try {
-      const accessToken = sessionStorage.getItem(JWT_STORAGE_KEY);
-
-      if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
-
-        const res = await axios.get(endpoints.auth.me);
-
-        const { user } = res.data;
-
-        setState({ user: { ...user, accessToken }, loading: false });
-      } else {
-        setState({ user: null, loading: false });
-      }
-    } catch (error) {
-      console.error(error);
+    const token = localStorage.getItem('_token');
+    if (token) {
+      const userInfo = JSON.parse(localStorage.getItem('_userInfo') || 'null');
+      setState({ user: userInfo, loading: false });
+    } else {
       setState({ user: null, loading: false });
     }
   }, [setState]);
@@ -50,10 +37,16 @@ export function AuthProvider({ children }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ----------------------------------------------------------------------
+  // Re-check when auth store changes
+  useEffect(() => {
+    if (authStore.isAuthenticated && authStore.userInfo) {
+      setState({ user: authStore.userInfo as any, loading: false });
+    } else if (!authStore.isAuthenticated) {
+      setState({ user: null, loading: false });
+    }
+  }, [authStore.isAuthenticated, authStore.userInfo, setState]);
 
   const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
-
   const status = state.loading ? 'loading' : checkAuthenticated;
 
   const memoizedValue = useMemo(

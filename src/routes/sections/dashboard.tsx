@@ -21,6 +21,9 @@ const PageFour = lazy(() => import('src/pages/dashboard/four'));
 const PageFive = lazy(() => import('src/pages/dashboard/five'));
 const PageSix = lazy(() => import('src/pages/dashboard/six'));
 
+// Orders
+const OrderReceiveList = lazy(() => import('src/pages/dashboard/orders/receive-list'));
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -52,6 +55,12 @@ export const dashboardRoutes: RouteObject[] = [
           { element: <PageFour />, index: true },
           { path: 'five', element: <PageFive /> },
           { path: 'six', element: <PageSix /> },
+        ],
+      },
+      {
+        path: 'orders',
+        children: [
+          { path: 'receive-list', element: <OrderReceiveList /> },
         ],
       },
     ],

@@ -1,9 +1,12 @@
 import 'src/global.css';
 
+import { SWRConfig } from 'swr';
+import { Toaster } from 'sonner';
 import { useEffect } from 'react';
 
 import { usePathname } from 'src/routes/hooks';
 
+import { swrConfig } from 'src/lib/swr-config';
 import { themeConfig, ThemeProvider } from 'src/theme';
 
 import { ProgressBar } from 'src/components/progress-bar';
@@ -23,18 +26,21 @@ export default function App({ children }: AppProps) {
 
   return (
     <AuthProvider>
-      <SettingsProvider defaultSettings={defaultSettings}>
-        <ThemeProvider
-          modeStorageKey={themeConfig.modeStorageKey}
-          defaultMode={themeConfig.defaultMode}
-        >
-          <MotionLazy>
-            <ProgressBar />
-            <SettingsDrawer defaultSettings={defaultSettings} />
-            {children}
-          </MotionLazy>
-        </ThemeProvider>
-      </SettingsProvider>
+      <SWRConfig value={swrConfig}>
+        <SettingsProvider defaultSettings={defaultSettings}>
+          <ThemeProvider
+            modeStorageKey={themeConfig.modeStorageKey}
+            defaultMode={themeConfig.defaultMode}
+          >
+            <MotionLazy>
+              <ProgressBar />
+              <SettingsDrawer defaultSettings={defaultSettings} />
+              <Toaster richColors position="top-right" />
+              {children}
+            </MotionLazy>
+          </ThemeProvider>
+        </SettingsProvider>
+      </SWRConfig>
     </AuthProvider>
   );
 }

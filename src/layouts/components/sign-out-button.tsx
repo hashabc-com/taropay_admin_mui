@@ -26,7 +26,7 @@ export function SignOutButton({ onClose, sx, ...other }: Props) {
       await checkUserSession?.();
 
       onClose?.();
-      router.refresh();
+      router.replace('/auth/jwt/sign-in');
     } catch (error) {
       console.error(error);
     }

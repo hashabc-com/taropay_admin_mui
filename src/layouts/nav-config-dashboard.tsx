@@ -80,4 +80,20 @@ export const navData: NavSectionProps['data'] = [
       },
     ],
   },
+  /**
+   * Orders
+   */
+  {
+    subheader: '订单管理',
+    items: [
+      {
+        title: '收款订单',
+        path: paths.dashboard.orders.root,
+        icon: ICONS.order,
+        children: [
+          { title: '收款订单明细', path: paths.dashboard.orders.receiveList },
+        ],
+      },
+    ],
+  },
 ];

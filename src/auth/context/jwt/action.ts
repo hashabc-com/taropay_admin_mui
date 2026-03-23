@@ -1,7 +1,6 @@
-import axios, { endpoints } from 'src/lib/axios';
-
-import { setSession } from './utils';
-import { JWT_STORAGE_KEY } from './constant';
+import { useAuthStore } from 'src/stores/auth-store';
+import { useCountryStore } from 'src/stores/country-store';
+import { useMerchantStore } from 'src/stores/merchant-store';
 
 // ----------------------------------------------------------------------
 
@@ -18,57 +17,17 @@ export type SignUpParams = {
 };
 
 /** **************************************
- * Sign in
+ * Sign in — no-op, actual login is in sign-in-view
  *************************************** */
-export const signInWithPassword = async ({ email, password }: SignInParams): Promise<void> => {
-  try {
-    const params = { email, password };
-
-    const res = await axios.post(endpoints.auth.signIn, params);
-
-    const { accessToken } = res.data;
-
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
-    }
-
-    setSession(accessToken);
-  } catch (error) {
-    console.error('Error during sign in:', error);
-    throw error;
-  }
+export const signInWithPassword = async (_params: SignInParams): Promise<void> => {
+  // Login handled by sign-in view via the Zustand store
 };
 
 /** **************************************
- * Sign up
+ * Sign up — placeholder
  *************************************** */
-export const signUp = async ({
-  email,
-  password,
-  firstName,
-  lastName,
-}: SignUpParams): Promise<void> => {
-  const params = {
-    email,
-    password,
-    firstName,
-    lastName,
-  };
-
-  try {
-    const res = await axios.post(endpoints.auth.signUp, params);
-
-    const { accessToken } = res.data;
-
-    if (!accessToken) {
-      throw new Error('Access token not found in response');
-    }
-
-    sessionStorage.setItem(JWT_STORAGE_KEY, accessToken);
-  } catch (error) {
-    console.error('Error during sign up:', error);
-    throw error;
-  }
+export const signUp = async (_params: SignUpParams): Promise<void> => {
+  // Not used in TaroPay admin
 };
 
 /** **************************************
@@ -76,7 +35,18 @@ export const signUp = async ({
  *************************************** */
 export const signOut = async (): Promise<void> => {
   try {
-    await setSession(null);
+    localStorage.removeItem('_token');
+    localStorage.removeItem('_userInfo');
+    localStorage.removeItem('_permissions');
+    useCountryStore.getState().clearSelectedCountry();
+    useMerchantStore.getState().clearSelectedMerchant();
+
+    useAuthStore.setState({
+      token: null,
+      isAuthenticated: false,
+      userInfo: null,
+      permissions: null,
+    });
   } catch (error) {
     console.error('Error during sign out:', error);
     throw error;

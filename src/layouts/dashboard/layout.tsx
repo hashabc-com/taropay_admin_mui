@@ -12,6 +12,7 @@ import { iconButtonClasses } from '@mui/material/IconButton';
 
 import { Logo } from 'src/components/logo';
 import { useSettingsContext } from 'src/components/settings';
+import { CountryMerchantSelector } from 'src/components/country-merchant-selector';
 
 import { useMockedUser } from 'src/auth/hooks';
 
@@ -139,6 +140,9 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
+          {/** @slot Country / Merchant selector */}
+          <CountryMerchantSelector />
+
           {/** @slot Searchbar */}
           <Searchbar data={navData} />
 
