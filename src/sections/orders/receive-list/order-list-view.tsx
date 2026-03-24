@@ -108,7 +108,7 @@ export function OrderListView() {
       },
       {
         field: 'localTime',
-        headerName: t('orders.receiveOrders.createTime'),
+        headerName: `${t('orders.receiveOrders.createTime')}/${t('orders.receiveOrders.finishTime')}`,
         width: 170,
         renderCell: ({ row }) => {
           const finish = row.status === '2' ? row.updateTime : row.localPaymentDate;
@@ -122,7 +122,7 @@ export function OrderListView() {
       },
       {
         field: 'referenceno',
-        headerName: t('orders.receiveOrders.thirdPartyOrderNo'),
+        headerName: `${t('common.thirdParty')}/${t('common.platform')}/${t('orders.receiveOrders.merchantOrderNo')}`,
         width: 200,
         headerClassName: 'align-left',
         cellClassName: 'align-left',

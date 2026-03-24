@@ -65,7 +65,11 @@
     "receiveSummary": "Receive Summary",
     "paymentOrders": "Payment Order Details",
     "paymentSummary": "Payment Summary",
-    "collectionSuccessRate": "Collection Success Rate"
+    "collectionSuccessRate": "Collection Success Rate",
+    "logManagement": "Log Management",
+    "messageRecord": "Message Record",
+    "merchantRequest": "Merchant Request Logs",
+    "riskControl": "Risk Control Log"
   },
   "orders": {
     "stats": {

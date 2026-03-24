@@ -1,8 +1,10 @@
 import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
 
 import { useCountryStore, SUPPORTED_CURRENCIES } from 'src/stores/country-store';
+
+import { compactSelectSx } from './styles';
 
 // ----------------------------------------------------------------------
 
@@ -32,14 +34,11 @@ export function CurrencySelector() {
   ];
 
   return (
-    <TextField
-      select
+    <Select
       size="small"
       value={displayCurrency ?? ''}
       onChange={(e) => setDisplayCurrency(e.target.value as any)}
-      sx={{ minWidth: 110 }}
-      slotProps={{ inputLabel: { shrink: true } }}
-      label="货币"
+      sx={{ ...compactSelectSx, minWidth: 80 }}
     >
       {allCurrencies.map((currency) => {
         const countryCode = currencyToCountryCode[currency] || selectedCountry?.code || '';
@@ -60,6 +59,6 @@ export function CurrencySelector() {
           </MenuItem>
         );
       })}
-    </TextField>
+    </Select>
   );
 }

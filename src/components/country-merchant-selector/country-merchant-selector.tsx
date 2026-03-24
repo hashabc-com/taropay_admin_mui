@@ -6,10 +6,8 @@ import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import Typography from '@mui/material/Typography';
 
 import { getCountryList, getMerchantList } from 'src/api/common';
 import { type Country, useCountryStore } from 'src/stores/country-store';
@@ -18,6 +16,7 @@ import { type Merchant, useMerchantStore } from 'src/stores/merchant-store';
 import { Iconify } from 'src/components/iconify';
 
 import { CurrencySelector } from './currency-selector';
+import { compactSelectSx, selectorGroupSx } from './styles';
 
 // ----------------------------------------------------------------------
 
@@ -84,16 +83,13 @@ export function CountryMerchantSelector() {
 
   // ---------- render ----------
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+    <Box sx={selectorGroupSx}>
       {/* Country */}
-      <TextField
-        select
+      <Select
         size="small"
         value={selectedCountry ? String(selectedCountry.id) : ''}
         onChange={(e) => handleCountryChange(e.target.value)}
-        sx={{ minWidth: 130 }}
-        slotProps={{ inputLabel: { shrink: true } }}
-        label="国家"
+        sx={{ ...compactSelectSx, minWidth: 90 }}
       >
         {/*
          * 当 countries 还未加载完但 selectedCountry 已从 persist 恢复时，
@@ -124,7 +120,9 @@ export function CountryMerchantSelector() {
             </Box>
           </MenuItem>
         ))}
-      </TextField>
+      </Select>
+
+      <Divider orientation="vertical" flexItem sx={{ my: 0.75 }} />
 
       {/* Currency */}
       <CurrencySelector />
@@ -132,65 +130,68 @@ export function CountryMerchantSelector() {
       <Divider
         orientation="vertical"
         flexItem
-        sx={{ mx: 0.5, display: { xs: 'none', md: 'flex' } }}
+        sx={{ my: 0.75, display: { xs: 'none', md: 'flex' } }}
       />
 
       {/* Merchant */}
-      <FormControl
+      <Select
         size="small"
+        displayEmpty
         disabled={!selectedCountry}
-        sx={{ minWidth: 150, display: { xs: 'none', md: 'flex' } }}
-      >
-        <InputLabel shrink>商户</InputLabel>
-        <Select
-          displayEmpty
-          notched
-          label="商户"
-          value={selectedMerchant?.appid ? String(selectedMerchant.appid) : ''}
-          onChange={(e) => handleMerchantChange(e.target.value)}
-          renderValue={(selected) => {
-            if (!selected) {
-              return <span style={{ color: '#aaa' }}>请选择商户</span>;
-            }
-            const m = merchants.find((item) => String(item.appid) === selected);
-            return m?.companyName || selected;
-          }}
-          endAdornment={
-            selectedMerchant ? (
-              <IconButton
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedMerchant(null);
-                }}
-                sx={{ mr: 1.5 }}
-              >
-                <Iconify
-                  icon="solar:close-circle-bold"
-                  width={18}
-                  sx={{ color: 'text.disabled' }}
-                />
-              </IconButton>
-            ) : null
+        value={selectedMerchant?.appid ? String(selectedMerchant.appid) : ''}
+        onChange={(e) => handleMerchantChange(e.target.value)}
+        renderValue={(selected) => {
+          if (!selected) {
+            return (
+              <Typography variant="body2" sx={{ color: 'text.disabled', fontWeight: 400 }}>
+                全部商户
+              </Typography>
+            );
           }
-        >
-          {selectedMerchant &&
-            !merchants.some((m) => String(m.appid) === String(selectedMerchant.appid)) && (
-              <MenuItem
-                key={selectedMerchant.appid}
-                value={String(selectedMerchant.appid)}
-                sx={{ display: 'none' }}
-              >
-                {selectedMerchant.companyName}
-              </MenuItem>
-            )}
-          {merchants.map((m) => (
-            <MenuItem key={m.appid} value={String(m.appid)}>
-              {m.companyName}
+          const m = merchants.find((item) => String(item.appid) === selected);
+          return m?.companyName || selected;
+        }}
+        sx={{
+          ...compactSelectSx,
+          minWidth: 90,
+          maxWidth: 160,
+          display: { xs: 'none', md: 'flex' },
+          '& .MuiSelect-select': {
+            ...compactSelectSx['& .MuiSelect-select'],
+            fontWeight: 400,
+          },
+        }}
+        endAdornment={
+          selectedMerchant ? (
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedMerchant(null);
+              }}
+              sx={{ mr: 2 }}
+            >
+              <Iconify icon="solar:close-circle-bold" width={16} sx={{ color: 'text.disabled' }} />
+            </IconButton>
+          ) : null
+        }
+      >
+        {selectedMerchant &&
+          !merchants.some((m) => String(m.appid) === String(selectedMerchant.appid)) && (
+            <MenuItem
+              key={selectedMerchant.appid}
+              value={String(selectedMerchant.appid)}
+              sx={{ display: 'none' }}
+            >
+              {selectedMerchant.companyName}
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          )}
+        {merchants.map((m) => (
+          <MenuItem key={m.appid} value={String(m.appid)}>
+            {m.companyName}
+          </MenuItem>
+        ))}
+      </Select>
     </Box>
   );
 }

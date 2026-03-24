@@ -65,7 +65,11 @@
     "receiveSummary": "收款汇总",
     "paymentOrders": "付款订单明细",
     "paymentSummary": "付款汇总",
-    "collectionSuccessRate": "代收成功率"
+    "collectionSuccessRate": "代收成功率",
+    "logManagement": "日志管理",
+    "messageRecord": "消息记录",
+    "merchantRequest": "商户请求日志",
+    "riskControl": "风控规则记录"
   },
   "orders": {
     "stats": {

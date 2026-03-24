@@ -7,6 +7,7 @@ import { useBoolean } from 'minimal-shared/hooks';
 
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import { iconButtonClasses } from '@mui/material/IconButton';
 
@@ -23,12 +24,12 @@ import { NavVertical } from './nav-vertical';
 import { NavHorizontal } from './nav-horizontal';
 import { _account } from '../nav-config-account';
 import { Searchbar } from '../components/searchbar';
+import { useNavData } from '../nav-config-dashboard';
 // import { _workspaces } from '../nav-config-workspace';
 import { MenuButton } from '../components/menu-button';
 import { AccountDrawer } from '../components/account-drawer';
 import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
-import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
 import { MainSection, layoutClasses, HeaderSection, LayoutSection } from '../core';
 
@@ -64,6 +65,7 @@ export function DashboardLayout({
 
   const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
 
+  const dashboardNavData = useNavData();
   const navData = slotProps?.nav?.data ?? dashboardNavData;
 
   const isNavMini = settings.state.navLayout === 'mini';
@@ -140,12 +142,19 @@ export function DashboardLayout({
         </>
       ),
       rightArea: (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
           {/** @slot Country time */}
           <CountryTime />
 
           {/** @slot Country / Merchant selector */}
           <CountryMerchantSelector />
+
+          {/** @slot Divider — separates context selectors from utility buttons */}
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{ mx: 0.5, display: { xs: 'none', sm: 'flex' } }}
+          />
 
           {/** @slot Searchbar */}
           <Searchbar data={navData} />

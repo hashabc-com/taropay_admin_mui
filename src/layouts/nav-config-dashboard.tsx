@@ -1,8 +1,11 @@
 import type { NavSectionProps } from 'src/components/nav-section';
 
+import { useMemo } from 'react';
+
 import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/global-config';
+import { useLanguage } from 'src/context/language-provider';
 
 import { SvgColor } from 'src/components/svg-color';
 
@@ -44,31 +47,38 @@ const ICONS = {
 
 // ----------------------------------------------------------------------
 
-export const navData: NavSectionProps['data'] = [
-  {
-    items: [
+export function useNavData(): NavSectionProps['data'] {
+  const { t } = useLanguage();
+
+  return useMemo(
+    () => [
       {
-        title: '订单管理',
-        path: paths.orders.root,
-        icon: ICONS.order,
-        children: [
-          { title: '收款订单明细', path: paths.orders.receiveList },
-          { title: '收款汇总', path: paths.orders.receiveSummary },
-          { title: '付款订单明细', path: paths.orders.paymentList },
-          { title: '付款汇总', path: paths.orders.paymentSummary },
-          { title: '代收成功率', path: paths.orders.collectionRate },
-        ],
-      },
-      {
-        title: '日志管理',
-        path: paths.logs.root,
-        icon: ICONS.file,
-        children: [
-          { title: '消息记录', path: paths.logs.messageRecord },
-          { title: '商户请求日志', path: paths.logs.merchantRequest },
-          { title: '风控规则记录', path: paths.logs.riskControl },
+        items: [
+          {
+            title: t('sidebar.orderManagement'),
+            path: paths.orders.root,
+            icon: ICONS.order,
+            children: [
+              { title: t('sidebar.receiveOrders'), path: paths.orders.receiveList },
+              { title: t('sidebar.receiveSummary'), path: paths.orders.receiveSummary },
+              { title: t('sidebar.paymentOrders'), path: paths.orders.paymentList },
+              { title: t('sidebar.paymentSummary'), path: paths.orders.paymentSummary },
+              { title: t('sidebar.collectionSuccessRate'), path: paths.orders.collectionRate },
+            ],
+          },
+          {
+            title: t('sidebar.logManagement'),
+            path: paths.logs.root,
+            icon: ICONS.file,
+            children: [
+              { title: t('sidebar.messageRecord'), path: paths.logs.messageRecord },
+              { title: t('sidebar.merchantRequest'), path: paths.logs.merchantRequest },
+              { title: t('sidebar.riskControl'), path: paths.logs.riskControl },
+            ],
+          },
         ],
       },
     ],
-  },
-];
+    [t]
+  );
+}
