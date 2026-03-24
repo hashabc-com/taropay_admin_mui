@@ -11,8 +11,10 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Popover from '@mui/material/Popover';
 import { useTheme } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -477,77 +479,32 @@ export function DateTimeRangePicker({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      {/* Trigger input */}
-      <Box
+      {/* Trigger input — uses real MUI TextField for consistent dark-mode styling */}
+      <TextField
         ref={anchorRef}
+        size={size}
+        label={label}
+        value={triggerText}
+        placeholder={defaultPlaceholder}
         onClick={handleOpen}
-        sx={[
-          {
-            display: 'inline-flex',
-            alignItems: 'center',
-            position: 'relative',
-            cursor: 'pointer',
-            borderRadius: 1,
-            border: 1,
-            borderColor: open ? 'primary.main' : 'divider',
-            bgcolor: 'background.paper',
-            transition: (t: Theme) =>
-              t.transitions.create(['border-color', 'box-shadow'], {
-                duration: t.transitions.duration.short,
-              }),
-            ...(open && {
-              boxShadow: (t: Theme) =>
-                `0 0 0 2px ${varAlpha(t.vars.palette.primary.mainChannel, 0.2)}`,
-            }),
-            '&:hover': {
-              borderColor: open ? 'primary.main' : 'text.primary',
-            },
-            ...(size === 'small'
-              ? { height: 40, px: 1.5, typography: 'body2' }
-              : { height: 56, px: 2, typography: 'body1' }),
+        slotProps={{
+          input: {
+            readOnly: true,
+            endAdornment: (
+              <InputAdornment position="end">
+                <Iconify
+                  icon="solar:calendar-mark-bold-duotone"
+                  sx={{ color: 'action.active', width: 20, height: 20 }}
+                />
+              </InputAdornment>
+            ),
+            sx: { cursor: 'pointer' },
           },
-          ...(Array.isArray(sx) ? sx : [sx]),
-        ]}
-      >
-        {/* Label */}
-        {label && (
-          <Typography
-            component="span"
-            variant="caption"
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 10,
-              transform: 'translateY(-50%)',
-              px: 0.5,
-              bgcolor: 'background.paper',
-              color: open ? 'primary.main' : 'text.secondary',
-              fontWeight: open ? 600 : 400,
-            }}
-          >
-            {label}
-          </Typography>
-        )}
-
-        {/* Display text */}
-        <Typography
-          component="span"
-          noWrap
-          sx={{
-            flex: 1,
-            color: triggerText ? 'text.primary' : 'text.disabled',
-            ...(size === 'small' ? { typography: 'body2' } : { typography: 'body1' }),
-          }}
-        >
-          {triggerText || defaultPlaceholder}
-        </Typography>
-
-        {/* Calendar icon */}
-        <Iconify
-          icon="solar:calendar-mark-bold-duotone"
-          sx={{ ml: 1, color: 'action.active', width: 20, height: 20 }}
-        />
-      </Box>
+          htmlInput: { sx: { fieldSizing: 'content' } },
+          inputLabel: label ? { shrink: true } : undefined,
+        }}
+        sx={[{ width: 'auto', minWidth: 0 }, ...(Array.isArray(sx) ? sx : [sx])]}
+      />
 
       {/* Popover */}
       <Popover

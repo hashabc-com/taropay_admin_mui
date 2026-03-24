@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useSWRConfig } from 'swr';
 import { useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -22,6 +23,7 @@ import { ORDER_STATUS_MAP } from './types';
 export function OrderListToolbar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
+  const { mutate: globalMutate } = useSWRConfig();
 
   // Local state mirrors URL params for controlled inputs
   const [fields, setFields] = useState({
@@ -54,7 +56,13 @@ export function OrderListToolbar() {
     });
 
     setSearchParams(params);
-  }, [fields, searchParams, setSearchParams]);
+    globalMutate(
+      (key) =>
+        Array.isArray(key) &&
+        key[0] === 'orders' &&
+        (key[1] === 'receive-list' || key[1] === 'receive-stat')
+    );
+  }, [fields, searchParams, setSearchParams, globalMutate]);
 
   const handleReset = useCallback(() => {
     setFields({
@@ -70,7 +78,13 @@ export function OrderListToolbar() {
     params.set('pageNum', '1');
     params.set('pageSize', searchParams.get('pageSize') || '10');
     setSearchParams(params);
-  }, [searchParams, setSearchParams]);
+    globalMutate(
+      (key) =>
+        Array.isArray(key) &&
+        key[0] === 'orders' &&
+        (key[1] === 'receive-list' || key[1] === 'receive-stat')
+    );
+  }, [searchParams, setSearchParams, globalMutate]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleSearch();

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useSWRConfig } from 'swr';
 import { useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -21,6 +22,7 @@ import { usePayChannelDict, useProductDictList } from './hooks';
 export function CollectionRateToolbar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
+  const { mutate: globalMutate } = useSWRConfig();
   const channels = usePayChannelDict();
   const products = useProductDictList();
 
@@ -45,7 +47,10 @@ export function CollectionRateToolbar() {
       else p.delete(key);
     });
     setSearchParams(p);
-  }, [fields, searchParams, setSearchParams]);
+    globalMutate(
+      (key) => Array.isArray(key) && key[0] === 'orders' && key[1] === 'collection-rate'
+    );
+  }, [fields, searchParams, setSearchParams, globalMutate]);
 
   const handleReset = useCallback(() => {
     setFields({ channel: '', pickupCenter: '', startTime: '', endTime: '' });
@@ -53,7 +58,10 @@ export function CollectionRateToolbar() {
     p.set('pageNum', '1');
     p.set('pageSize', searchParams.get('pageSize') || '10');
     setSearchParams(p);
-  }, [searchParams, setSearchParams]);
+    globalMutate(
+      (key) => Array.isArray(key) && key[0] === 'orders' && key[1] === 'collection-rate'
+    );
+  }, [searchParams, setSearchParams, globalMutate]);
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, mb: 3 }}>

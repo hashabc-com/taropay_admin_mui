@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useSWRConfig } from 'swr';
 import { useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -22,6 +23,7 @@ import { PAYMENT_STATUS_MAP } from './hooks';
 export function PaymentListToolbar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
+  const { mutate: globalMutate } = useSWRConfig();
 
   const [fields, setFields] = useState({
     refNo: searchParams.get('refNo') || '',
@@ -48,7 +50,13 @@ export function PaymentListToolbar() {
       else p.delete(key);
     });
     setSearchParams(p);
-  }, [fields, searchParams, setSearchParams]);
+    globalMutate(
+      (key) =>
+        Array.isArray(key) &&
+        key[0] === 'orders' &&
+        (key[1] === 'payment-list' || key[1] === 'payment-stat')
+    );
+  }, [fields, searchParams, setSearchParams, globalMutate]);
 
   const handleReset = useCallback(() => {
     setFields({
@@ -65,7 +73,13 @@ export function PaymentListToolbar() {
     p.set('pageNum', '1');
     p.set('pageSize', searchParams.get('pageSize') || '10');
     setSearchParams(p);
-  }, [searchParams, setSearchParams]);
+    globalMutate(
+      (key) =>
+        Array.isArray(key) &&
+        key[0] === 'orders' &&
+        (key[1] === 'payment-list' || key[1] === 'payment-stat')
+    );
+  }, [searchParams, setSearchParams, globalMutate]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleSearch();

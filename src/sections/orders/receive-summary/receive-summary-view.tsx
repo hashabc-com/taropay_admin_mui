@@ -2,9 +2,7 @@ import { toast } from 'sonner';
 import { useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
-import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
@@ -12,7 +10,6 @@ import { prepareExportReceive } from 'src/api/order';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
 
-import { Iconify } from 'src/components/iconify';
 import { dataGridSx, processColumns } from 'src/components/data-grid';
 
 import { ReceiveSummaryToolbar } from './toolbar';
@@ -42,21 +39,21 @@ export function ReceiveSummaryView() {
   );
 
   // -- export --
-  const handleExport = useCallback(async () => {
-    try {
-      const res = await prepareExportReceive({
-        startTime: params.startTime,
-        endTime: params.endTime,
-      });
-      if (res.code == 200) {
-        toast.success(t('common.exportTaskCreated'));
-      } else {
-        toast.error(res.message || t('common.exportFailed'));
+  const handleExport = useCallback(
+    async (exportParams: { startTime?: string; endTime?: string }) => {
+      try {
+        const res = await prepareExportReceive(exportParams);
+        if (res.code == 200) {
+          toast.success(t('common.exportTaskCreated'));
+        } else {
+          toast.error(res.message || t('common.exportFailed'));
+        }
+      } catch {
+        toast.error(t('common.exportFailed'));
       }
-    } catch {
-      toast.error(t('common.exportFailed'));
-    }
-  }, [params.startTime, params.endTime, t]);
+    },
+    [t]
+  );
 
   // -- columns --
   const columns = useMemo(
@@ -130,19 +127,11 @@ export function ReceiveSummaryView() {
 
   return (
     <DashboardContent maxWidth="xl">
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4">{t('orders.receiveSummary.title')}</Typography>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<Iconify icon="solar:export-bold" />}
-          onClick={handleExport}
-        >
-          {t('common.export')}
-        </Button>
-      </Box>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        {t('orders.receiveSummary.title')}
+      </Typography>
 
-      <ReceiveSummaryToolbar />
+      <ReceiveSummaryToolbar onExport={handleExport} />
 
       <DataGrid
         rows={dataWithSummary}

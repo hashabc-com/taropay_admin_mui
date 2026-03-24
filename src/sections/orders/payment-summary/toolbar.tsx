@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useSWRConfig } from 'swr';
 import { useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -18,9 +19,14 @@ import { useWithdrawChannelDict } from './hooks';
 
 // ----------------------------------------------------------------------
 
-export function PaymentSummaryToolbar() {
+export function PaymentSummaryToolbar({
+  onExport,
+}: {
+  onExport: (params: { startTime?: string; endTime?: string }) => void;
+}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
+  const { mutate: globalMutate } = useSWRConfig();
   const channels = useWithdrawChannelDict();
 
   const [fields, setFields] = useState({
@@ -43,7 +49,10 @@ export function PaymentSummaryToolbar() {
       else p.delete(key);
     });
     setSearchParams(p);
-  }, [fields, searchParams, setSearchParams]);
+    globalMutate(
+      (key) => Array.isArray(key) && key[0] === 'orders' && key[1] === 'payment-summary'
+    );
+  }, [fields, searchParams, setSearchParams, globalMutate]);
 
   const handleReset = useCallback(() => {
     setFields({ channel: '', startTime: '', endTime: '' });
@@ -51,7 +60,10 @@ export function PaymentSummaryToolbar() {
     p.set('pageNum', '1');
     p.set('pageSize', searchParams.get('pageSize') || '10');
     setSearchParams(p);
-  }, [searchParams, setSearchParams]);
+    globalMutate(
+      (key) => Array.isArray(key) && key[0] === 'orders' && key[1] === 'payment-summary'
+    );
+  }, [searchParams, setSearchParams, globalMutate]);
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, mb: 3 }}>
@@ -109,6 +121,20 @@ export function PaymentSummaryToolbar() {
           {t('common.reset')}
         </Button>
       )}
+
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<Iconify icon="solar:export-bold" />}
+        onClick={() =>
+          onExport({
+            startTime: fields.startTime || undefined,
+            endTime: fields.endTime || undefined,
+          })
+        }
+      >
+        {t('common.export')}
+      </Button>
     </Box>
   );
 }
