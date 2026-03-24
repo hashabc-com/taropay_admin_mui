@@ -94,6 +94,24 @@ Lightweight custom implementation (not i18next). `t('orders.receiveSummary.title
     { field: 'amount', headerName: '金额', flex: 1, minWidth: 120 }, // 自动填充剩余空间
   ];
   ```
+- **DataGrid 文本溢出 Tooltip**：纯文本列需要溢出省略号 + hover 显示完整内容时，使用 `renderCellWithTooltip`（`src/components/data-grid/render-cell-with-tooltip.tsx`）。该函数仅在文本确实被截断时才弹出轻量 Popper 浮层，无动画、无跳动。用法：
+
+  ```typescript
+  import { renderCellWithTooltip } from 'src/components/data-grid';
+
+  const columns: GridColDef[] = [
+    { field: 'name', headerName: '名称', width: 120, renderCell: renderCellWithTooltip },
+    {
+      field: 'remark',
+      headerName: '备注',
+      flex: 1,
+      minWidth: 150,
+      renderCell: renderCellWithTooltip,
+    },
+  ];
+  ```
+
+  **注意**：不要自行用 MUI `Tooltip` 包裹 DataGrid 单元格文本（会导致高度跳动和 arrow 残留），统一使用此工具函数。
 
 ## Naming Conventions
 

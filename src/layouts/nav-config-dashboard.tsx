@@ -59,6 +59,16 @@ export const navData: NavSectionProps['data'] = [
           { title: '代收成功率', path: paths.orders.collectionRate },
         ],
       },
+      {
+        title: '日志管理',
+        path: paths.logs.root,
+        icon: ICONS.file,
+        children: [
+          { title: '消息记录', path: paths.logs.messageRecord },
+          { title: '商户请求日志', path: paths.logs.merchantRequest },
+          { title: '风控规则记录', path: paths.logs.riskControl },
+        ],
+      },
     ],
   },
 ];

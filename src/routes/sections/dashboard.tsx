@@ -21,6 +21,11 @@ const OrderPaymentList = lazy(() => import('src/pages/orders/payment-list'));
 const OrderPaymentSummary = lazy(() => import('src/pages/orders/payment-summary'));
 const OrderCollectionRate = lazy(() => import('src/pages/orders/collection-rate'));
 
+// Logs
+const LogMessageRecord = lazy(() => import('src/pages/logs/message-record'));
+const LogMerchantRequest = lazy(() => import('src/pages/logs/merchant-request'));
+const LogRiskControl = lazy(() => import('src/pages/logs/risk-control'));
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -50,6 +55,14 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'payment-list', element: <OrderPaymentList /> },
           { path: 'payment-summary', element: <OrderPaymentSummary /> },
           { path: 'collection-rate', element: <OrderCollectionRate /> },
+        ],
+      },
+      {
+        path: 'logs',
+        children: [
+          { path: 'message-record', element: <LogMessageRecord /> },
+          { path: 'merchant-request', element: <LogMerchantRequest /> },
+          { path: 'risk-control', element: <LogRiskControl /> },
         ],
       },
     ],

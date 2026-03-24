@@ -4,7 +4,6 @@ import { useMemo, useState, useCallback } from 'react';
 
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data-grid';
 
@@ -12,6 +11,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { payOutNotify, updateStatus } from 'src/api/common';
 import { useLanguage } from 'src/context/language-provider';
 
+import { renderCellWithTooltip } from 'src/components/data-grid';
 import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
 import { useOrderList, useOrderStats } from './hooks';
@@ -104,13 +104,7 @@ export function OrderListView() {
         field: 'companyName',
         headerName: t('orders.receiveOrders.merchant'),
         width: 120,
-        renderCell: ({ value }) => (
-          <Tooltip title={value || ''} arrow>
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {value || '-'}
-            </span>
-          </Tooltip>
-        ),
+        renderCell: renderCellWithTooltip,
       },
       {
         field: 'localTime',
@@ -151,25 +145,13 @@ export function OrderListView() {
         field: 'mobile',
         headerName: t('orders.receiveOrders.mobile'),
         width: 120,
-        renderCell: ({ value }) => (
-          <Tooltip title={value || ''} arrow>
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {value || '-'}
-            </span>
-          </Tooltip>
-        ),
+        renderCell: renderCellWithTooltip,
       },
       {
         field: 'userName',
         headerName: t('signIn.username'),
         width: 100,
-        renderCell: ({ value }) => (
-          <Tooltip title={value || ''} arrow>
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {value || '-'}
-            </span>
-          </Tooltip>
-        ),
+        renderCell: renderCellWithTooltip,
       },
       {
         field: 'pickupCenter',

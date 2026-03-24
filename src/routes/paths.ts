@@ -23,4 +23,11 @@ export const paths = {
     paymentSummary: '/orders/payment-summary',
     collectionRate: '/orders/collection-rate',
   },
+  // LOGS
+  logs: {
+    root: '/logs',
+    messageRecord: '/logs/message-record',
+    merchantRequest: '/logs/merchant-request',
+    riskControl: '/logs/risk-control',
+  },
 };

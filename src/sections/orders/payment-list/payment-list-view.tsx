@@ -8,7 +8,6 @@ import Chip from '@mui/material/Chip';
 import Menu from '@mui/material/Menu';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -21,6 +20,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
 
 import { Iconify } from 'src/components/iconify';
+import { renderCellWithTooltip } from 'src/components/data-grid';
 import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
 import { PaymentListToolbar } from './toolbar';
@@ -112,13 +112,7 @@ export function PaymentListView() {
         field: 'companyName',
         headerName: t('orders.paymentOrders.merchant'),
         width: 120,
-        renderCell: ({ value }) => (
-          <Tooltip title={value || ''} arrow>
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {value || '-'}
-            </span>
-          </Tooltip>
-        ),
+        renderCell: renderCellWithTooltip,
       },
       {
         field: 'localTime',
@@ -159,13 +153,7 @@ export function PaymentListView() {
         field: 'mobile',
         headerName: t('orders.receiveOrders.mobile'),
         width: 120,
-        renderCell: ({ value }) => (
-          <Tooltip title={value || ''} arrow>
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {value || '-'}
-            </span>
-          </Tooltip>
-        ),
+        renderCell: renderCellWithTooltip,
       },
       {
         field: 'pickupCenter',
