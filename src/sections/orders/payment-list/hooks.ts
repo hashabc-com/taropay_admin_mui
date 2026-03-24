@@ -5,6 +5,8 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
+import { useConvertAmount } from 'src/hooks/use-convert-amount';
+
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
 import { getPaymentLists, getDisbursementOrderStats } from 'src/api/order';
@@ -68,6 +70,7 @@ export function usePaymentList() {
   const params = usePaymentListParams();
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
+  const convertAmount = useConvertAmount();
 
   const key = selectedCountry
     ? ['orders', 'payment-list', params, selectedCountry.code, selectedMerchant?.appid]
@@ -84,8 +87,10 @@ export function usePaymentList() {
       (data?.result?.listRecord || []).map((r: PaymentOrder, i: number) => ({
         ...r,
         id: r.id ?? i,
+        amount: convertAmount(r.amount || 0, false),
+        serviceAmount: convertAmount(r.serviceAmount || 0, false),
       })),
-    [data]
+    [data, convertAmount]
   );
   const totalRecord: number = data?.result?.totalRecord || 0;
 

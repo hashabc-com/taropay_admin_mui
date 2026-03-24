@@ -4,6 +4,8 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
+import { useConvertAmount } from 'src/hooks/use-convert-amount';
+
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
 import { getOrderList, getCollectionOrderStats } from 'src/api/order';
@@ -49,6 +51,7 @@ export function useOrderList() {
   const params = useOrderParams();
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
+  const convertAmount = useConvertAmount();
 
   const key = selectedCountry
     ? ['orders', 'receive-list', params, selectedCountry.code, selectedMerchant?.appid]
@@ -59,7 +62,16 @@ export function useOrderList() {
     keepPreviousData: true,
   });
 
-  const orders: Order[] = useMemo(() => data?.result?.listRecord || [], [data]);
+  const orders: Order[] = useMemo(
+    () =>
+      (data?.result?.listRecord || []).map((item: Order) => ({
+        ...item,
+        amount: convertAmount(item.amount, false),
+        realAmount: convertAmount(item.realAmount || 0, false),
+        serviceAmount: convertAmount(item.serviceAmount, false),
+      })),
+    [data, convertAmount]
+  );
   const totalRecord: number = data?.result?.totalRecord || 0;
 
   return { orders, totalRecord, error, isLoading, isValidating, mutate, params };

@@ -4,6 +4,8 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
+import { useConvertAmount } from 'src/hooks/use-convert-amount';
+
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
 import { getPaymentSummary, getPaymentChannels } from 'src/api/order';
@@ -16,9 +18,9 @@ export type PaymentSummaryRow = {
   paymentCompany?: string;
   dealTime?: string;
   billCount?: number;
-  amount?: number | string;
-  serviceAmount?: number | string;
-  totalAmount?: number | string;
+  amount: number | string;
+  serviceAmount: number | string;
+  totalAmount: number | string;
 };
 
 export type PaymentSummaryTotals = {
@@ -49,7 +51,7 @@ export function usePaymentSummaryList() {
   const params = usePaymentSummaryParams();
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
-
+  const convertAmount = useConvertAmount();
   const key = selectedCountry
     ? ['orders', 'payment-summary', params, selectedCountry.code, selectedMerchant?.appid]
     : null;
@@ -65,8 +67,11 @@ export function usePaymentSummaryList() {
       (data?.result?.listRecord || []).map((r: PaymentSummaryRow, i: number) => ({
         ...r,
         id: r.id ?? i,
+        amount: convertAmount(r.amount, false),
+        serviceAmount: convertAmount(r.serviceAmount, false),
+        totalAmount: convertAmount(r.totalAmount, false),
       })),
-    [data]
+    [data, convertAmount]
   );
   const totalRecord: number = data?.result?.totalRecord || 0;
   const totals: PaymentSummaryTotals = useMemo(

@@ -139,13 +139,13 @@ export function DashboardLayout({
             data={_workspaces}
             sx={{ ...(isNavHorizontal && { color: 'var(--layout-nav-text-primary-color)' }) }}
           /> */}
+
+          {/** @slot Country time */}
+          <CountryTime />
         </>
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
-          {/** @slot Country time */}
-          <CountryTime />
-
           {/** @slot Country / Merchant selector */}
           <CountryMerchantSelector />
 

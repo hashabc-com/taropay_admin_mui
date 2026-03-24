@@ -106,10 +106,10 @@ export function CountryTime() {
           transition: (theme) => theme.transitions.create('color'),
         }}
       >
-        <Iconify icon="solar:clock-circle-outline" width={16} />
+        <Iconify icon="solar:clock-circle-outline" width={18} />
         <Typography
           variant="caption"
-          sx={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}
+          sx={{ fontSize: 18, fontWeight: 600, fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}
         >
           {countryTime}
         </Typography>

@@ -6,13 +6,14 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
 import { prepareExportReceive } from 'src/api/order';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
 
 import { Iconify } from 'src/components/iconify';
+import { dataGridSx, processColumns } from 'src/components/data-grid';
 
 import { ReceiveSummaryToolbar } from './toolbar';
 import { useReceiveSummaryList, type ReceiveSummaryRow } from './hooks';
@@ -58,53 +59,54 @@ export function ReceiveSummaryView() {
   }, [params.startTime, params.endTime, t]);
 
   // -- columns --
-  const columns: GridColDef<ReceiveSummaryRow>[] = useMemo(
-    () => [
-      {
-        field: 'companyName',
-        headerName: t('orders.receiveSummary.merchant'),
-        sortable: false,
-        flex: 1,
-      },
-      {
-        field: 'paymentCompany',
-        headerName: t('orders.receiveSummary.paymentChannel'),
-        sortable: false,
-        flex: 1,
-        renderCell: ({ value }) =>
-          value ? <Chip label={value} size="small" variant="outlined" /> : '-',
-      },
-      {
-        field: 'dealTime',
-        headerName: t('orders.receiveSummary.transactionTime'),
-        sortable: false,
-        flex: 1,
-      },
-      {
-        field: 'billCount',
-        headerName: t('orders.receiveSummary.orderCount'),
-        sortable: false,
-        flex: 1,
-      },
-      {
-        field: 'amount',
-        headerName: t('orders.receiveSummary.amount'),
-        sortable: false,
-        flex: 1,
-      },
-      {
-        field: 'serviceAmount',
-        headerName: t('orders.receiveSummary.serviceFee'),
-        sortable: false,
-        flex: 1,
-      },
-      {
-        field: 'totalAmount',
-        headerName: t('orders.receiveSummary.totalAmount'),
-        sortable: false,
-        flex: 1,
-      },
-    ],
+  const columns = useMemo(
+    () =>
+      processColumns<ReceiveSummaryRow>([
+        {
+          field: 'companyName',
+          headerName: t('orders.receiveSummary.merchant'),
+          sortable: false,
+          flex: 1,
+        },
+        {
+          field: 'paymentCompany',
+          headerName: t('orders.receiveSummary.paymentChannel'),
+          sortable: false,
+          flex: 1,
+          renderCell: ({ value }) =>
+            value ? <Chip label={value} size="small" variant="outlined" /> : '-',
+        },
+        {
+          field: 'dealTime',
+          headerName: t('orders.receiveSummary.transactionTime'),
+          sortable: false,
+          flex: 1,
+        },
+        {
+          field: 'billCount',
+          headerName: t('orders.receiveSummary.orderCount'),
+          sortable: false,
+          flex: 1,
+        },
+        {
+          field: 'amount',
+          headerName: t('orders.receiveSummary.amount'),
+          sortable: false,
+          flex: 1,
+        },
+        {
+          field: 'serviceAmount',
+          headerName: t('orders.receiveSummary.serviceFee'),
+          sortable: false,
+          flex: 1,
+        },
+        {
+          field: 'totalAmount',
+          headerName: t('orders.receiveSummary.totalAmount'),
+          sortable: false,
+          flex: 1,
+        },
+      ]),
     [t]
   );
 
@@ -157,16 +159,7 @@ export function ReceiveSummaryView() {
         disableColumnMenu
         showToolbar={false}
         autoHeight
-        sx={{
-          '& .MuiDataGrid-cell': {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-          '& .MuiDataGrid-columnHeader': { bgcolor: 'background.neutral' },
-          '& .MuiDataGrid-columnHeaderTitle': { textAlign: 'center', width: '100%' },
-          '& .MuiDataGrid-columnHeaderTitleContainer': { justifyContent: 'center' },
-        }}
+        sx={dataGridSx}
       />
     </DashboardContent>
   );

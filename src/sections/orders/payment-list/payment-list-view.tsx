@@ -13,14 +13,14 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { DataGrid, type GridColDef, type GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
 import { payInNotify } from 'src/api/common';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
 
 import { Iconify } from 'src/components/iconify';
-import { renderCellWithTooltip } from 'src/components/data-grid';
+import { dataGridSx, processColumns } from 'src/components/data-grid';
 import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
 import { PaymentListToolbar } from './toolbar';
@@ -106,97 +106,100 @@ export function PaymentListView() {
   );
 
   // -- columns --
-  const columns: GridColDef<PaymentOrder>[] = useMemo(
-    () => [
-      {
-        field: 'companyName',
-        headerName: t('orders.paymentOrders.merchant'),
-        width: 120,
-        renderCell: renderCellWithTooltip,
-      },
-      {
-        field: 'localTime',
-        headerName: t('orders.paymentOrders.createTime'),
-        width: 170,
-        renderCell: ({ row }) => {
-          const finish = row.status === '2' ? row.updateTime : row.localSuccessTime;
-          return (
-            <Stack sx={{ py: 0.5, color: 'text.secondary' }}>
-              <span>{row.localTime || '-'}</span>
-              <span>{finish || '-'}</span>
+  const columns = useMemo(
+    () =>
+      processColumns<PaymentOrder>([
+        {
+          field: 'companyName',
+          headerName: t('orders.paymentOrders.merchant'),
+          width: 120,
+          tooltip: true,
+        },
+        {
+          field: 'localTime',
+          headerName: `${t('common.create')}/${t('orders.receiveOrders.finishTime')}`,
+          width: 170,
+          align: 'left',
+          renderCell: ({ row }) => {
+            const finish = row.status === '2' ? row.updateTime : row.localSuccessTime;
+            return (
+              <Stack sx={{ py: 0.5, color: 'text.secondary' }}>
+                <span>{row.localTime || '-'}</span>
+                <span>{finish || '-'}</span>
+              </Stack>
+            );
+          },
+        },
+        {
+          field: 'transactionReferenceNo',
+          headerName: `${t('common.thirdParty')}/${t('common.platform')}/${t('orders.receiveOrders.merchantOrderNo')}`,
+          align: 'left',
+          width: 250,
+          renderCell: ({ row }) => (
+            <Stack
+              sx={{
+                py: 0.5,
+                color: 'text.secondary',
+              }}
+            >
+              <span>{row.certificateId || '-'}</span>
+              <span>{row.transactionid || '-'}</span>
+              <span>{row.transactionReferenceNo || '-'}</span>
             </Stack>
-          );
+          ),
         },
-      },
-      {
-        field: 'transactionReferenceNo',
-        headerName: t('orders.paymentOrders.platformOrderNo'),
-        headerClassName: 'align-left',
-        // cellClassName: 'align-left',
-        width: 200,
-        renderCell: ({ row }) => (
-          <Stack
-            sx={{
-              py: 0.5,
-              fontFamily: 'monospace',
-              color: 'text.secondary',
-              width: '100%',
-            }}
-          >
-            <span>{row.certificateId || '-'}</span>
-            <span>{row.transactionid || '-'}</span>
-            <span>{row.transactionReferenceNo || '-'}</span>
-          </Stack>
-        ),
-      },
-      {
-        field: 'mobile',
-        headerName: t('orders.receiveOrders.mobile'),
-        width: 120,
-        renderCell: renderCellWithTooltip,
-      },
-      {
-        field: 'pickupCenter',
-        headerName: t('orders.paymentOrders.product'),
-        width: 100,
-        renderCell: ({ value }) =>
-          value ? <Chip label={value} size="small" variant="outlined" /> : '-',
-      },
-      { field: 'paymentCompany', headerName: t('orders.paymentOrders.paymentCompany'), width: 120 },
-      {
-        field: 'accountNumber',
-        headerName: t('orders.paymentOrders.receivingAccount'),
-        width: 130,
-      },
-      { field: 'amount', headerName: t('orders.paymentOrders.amount'), width: 110 },
-      { field: 'serviceAmount', headerName: t('orders.paymentOrders.serviceFee'), width: 110 },
-      {
-        field: 'status',
-        headerName: t('orders.paymentOrders.status'),
-        width: 110,
-        renderCell: ({ value }) => {
-          const info = PAYMENT_STATUS_MAP[value as string];
-          if (!info) return value;
-          return <Chip label={info.label} color={info.color} size="small" variant="filled" />;
+        {
+          field: 'mobile',
+          headerName: t('orders.receiveOrders.mobile'),
+          width: 120,
+          tooltip: true,
         },
-      },
-      {
-        field: 'actions',
-        headerName: t('orders.paymentOrders.action'),
-        flex: 1,
-        sortable: false,
-        filterable: false,
-        renderCell: ({ row }) => (
-          <PaymentRowActions
-            row={row}
-            onNotify={handleNotify}
-            onUpdateStatus={handleUpdateStatus}
-            onViewDetail={handleViewDetail}
-            t={t}
-          />
-        ),
-      },
-    ],
+        {
+          field: 'pickupCenter',
+          headerName: t('orders.paymentOrders.product'),
+          width: 150,
+          renderCell: ({ value }) =>
+            value ? <Chip label={value} size="small" variant="outlined" /> : '-',
+        },
+        {
+          field: 'paymentCompany',
+          headerName: t('orders.paymentOrders.paymentCompany'),
+          width: 120,
+        },
+        {
+          field: 'accountNumber',
+          headerName: t('orders.paymentOrders.receivingAccount'),
+          width: 130,
+        },
+        { field: 'amount', headerName: t('orders.paymentOrders.amount'), width: 110 },
+        { field: 'serviceAmount', headerName: t('orders.paymentOrders.serviceFee'), width: 110 },
+        {
+          field: 'status',
+          headerName: t('orders.paymentOrders.status'),
+          width: 110,
+          renderCell: ({ value }) => {
+            const info = PAYMENT_STATUS_MAP[value as string];
+            if (!info) return value;
+            return <Chip label={info.label} color={info.color} size="small" variant="filled" />;
+          },
+        },
+        {
+          field: 'actions',
+          headerName: t('orders.paymentOrders.action'),
+          flex: 1,
+          sortable: false,
+          filterable: false,
+          renderCell: ({ row }) => (
+            <PaymentRowActions
+              row={row}
+              onNotify={handleNotify}
+              onUpdateStatus={handleUpdateStatus}
+              onViewDetail={handleViewDetail}
+              t={t}
+            />
+          ),
+        },
+      ]),
     [t, handleNotify, handleUpdateStatus, handleViewDetail]
   );
 
@@ -226,20 +229,7 @@ export function PaymentListView() {
         showToolbar={false}
         autoHeight
         getRowHeight={() => 'auto'}
-        sx={{
-          '& .MuiDataGrid-cell': {
-            py: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-          '& .MuiDataGrid-columnHeader': { bgcolor: 'background.neutral' },
-          '& .MuiDataGrid-columnHeaderTitle': { textAlign: 'center', width: '100%' },
-          '& .MuiDataGrid-columnHeaderTitleContainer': { justifyContent: 'center' },
-          '& .align-left.MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitleContainer': {
-            justifyContent: 'flex-start',
-          },
-        }}
+        sx={[dataGridSx, { '& .MuiDataGrid-cell': { py: 1 } }]}
       />
 
       <OrderDetailDrawer
