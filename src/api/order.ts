@@ -20,8 +20,12 @@ export interface OrderListParams {
 export const getOrderList = (params: OrderListParams) =>
   http.get('/admin/collection/v1/list', params);
 
-export const getCollectionOrderStats = (params: { startTime?: string; endTime?: string }) =>
-  http.get('/admin/collection/orderdata', params);
+export const getCollectionOrderStats = (params: {
+  startTime?: string;
+  endTime?: string;
+  pickupCenter?: string;
+  status?: string;
+}) => http.get('/admin/collection/orderdata', params);
 
 // -- Receive summary --
 
@@ -57,8 +61,12 @@ export interface PaymentListParams {
 export const getPaymentLists = (params: PaymentListParams) =>
   http.get('/admin/disbursement/v1/list', params);
 
-export const getDisbursementOrderStats = (params: { startTime?: string; endTime?: string }) =>
-  http.get('/admin/disbursement/orderdata', params);
+export const getDisbursementOrderStats = (params: {
+  startTime?: string;
+  endTime?: string;
+  pickupCenter?: string;
+  status?: string;
+}) => http.get('/admin/disbursement/orderdata', params);
 
 // -- Payment summary --
 
@@ -92,5 +100,4 @@ export const getCollectionSuccessRate = (params: CollectionRateParams) =>
 
 // -- Common dicts --
 
-export const getPaymentChannels = (type: string) =>
-  http.get('/admin/interface/v1/channelDetails', { type });
+export const getPaymentChannel = () => http.get('/admin/paymentChannel/getChannelByCountry');

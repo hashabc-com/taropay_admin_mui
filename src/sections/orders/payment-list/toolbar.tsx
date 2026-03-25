@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
-import { useSWRConfig } from 'swr';
-import { useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
+import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+
+import { useProductDictList } from 'src/hooks/use-product-dict';
 
 import { useLanguage } from 'src/context/language-provider';
 
@@ -23,7 +24,7 @@ import { PAYMENT_STATUS_MAP } from './hooks';
 export function PaymentListToolbar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
-  const { mutate: globalMutate } = useSWRConfig();
+  const productDict = useProductDictList('payoutChannel');
 
   const [fields, setFields] = useState({
     refNo: searchParams.get('refNo') || '',
@@ -32,9 +33,25 @@ export function PaymentListToolbar() {
     userName: searchParams.get('userName') || '',
     accountNumber: searchParams.get('accountNumber') || '',
     status: searchParams.get('status') || '',
+    pickupCenter: searchParams.get('pickupCenter') || '',
     startTime: searchParams.get('startTime') || '',
     endTime: searchParams.get('endTime') || '',
   });
+
+  // 当外部（如国家/商户切换）重置 URL 参数时，同步本地 fields
+  useEffect(() => {
+    setFields({
+      refNo: searchParams.get('refNo') || '',
+      transId: searchParams.get('transId') || '',
+      mobile: searchParams.get('mobile') || '',
+      userName: searchParams.get('userName') || '',
+      accountNumber: searchParams.get('accountNumber') || '',
+      status: searchParams.get('status') || '',
+      pickupCenter: searchParams.get('pickupCenter') || '',
+      startTime: searchParams.get('startTime') || '',
+      endTime: searchParams.get('endTime') || '',
+    });
+  }, [searchParams]);
 
   const setField = useCallback((key: string, value: string) => {
     setFields((prev) => ({ ...prev, [key]: value }));
@@ -50,13 +67,7 @@ export function PaymentListToolbar() {
       else p.delete(key);
     });
     setSearchParams(p);
-    globalMutate(
-      (key) =>
-        Array.isArray(key) &&
-        key[0] === 'orders' &&
-        (key[1] === 'payment-list' || key[1] === 'payment-stat')
-    );
-  }, [fields, searchParams, setSearchParams, globalMutate]);
+  }, [fields, searchParams, setSearchParams]);
 
   const handleReset = useCallback(() => {
     setFields({
@@ -66,6 +77,7 @@ export function PaymentListToolbar() {
       userName: '',
       accountNumber: '',
       status: '',
+      pickupCenter: '',
       startTime: '',
       endTime: '',
     });
@@ -73,13 +85,7 @@ export function PaymentListToolbar() {
     p.set('pageNum', '1');
     p.set('pageSize', searchParams.get('pageSize') || '10');
     setSearchParams(p);
-    globalMutate(
-      (key) =>
-        Array.isArray(key) &&
-        key[0] === 'orders' &&
-        (key[1] === 'payment-list' || key[1] === 'payment-stat')
-    );
-  }, [searchParams, setSearchParams, globalMutate]);
+  }, [searchParams, setSearchParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleSearch();
@@ -151,6 +157,29 @@ export function PaymentListToolbar() {
           {Object.entries(PAYMENT_STATUS_MAP).map(([key, { label }]) => (
             <MenuItem key={key} value={key}>
               {label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      {/* Product select */}
+      <FormControl size="small" sx={{ width: 130 }}>
+        <InputLabel shrink>{t('common.product')}</InputLabel>
+        <Select
+          displayEmpty
+          label={t('common.product')}
+          notched
+          value={fields.pickupCenter}
+          onChange={(e) => setField('pickupCenter', e.target.value)}
+          renderValue={(selected) => {
+            if (!selected) {
+              return <span style={{ color: '#aaa' }}>{t('common.pleaseSelect')}</span>;
+            }
+            return selected;
+          }}
+        >
+          {productDict.map((item) => (
+            <MenuItem key={item} value={item}>
+              {item}
             </MenuItem>
           ))}
         </Select>

@@ -53,9 +53,7 @@ export function useOrderList() {
   const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
 
-  const key = selectedCountry
-    ? ['orders', 'receive-list', params, selectedCountry.code, selectedMerchant?.appid]
-    : null;
+  const key = selectedCountry ? ['orders', 'receive-list', params, selectedMerchant?.appid] : null;
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(key, () => getOrderList(params), {
     revalidateOnFocus: false,
@@ -86,15 +84,21 @@ export function useOrderStats() {
 
   const startTime = searchParams.get('startTime') || undefined;
   const endTime = searchParams.get('endTime') || undefined;
+  const pickupCenter = searchParams.get('pickupCenter') || undefined;
+  const status = searchParams.get('status') || undefined;
 
   const key = selectedCountry
-    ? ['orders', 'receive-stat', startTime, endTime, selectedCountry.code, selectedMerchant?.appid]
+    ? ['orders', 'receive-stat', startTime, endTime, pickupCenter, status, selectedMerchant?.appid]
     : null;
 
-  const { data, isLoading } = useSWR(key, () => getCollectionOrderStats({ startTime, endTime }), {
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-  });
+  const { data, isLoading } = useSWR(
+    key,
+    () => getCollectionOrderStats({ startTime, endTime, pickupCenter, status }),
+    {
+      revalidateOnFocus: false,
+      keepPreviousData: true,
+    }
+  );
 
   const stats: OrderStats = useMemo(() => {
     const r = data?.result;

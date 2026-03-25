@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
-import { useSWRConfig } from 'swr';
-import { useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router';
+import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+
+import { useProductDictList } from 'src/hooks/use-product-dict';
 
 import { useLanguage } from 'src/context/language-provider';
 
@@ -23,7 +24,6 @@ import { ORDER_STATUS_MAP } from './types';
 export function OrderListToolbar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
-  const { mutate: globalMutate } = useSWRConfig();
 
   // Local state mirrors URL params for controlled inputs
   const [fields, setFields] = useState({
@@ -32,10 +32,25 @@ export function OrderListToolbar() {
     mobile: searchParams.get('mobile') || '',
     userName: searchParams.get('userName') || '',
     status: searchParams.get('status') || '',
+    pickupCenter: searchParams.get('pickupCenter') || '',
     startTime: searchParams.get('startTime') || '',
     endTime: searchParams.get('endTime') || '',
   });
 
+  // 当外部（如国家/商户切换）重置 URL 参数时，同步本地 fields
+  useEffect(() => {
+    setFields({
+      referenceno: searchParams.get('referenceno') || '',
+      transId: searchParams.get('transId') || '',
+      mobile: searchParams.get('mobile') || '',
+      userName: searchParams.get('userName') || '',
+      status: searchParams.get('status') || '',
+      pickupCenter: searchParams.get('pickupCenter') || '',
+      startTime: searchParams.get('startTime') || '',
+      endTime: searchParams.get('endTime') || '',
+    });
+  }, [searchParams]);
+  const productDict = useProductDictList('payinChannel');
   const setField = useCallback((key: string, value: string) => {
     setFields((prev) => ({ ...prev, [key]: value }));
   }, []);
@@ -56,13 +71,7 @@ export function OrderListToolbar() {
     });
 
     setSearchParams(params);
-    globalMutate(
-      (key) =>
-        Array.isArray(key) &&
-        key[0] === 'orders' &&
-        (key[1] === 'receive-list' || key[1] === 'receive-stat')
-    );
-  }, [fields, searchParams, setSearchParams, globalMutate]);
+  }, [fields, searchParams, setSearchParams]);
 
   const handleReset = useCallback(() => {
     setFields({
@@ -71,6 +80,7 @@ export function OrderListToolbar() {
       mobile: '',
       userName: '',
       status: '',
+      pickupCenter: '',
       startTime: '',
       endTime: '',
     });
@@ -78,13 +88,7 @@ export function OrderListToolbar() {
     params.set('pageNum', '1');
     params.set('pageSize', searchParams.get('pageSize') || '10');
     setSearchParams(params);
-    globalMutate(
-      (key) =>
-        Array.isArray(key) &&
-        key[0] === 'orders' &&
-        (key[1] === 'receive-list' || key[1] === 'receive-stat')
-    );
-  }, [searchParams, setSearchParams, globalMutate]);
+  }, [searchParams, setSearchParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleSearch();
@@ -161,6 +165,29 @@ export function OrderListToolbar() {
           {Object.entries(ORDER_STATUS_MAP).map(([key, { label }]) => (
             <MenuItem key={key} value={key}>
               {label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      {/* Product select */}
+      <FormControl size="small" sx={{ width: 130 }}>
+        <InputLabel shrink>{t('common.product')}</InputLabel>
+        <Select
+          displayEmpty
+          label={t('common.product')}
+          notched
+          value={fields.pickupCenter}
+          onChange={(e) => setField('pickupCenter', e.target.value)}
+          renderValue={(selected) => {
+            if (!selected) {
+              return <span style={{ color: '#aaa' }}>{t('common.pleaseSelect')}</span>;
+            }
+            return selected;
+          }}
+        >
+          {productDict.map((item) => (
+            <MenuItem key={item} value={item}>
+              {item}
             </MenuItem>
           ))}
         </Select>

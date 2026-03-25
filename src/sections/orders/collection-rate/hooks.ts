@@ -4,10 +4,9 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
-import { getProductDict } from 'src/api/common';
+import { getCollectionSuccessRate } from 'src/api/order';
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
-import { getPaymentChannels, getCollectionSuccessRate } from 'src/api/order';
 
 // ----------------------------------------------------------------------
 
@@ -52,7 +51,7 @@ export function useCollectionRateList() {
   const { selectedMerchant } = useMerchantStore();
 
   const key = selectedCountry
-    ? ['orders', 'collection-rate', params, selectedCountry.code, selectedMerchant?.appid]
+    ? ['orders', 'collection-rate', params, selectedMerchant?.appid]
     : null;
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
@@ -80,39 +79,4 @@ export function useCollectionRateList() {
   );
 
   return { rows, totalRecord, totals, error, isLoading, isValidating, mutate, params };
-}
-
-// -- Dicts --
-
-export function usePayChannelDict() {
-  const { selectedCountry } = useCountryStore();
-
-  const key = selectedCountry ? ['dict', 'channels', 'pay_channel', selectedCountry.code] : null;
-
-  const { data } = useSWR(key, () => getPaymentChannels('pay_channel'), {
-    revalidateOnFocus: false,
-  });
-
-  return useMemo(() => {
-    const r = data?.result;
-    if (!Array.isArray(r)) return [];
-    return r.map((item: any) => (typeof item === 'string' ? item : item.itemName));
-  }, [data]);
-}
-
-export function useProductDictList() {
-  const { selectedCountry } = useCountryStore();
-
-  const key = selectedCountry ? ['dict', 'product', selectedCountry.code] : null;
-
-  const { data } = useSWR(key, () => getProductDict(), {
-    revalidateOnFocus: false,
-  });
-
-  return useMemo(() => {
-    const r = data?.result;
-    if (r && r.payinChannel) return r.payinChannel as string[];
-    if (Array.isArray(r)) return r as string[];
-    return [];
-  }, [data]);
 }

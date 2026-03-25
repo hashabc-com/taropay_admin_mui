@@ -6,9 +6,9 @@ import { useSearchParams } from 'react-router';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
+import { getPaymentSummary } from 'src/api/order';
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
-import { getPaymentSummary, getPaymentChannels } from 'src/api/order';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ export function usePaymentSummaryList() {
   const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
   const key = selectedCountry
-    ? ['orders', 'payment-summary', params, selectedCountry.code, selectedMerchant?.appid]
+    ? ['orders', 'payment-summary', params, selectedMerchant?.appid]
     : null;
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
@@ -85,26 +85,4 @@ export function usePaymentSummaryList() {
   );
 
   return { rows, totalRecord, totals, error, isLoading, isValidating, mutate, params };
-}
-
-// -- Payment channels dict for withdraw --
-
-export function useWithdrawChannelDict() {
-  const { selectedCountry } = useCountryStore();
-
-  const key = selectedCountry
-    ? ['dict', 'channels', 'withdraw_channel', selectedCountry.code]
-    : null;
-
-  const { data } = useSWR(key, () => getPaymentChannels('withdraw_channel'), {
-    revalidateOnFocus: false,
-  });
-
-  const channels: string[] = useMemo(() => {
-    const r = data?.result;
-    if (!Array.isArray(r)) return [];
-    return r.map((item: any) => (typeof item === 'string' ? item : item.itemName));
-  }, [data]);
-
-  return channels;
 }

@@ -48,7 +48,6 @@ export const PAYMENT_STATUS_MAP: Record<
 
 function usePaymentListParams(): PaymentListParams {
   const [searchParams] = useSearchParams();
-
   return useMemo(
     () => ({
       pageNum: Number(searchParams.get('pageNum')) || 1,
@@ -58,6 +57,7 @@ function usePaymentListParams(): PaymentListParams {
       mobile: searchParams.get('mobile') || undefined,
       userName: searchParams.get('userName') || undefined,
       status: searchParams.get('status') || undefined,
+      pickupCenter: searchParams.get('pickupCenter') || undefined,
       accountNumber: searchParams.get('accountNumber') || undefined,
       startTime: searchParams.get('startTime') || undefined,
       endTime: searchParams.get('endTime') || undefined,
@@ -72,9 +72,7 @@ export function usePaymentList() {
   const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
 
-  const key = selectedCountry
-    ? ['orders', 'payment-list', params, selectedCountry.code, selectedMerchant?.appid]
-    : null;
+  const key = selectedCountry ? ['orders', 'payment-list', params, selectedMerchant?.appid] : null;
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     key,
@@ -104,15 +102,21 @@ export function usePaymentStats() {
 
   const startTime = searchParams.get('startTime') || undefined;
   const endTime = searchParams.get('endTime') || undefined;
+  const pickupCenter = searchParams.get('pickupCenter') || undefined;
+  const status = searchParams.get('status') || undefined;
 
   const key = selectedCountry
-    ? ['orders', 'payment-stat', startTime, endTime, selectedCountry.code, selectedMerchant?.appid]
+    ? ['orders', 'payment-stat', startTime, endTime, pickupCenter, status, selectedMerchant?.appid]
     : null;
 
-  const { data, isLoading } = useSWR(key, () => getDisbursementOrderStats({ startTime, endTime }), {
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-  });
+  const { data, isLoading } = useSWR(
+    key,
+    () => getDisbursementOrderStats({ startTime, endTime, pickupCenter, status }),
+    {
+      revalidateOnFocus: false,
+      keepPreviousData: true,
+    }
+  );
 
   const stats: OrderStats = useMemo(() => {
     const r = data?.result;

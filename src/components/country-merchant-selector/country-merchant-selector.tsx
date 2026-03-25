@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import { toast } from 'sonner';
+import { useSearchParams } from 'react-router';
 import { useMemo, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
@@ -23,6 +24,7 @@ import { compactSelectSx, selectorGroupSx } from './styles';
 export function CountryMerchantSelector() {
   const { selectedCountry, setSelectedCountry, setRates } = useCountryStore();
   const { selectedMerchant, setSelectedMerchant } = useMerchantStore();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Fetch countries via SWR
   const { data: countriesData } = useSWR('countries', () => getCountryList(), {
@@ -65,8 +67,14 @@ export function CountryMerchantSelector() {
 
       setSelectedCountry(country);
       setSelectedMerchant(null);
+
+      // 切换国家时重置 URL 筛选参数，只保留分页
+      const params = new URLSearchParams();
+      params.set('pageNum', '1');
+      params.set('pageSize', searchParams.get('pageSize') || '10');
+      setSearchParams(params);
     },
-    [countries, setRates, setSelectedCountry, setSelectedMerchant]
+    [countries, setRates, setSelectedCountry, setSelectedMerchant, searchParams, setSearchParams]
   );
 
   // Auto-select first country
@@ -80,6 +88,20 @@ export function CountryMerchantSelector() {
     const m = merchants.find((item) => String(item.appid) === merchantId) || null;
     setSelectedMerchant(m);
   };
+
+  // const handleMerchantChange = useCallback(
+  //   (merchantId: string) => {
+  //     const m = merchants.find((item) => String(item.appid) === merchantId) || null;
+  //     setSelectedMerchant(m);
+
+  //     // 切换商户时重置 URL 筛选参数，只保留分页
+  //     const params = new URLSearchParams();
+  //     params.set('pageNum', '1');
+  //     params.set('pageSize', searchParams.get('pageSize') || '10');
+  //     setSearchParams(params);
+  //   },
+  //   [merchants, setSelectedMerchant, searchParams, setSearchParams]
+  // );
 
   // ---------- render ----------
   return (

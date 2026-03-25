@@ -1,3 +1,7 @@
+---
+applyTo: 'taropay_admin_mui/**'
+---
+
 # TaroPay Admin MUI — Copilot Instructions
 
 ## Architecture Overview
