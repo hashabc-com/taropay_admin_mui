@@ -3,9 +3,9 @@ import type { OrderStats } from '../receive-list/types';
 
 import useSWR from 'swr';
 import { useMemo } from 'react';
-import { useSearchParams } from 'react-router';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
+import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
@@ -46,28 +46,23 @@ export const PAYMENT_STATUS_MAP: Record<
 
 // ----------------------------------------------------------------------
 
-function usePaymentListParams(): PaymentListParams {
-  const [searchParams] = useSearchParams();
-  return useMemo(
-    () => ({
-      pageNum: Number(searchParams.get('pageNum')) || 1,
-      pageSize: Number(searchParams.get('pageSize')) || 10,
-      refNo: searchParams.get('refNo') || undefined,
-      transId: searchParams.get('transId') || undefined,
-      mobile: searchParams.get('mobile') || undefined,
-      userName: searchParams.get('userName') || undefined,
-      status: searchParams.get('status') || undefined,
-      pickupCenter: searchParams.get('pickupCenter') || undefined,
-      accountNumber: searchParams.get('accountNumber') || undefined,
-      startTime: searchParams.get('startTime') || undefined,
-      endTime: searchParams.get('endTime') || undefined,
-    }),
-    [searchParams]
-  );
-}
+/** Shared field keys — used by both search (UI) and SWR hooks (data) */
+export const FIELD_KEYS = [
+  'refNo',
+  'transId',
+  'mobile',
+  'userName',
+  'accountNumber',
+  'status',
+  'pickupCenter',
+  'startTime',
+  'endTime',
+] as const;
+
+// ----------------------------------------------------------------------
 
 export function usePaymentList() {
-  const params = usePaymentListParams();
+  const params = useSearchParamsObject(FIELD_KEYS) as unknown as PaymentListParams;
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
@@ -96,22 +91,31 @@ export function usePaymentList() {
 }
 
 export function usePaymentStats() {
-  const [searchParams] = useSearchParams();
+  const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status'] as const);
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
 
-  const startTime = searchParams.get('startTime') || undefined;
-  const endTime = searchParams.get('endTime') || undefined;
-  const pickupCenter = searchParams.get('pickupCenter') || undefined;
-  const status = searchParams.get('status') || undefined;
-
   const key = selectedCountry
-    ? ['orders', 'payment-stat', startTime, endTime, pickupCenter, status, selectedMerchant?.appid]
+    ? [
+        'orders',
+        'payment-stat',
+        params.startTime,
+        params.endTime,
+        params.pickupCenter,
+        params.status,
+        selectedMerchant?.appid,
+      ]
     : null;
 
   const { data, isLoading } = useSWR(
     key,
-    () => getDisbursementOrderStats({ startTime, endTime, pickupCenter, status }),
+    () =>
+      getDisbursementOrderStats({
+        startTime: params.startTime as string | undefined,
+        endTime: params.endTime as string | undefined,
+        pickupCenter: params.pickupCenter as string | undefined,
+        status: params.status as string | undefined,
+      }),
     {
       revalidateOnFocus: false,
       keepPreviousData: true,

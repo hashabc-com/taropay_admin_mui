@@ -1,10 +1,11 @@
 import type { Order, OrderStats } from './types';
+import type { OrderListParams } from 'src/api/order';
 
 import useSWR from 'swr';
 import { useMemo } from 'react';
-import { useSearchParams } from 'react-router';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
+import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
@@ -12,43 +13,22 @@ import { getOrderList, getCollectionOrderStats } from 'src/api/order';
 
 // ----------------------------------------------------------------------
 
-/**
- * Build query params from URL search params, falling back to sensible defaults.
- */
-function useOrderParams() {
-  const [searchParams] = useSearchParams();
-
-  return useMemo(() => {
-    const pageNum = Number(searchParams.get('pageNum')) || 1;
-    const pageSize = Number(searchParams.get('pageSize')) || 10;
-    const referenceno = searchParams.get('referenceno') || undefined;
-    const transId = searchParams.get('transId') || undefined;
-    const mobile = searchParams.get('mobile') || undefined;
-    const userName = searchParams.get('userName') || undefined;
-    const status = searchParams.get('status') || undefined;
-    const pickupCenter = searchParams.get('pickupCenter') || undefined;
-    const startTime = searchParams.get('startTime') || undefined;
-    const endTime = searchParams.get('endTime') || undefined;
-
-    return {
-      pageNum,
-      pageSize,
-      referenceno,
-      transId,
-      mobile,
-      userName,
-      status,
-      pickupCenter,
-      startTime,
-      endTime,
-    };
-  }, [searchParams]);
-}
+/** Shared field keys — used by both search (UI) and SWR hooks (data) */
+export const FIELD_KEYS = [
+  'referenceno',
+  'transId',
+  'mobile',
+  'userName',
+  'status',
+  'pickupCenter',
+  'startTime',
+  'endTime',
+] as const;
 
 // ----------------------------------------------------------------------
 
 export function useOrderList() {
-  const params = useOrderParams();
+  const params = useSearchParamsObject(FIELD_KEYS) as OrderListParams;
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
@@ -78,22 +58,31 @@ export function useOrderList() {
 // ----------------------------------------------------------------------
 
 export function useOrderStats() {
-  const [searchParams] = useSearchParams();
+  const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status'] as const);
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
 
-  const startTime = searchParams.get('startTime') || undefined;
-  const endTime = searchParams.get('endTime') || undefined;
-  const pickupCenter = searchParams.get('pickupCenter') || undefined;
-  const status = searchParams.get('status') || undefined;
-
   const key = selectedCountry
-    ? ['orders', 'receive-stat', startTime, endTime, pickupCenter, status, selectedMerchant?.appid]
+    ? [
+        'orders',
+        'receive-stat',
+        params.startTime,
+        params.endTime,
+        params.pickupCenter,
+        params.status,
+        selectedMerchant?.appid,
+      ]
     : null;
 
   const { data, isLoading } = useSWR(
     key,
-    () => getCollectionOrderStats({ startTime, endTime, pickupCenter, status }),
+    () =>
+      getCollectionOrderStats({
+        startTime: params.startTime as string | undefined,
+        endTime: params.endTime as string | undefined,
+        pickupCenter: params.pickupCenter as string | undefined,
+        status: params.status as string | undefined,
+      }),
     {
       revalidateOnFocus: false,
       keepPreviousData: true,

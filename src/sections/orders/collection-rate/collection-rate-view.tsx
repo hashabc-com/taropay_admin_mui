@@ -10,7 +10,7 @@ import { useLanguage } from 'src/context/language-provider';
 
 import { dataGridSx, processColumns } from 'src/components/data-grid';
 
-import { CollectionRateToolbar } from './toolbar';
+import { CollectionRateSearch } from './collection-rate-search';
 import { useCollectionRateList, type CollectionRateRow } from './hooks';
 
 // ----------------------------------------------------------------------
@@ -112,7 +112,7 @@ export function CollectionRateView() {
         {t('orders.collectionRate.title')}
       </Typography>
 
-      <CollectionRateToolbar />
+      <CollectionRateSearch />
 
       <DataGrid
         rows={dataWithSummary}

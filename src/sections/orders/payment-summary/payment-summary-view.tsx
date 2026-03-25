@@ -12,7 +12,7 @@ import { useLanguage } from 'src/context/language-provider';
 
 import { dataGridSx, processColumns } from 'src/components/data-grid';
 
-import { PaymentSummaryToolbar } from './toolbar';
+import { PaymentSummarySearch } from './payment-summary-search';
 import { usePaymentSummaryList, type PaymentSummaryRow } from './hooks';
 
 // ----------------------------------------------------------------------
@@ -131,7 +131,7 @@ export function PaymentSummaryView() {
         {t('orders.paymentSummary.title')}
       </Typography>
 
-      <PaymentSummaryToolbar onExport={handleExport} />
+      <PaymentSummarySearch onExport={handleExport} />
 
       <DataGrid
         rows={dataWithSummary}

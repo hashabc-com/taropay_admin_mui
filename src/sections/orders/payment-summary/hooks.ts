@@ -2,9 +2,9 @@ import type { PaymentSummaryParams } from 'src/api/order';
 
 import useSWR from 'swr';
 import { useMemo } from 'react';
-import { useSearchParams } from 'react-router';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
+import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
 import { getPaymentSummary } from 'src/api/order';
 import { useCountryStore } from 'src/stores/country-store';
@@ -32,23 +32,13 @@ export type PaymentSummaryTotals = {
 
 // ----------------------------------------------------------------------
 
-function usePaymentSummaryParams(): PaymentSummaryParams {
-  const [searchParams] = useSearchParams();
+/** Shared field keys — used by both search (UI) and SWR hooks (data) */
+export const FIELD_KEYS = ['channel', 'startTime', 'endTime'] as const;
 
-  return useMemo(
-    () => ({
-      pageNum: Number(searchParams.get('pageNum')) || 1,
-      pageSize: Number(searchParams.get('pageSize')) || 10,
-      channel: searchParams.get('channel') || undefined,
-      startTime: searchParams.get('startTime') || undefined,
-      endTime: searchParams.get('endTime') || undefined,
-    }),
-    [searchParams]
-  );
-}
+// ----------------------------------------------------------------------
 
 export function usePaymentSummaryList() {
-  const params = usePaymentSummaryParams();
+  const params = useSearchParamsObject(FIELD_KEYS) as PaymentSummaryParams;
   const { selectedCountry } = useCountryStore();
   const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();

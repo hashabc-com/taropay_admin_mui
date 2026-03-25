@@ -17,8 +17,8 @@ import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 import { useOrderList, useOrderStats } from './hooks';
 import { OrderStatsCards } from './order-stats-cards';
 import { OrderRowActions } from './order-row-actions';
+import { OrderListSearch } from './order-list-search';
 import { type Order, ORDER_STATUS_MAP } from './types';
-import { OrderListToolbar } from './order-list-toolbar';
 import { OrderDetailDrawer } from './order-detail-drawer';
 
 // ----------------------------------------------------------------------
@@ -198,7 +198,7 @@ export function OrderListView() {
         {t('orders.receiveOrders.title')}
       </Typography>
 
-      <OrderListToolbar />
+      <OrderListSearch />
 
       <OrderStatsCards stats={stats} isLoading={statsLoading} />
 

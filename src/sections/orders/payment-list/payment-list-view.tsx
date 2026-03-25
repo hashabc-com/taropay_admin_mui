@@ -23,7 +23,7 @@ import { Iconify } from 'src/components/iconify';
 import { dataGridSx, processColumns } from 'src/components/data-grid';
 import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
-import { PaymentListToolbar } from './toolbar';
+import { PaymentListSearch } from './payment-list-search';
 import { OrderStatsCards } from '../receive-list/order-stats-cards';
 import { OrderDetailDrawer } from '../receive-list/order-detail-drawer';
 import { usePaymentList, usePaymentStats, PAYMENT_STATUS_MAP } from './hooks';
@@ -209,7 +209,7 @@ export function PaymentListView() {
         {t('orders.paymentOrders.title')}
       </Typography>
 
-      <PaymentListToolbar />
+      <PaymentListSearch />
 
       <OrderStatsCards stats={stats} isLoading={statsLoading} />
 

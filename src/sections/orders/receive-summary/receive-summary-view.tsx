@@ -12,7 +12,7 @@ import { useLanguage } from 'src/context/language-provider';
 
 import { dataGridSx, processColumns } from 'src/components/data-grid';
 
-import { ReceiveSummaryToolbar } from './toolbar';
+import { ReceiveSummarySearch } from './receive-summary-search';
 import { useReceiveSummaryList, type ReceiveSummaryRow } from './hooks';
 
 // ----------------------------------------------------------------------
@@ -131,7 +131,7 @@ export function ReceiveSummaryView() {
         {t('orders.receiveSummary.title')}
       </Typography>
 
-      <ReceiveSummaryToolbar onExport={handleExport} />
+      <ReceiveSummarySearch onExport={handleExport} />
 
       <DataGrid
         rows={dataWithSummary}

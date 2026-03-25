@@ -1,6 +1,4 @@
 import dayjs from 'dayjs';
-import { useSearchParams } from 'react-router';
-import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
+import { useListSearch } from 'src/hooks/use-list-search';
 import { useProductDictList } from 'src/hooks/use-product-dict';
 
 import { useLanguage } from 'src/context/language-provider';
@@ -17,86 +16,22 @@ import { useLanguage } from 'src/context/language-provider';
 import { Iconify } from 'src/components/iconify';
 import { DateTimeRangePicker } from 'src/components/date-time-range-picker';
 
-import { PAYMENT_STATUS_MAP } from './hooks';
+import { FIELD_KEYS, PAYMENT_STATUS_MAP } from './hooks';
 
 // ----------------------------------------------------------------------
 
-export function PaymentListToolbar() {
-  const [searchParams, setSearchParams] = useSearchParams();
+export function PaymentListSearch() {
   const { t } = useLanguage();
+  const { values, setField, hasFilters, handleSearch, handleReset, handleKeyDown } =
+    useListSearch(FIELD_KEYS);
   const productDict = useProductDictList('payoutChannel');
-
-  const [fields, setFields] = useState({
-    refNo: searchParams.get('refNo') || '',
-    transId: searchParams.get('transId') || '',
-    mobile: searchParams.get('mobile') || '',
-    userName: searchParams.get('userName') || '',
-    accountNumber: searchParams.get('accountNumber') || '',
-    status: searchParams.get('status') || '',
-    pickupCenter: searchParams.get('pickupCenter') || '',
-    startTime: searchParams.get('startTime') || '',
-    endTime: searchParams.get('endTime') || '',
-  });
-
-  // 当外部（如国家/商户切换）重置 URL 参数时，同步本地 fields
-  useEffect(() => {
-    setFields({
-      refNo: searchParams.get('refNo') || '',
-      transId: searchParams.get('transId') || '',
-      mobile: searchParams.get('mobile') || '',
-      userName: searchParams.get('userName') || '',
-      accountNumber: searchParams.get('accountNumber') || '',
-      status: searchParams.get('status') || '',
-      pickupCenter: searchParams.get('pickupCenter') || '',
-      startTime: searchParams.get('startTime') || '',
-      endTime: searchParams.get('endTime') || '',
-    });
-  }, [searchParams]);
-
-  const setField = useCallback((key: string, value: string) => {
-    setFields((prev) => ({ ...prev, [key]: value }));
-  }, []);
-
-  const hasFilters = Object.values(fields).some(Boolean);
-
-  const handleSearch = useCallback(() => {
-    const p = new URLSearchParams(searchParams);
-    p.set('pageNum', '1');
-    Object.entries(fields).forEach(([key, value]) => {
-      if (value) p.set(key, value);
-      else p.delete(key);
-    });
-    setSearchParams(p);
-  }, [fields, searchParams, setSearchParams]);
-
-  const handleReset = useCallback(() => {
-    setFields({
-      refNo: '',
-      transId: '',
-      mobile: '',
-      userName: '',
-      accountNumber: '',
-      status: '',
-      pickupCenter: '',
-      startTime: '',
-      endTime: '',
-    });
-    const p = new URLSearchParams();
-    p.set('pageNum', '1');
-    p.set('pageSize', searchParams.get('pageSize') || '10');
-    setSearchParams(p);
-  }, [searchParams, setSearchParams]);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleSearch();
-  };
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, mb: 3 }}>
       <DateTimeRangePicker
         value={[
-          fields.startTime ? dayjs(fields.startTime) : null,
-          fields.endTime ? dayjs(fields.endTime) : null,
+          values.startTime ? dayjs(values.startTime) : null,
+          values.endTime ? dayjs(values.endTime) : null,
         ]}
         onChange={([start, end]) => {
           setField('startTime', start ? start.format('YYYY-MM-DD HH:mm:ss') : '');
@@ -111,7 +46,7 @@ export function PaymentListToolbar() {
       <TextField
         size="small"
         placeholder={t('orders.paymentOrders.merchantOrderNo')}
-        value={fields.refNo}
+        value={values.refNo}
         onChange={(e) => setField('refNo', e.target.value)}
         onKeyDown={handleKeyDown}
         sx={{ width: 160 }}
@@ -119,7 +54,7 @@ export function PaymentListToolbar() {
       <TextField
         size="small"
         placeholder={t('orders.paymentOrders.platformOrderNo')}
-        value={fields.transId}
+        value={values.transId}
         onChange={(e) => setField('transId', e.target.value)}
         onKeyDown={handleKeyDown}
         sx={{ width: 160 }}
@@ -127,7 +62,7 @@ export function PaymentListToolbar() {
       <TextField
         size="small"
         placeholder={t('orders.receiveOrders.mobile')}
-        value={fields.mobile}
+        value={values.mobile}
         onChange={(e) => setField('mobile', e.target.value)}
         onKeyDown={handleKeyDown}
         sx={{ width: 140 }}
@@ -135,7 +70,7 @@ export function PaymentListToolbar() {
       <TextField
         size="small"
         placeholder={t('orders.paymentOrders.receivingAccount')}
-        value={fields.accountNumber}
+        value={values.accountNumber}
         onChange={(e) => setField('accountNumber', e.target.value)}
         onKeyDown={handleKeyDown}
         sx={{ width: 140 }}
@@ -147,7 +82,7 @@ export function PaymentListToolbar() {
           displayEmpty
           label={t('orders.paymentOrders.status')}
           notched
-          value={fields.status}
+          value={values.status}
           onChange={(e) => setField('status', e.target.value)}
           renderValue={(sel) => {
             if (!sel) return <span style={{ color: '#aaa' }}>{t('common.pleaseSelect')}</span>;
@@ -168,7 +103,7 @@ export function PaymentListToolbar() {
           displayEmpty
           label={t('common.product')}
           notched
-          value={fields.pickupCenter}
+          value={values.pickupCenter}
           onChange={(e) => setField('pickupCenter', e.target.value)}
           renderValue={(selected) => {
             if (!selected) {
