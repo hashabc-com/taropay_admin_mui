@@ -139,6 +139,18 @@ Lightweight custom implementation (not i18next). `t('orders.receiveSummary.title
 
 ## Conventions
 
+- **表单提交按钮必须带 loading 状态**：所有异步提交操作的按钮必须在请求期间显示加载指示器，防止重复提交。用 `try/finally` 确保 loading 状态正确重置。禁止使用普通 `Button` 作为异步提交按钮。**loading 时必须同时显示 spinner 和文字**：使用 `startIcon` 条件渲染 `CircularProgress`，同时将按钮文字切换为进行中状态（如 `t('common.submitting')`），并设置 `disabled`。示例：
+  ```typescript
+  <Button
+    variant="contained"
+    onClick={handleSubmit}
+    disabled={!isValid || loading}
+    startIcon={loading ? <CircularProgress size={16} color="inherit" /> : undefined}
+  >
+    {loading ? t('common.submitting') : t('common.confirm')}
+  </Button>
+  ```
+- **新增文案必须国际化**：所有用户可见的文本必须通过 `t()` 函数引用 i18n key，禁止硬编码中文或英文字符串。新增文案时必须同步更新 `src/locales/zh.json` 和 `src/locales/en.json` 两个文件。
 - **Toasts**: Always use `sonner` — `toast.success()` / `toast.error()`. Never `alert()` or MUI Snackbar directly.
 - **Icons**: Use `@iconify/react` via `src/components/iconify/`.
 - **Date handling**: `dayjs` with formatters in `src/utils/format-time.ts`.

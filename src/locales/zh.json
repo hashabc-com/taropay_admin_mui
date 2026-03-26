@@ -8,6 +8,7 @@
     "noResults": "暂无数据",
     "noData": "暂无数据",
     "submit": "提交",
+    "submitting": "提交中...",
     "cancel": "取消",
     "confirm": "确认",
     "delete": "删除",
@@ -41,6 +42,8 @@
     "thirdParty": "三方",
     "create": "创建",
     "refresh": "刷新",
+    "googleAuthCode": "谷歌验证码",
+    "googleAuthCodePlaceholder": "请输入谷歌验证码",
     "pleaseSelect": "请选择",
     "countrys": {
       "ID": "印尼",

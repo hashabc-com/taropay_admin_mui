@@ -8,6 +8,7 @@
     "noResults": "No results.",
     "noData": "No data",
     "submit": "Submit",
+    "submitting": "Submitting...",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "delete": "Delete",
@@ -41,6 +42,8 @@
     "thirdParty": "Third Party",
     "create": "Create",
     "refresh": "Refresh",
+    "googleAuthCode": "Google Auth Code",
+    "googleAuthCodePlaceholder": "Please enter Google Auth Code",
     "pleaseSelect": "Please select",
     "countrys": {
       "ID": "Indonesia",
