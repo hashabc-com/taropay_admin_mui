@@ -1,0 +1,63 @@
+// ----------------------------------------------------------------------
+
+export type MerchantRequest = {
+  id: number;
+  transactionType?: string; // P=收款, L=付款
+  requestParam?: string;
+  responseParam?: string;
+  notifyParam?: string | null;
+  request?: string;
+  url?: string;
+  response?: string;
+  appid?: string;
+  paymentCompany?: string;
+  pickupCenter?: string;
+  userName?: string;
+  address?: string;
+  mobile?: string;
+  amount?: number;
+  serviceAmount?: number;
+  country?: string;
+  status?: number; // 0=成功, 1=处理中, 2=失败, 3=已过期
+  statusQuery?: number;
+  notificationUrl?: string;
+  callbackUrl?: string;
+  callbackRequest?: string;
+  callbackResponse?: string;
+  callbackResponseTime?: string;
+  callbackResponseStatus?: string;
+  callBackStatus?: string;
+  currentAvailableAmount?: number;
+  createTime?: string;
+  localTime?: string;
+  updateTime?: string;
+  procId?: string;
+  referenceno?: string;
+  expiryDate?: string;
+  remark?: string;
+  transId?: string;
+  manualFlag?: boolean;
+  paymentDate?: string;
+  localPaymentDate?: string;
+  taxRate?: string;
+  isFreezing?: number;
+  parameOne?: string;
+  parameTwo?: string;
+  birthDate?: string;
+  provice?: string;
+  city?: string;
+  zipcode?: string;
+  phoneNumber?: string;
+  bankName?: string;
+  accountNumber?: string;
+  transactionid?: string;
+  transactionReferenceNo?: string;
+  transactionSuccessTime?: string;
+  localSuccessTime?: string;
+  certificateId?: string;
+  certificateType?: string;
+  paymentType?: string;
+  currentConsumptionAmount?: number;
+  transaction_reference_no?: string;
+  transactionld?: string;
+};

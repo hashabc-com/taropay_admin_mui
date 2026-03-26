@@ -55,6 +55,16 @@ export function CountryMerchantSelector() {
       const country = countries.find((c) => String(c.id) === countryId);
       if (!country) return;
 
+      // 先同步更新 Zustand + URL，UI 立即响应
+      setSelectedCountry(country);
+      setSelectedMerchant(null);
+
+      const params = new URLSearchParams();
+      params.set('pageNum', '1');
+      params.set('pageSize', searchParams.get('pageSize') || '10');
+      setSearchParams(params);
+
+      // 异步拉取汇率（不影响 SWR key）
       try {
         const response = await fetch(`https://open.er-api.com/v6/latest/${country.currency}`);
         const data = await response.json();
@@ -64,15 +74,6 @@ export function CountryMerchantSelector() {
       } catch {
         toast.error('获取汇率失败');
       }
-
-      setSelectedCountry(country);
-      setSelectedMerchant(null);
-
-      // 切换国家时重置 URL 筛选参数，只保留分页
-      const params = new URLSearchParams();
-      params.set('pageNum', '1');
-      params.set('pageSize', searchParams.get('pageSize') || '10');
-      setSearchParams(params);
     },
     [countries, setRates, setSelectedCountry, setSelectedMerchant, searchParams, setSearchParams]
   );

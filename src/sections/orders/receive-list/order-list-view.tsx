@@ -104,13 +104,15 @@ export function OrderListView() {
         {
           field: 'companyName',
           headerName: t('orders.receiveOrders.merchant'),
-          width: 120,
+          // width: 120,
+          flex: 1,
           tooltip: true,
         },
         {
           field: 'localTime',
           headerName: `${t('orders.receiveOrders.createTime')}/${t('orders.receiveOrders.finishTime')}`,
-          width: 170,
+          // width: 170,
+          flex: 1,
           align: 'left',
           renderCell: ({ row }) => {
             const finish = row.status === '2' ? row.updateTime : row.localPaymentDate;
@@ -125,7 +127,8 @@ export function OrderListView() {
         {
           field: 'referenceno',
           headerName: `${t('common.thirdParty')}/${t('common.platform')}/${t('orders.receiveOrders.merchantOrderNo')}`,
-          width: 250,
+          minWidth: 250,
+          flex: 1,
           align: 'left',
           renderCell: ({ row }) => (
             <Stack
@@ -143,30 +146,54 @@ export function OrderListView() {
         {
           field: 'mobile',
           headerName: t('orders.receiveOrders.mobile'),
-          width: 120,
+          // width: 120,
+          flex: 1,
           tooltip: true,
         },
         {
           field: 'userName',
           headerName: t('signIn.username'),
-          width: 100,
+          // width: 100,
+          flex: 1,
           tooltip: true,
         },
         {
           field: 'pickupCenter',
           headerName: t('orders.receiveOrders.product'),
-          width: 100,
+          // width: 100,
+          flex: 1,
           renderCell: ({ value }) =>
             value ? <Chip label={value} size="small" variant="outlined" /> : '-',
         },
-        { field: 'paymentCompany', headerName: t('common.channel'), width: 100 },
-        { field: 'amount', headerName: t('orders.receiveOrders.orderAmount'), width: 110 },
-        { field: 'realAmount', headerName: t('orders.receiveOrders.realAmount'), width: 110 },
-        { field: 'serviceAmount', headerName: t('orders.receiveOrders.serviceFee'), width: 110 },
+        {
+          field: 'paymentCompany',
+          headerName: t('common.channel'),
+          // width: 100
+          flex: 1,
+        },
+        {
+          field: 'amount',
+          headerName: t('orders.receiveOrders.orderAmount'),
+          // width: 110
+          flex: 1,
+        },
+        {
+          field: 'realAmount',
+          headerName: t('orders.receiveOrders.realAmount'),
+          // width: 110
+          flex: 1,
+        },
+        {
+          field: 'serviceAmount',
+          headerName: t('orders.receiveOrders.serviceFee'),
+          // width: 110
+          flex: 1,
+        },
         {
           field: 'status',
           headerName: t('orders.receiveOrders.status'),
-          width: 110,
+          // width: 110,
+          flex: 1,
           renderCell: ({ value }) => {
             const info = ORDER_STATUS_MAP[value as string];
             if (!info) return value;

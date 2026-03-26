@@ -14,12 +14,12 @@ Package manager: **Yarn 1.22**. Use `yarn dev` / `yarn build`.
 
 ```
 pages/        → Thin page shells (metadata + render section view)
-sections/     → Business views (UI, DataGrid, toolbars, actions)
+sections/     → Business views (UI, DataGrid, search, actions)
   └── module/
       ├── index.ts         → Re-exports
-      ├── hooks.ts         → SWR data-fetching hooks
+      ├── hooks.ts         → SWR data-fetching hooks + FIELD_KEYS
       ├── *-view.tsx       → Main view component
-      └── toolbar.tsx      → Filter toolbar
+      └── *-search.tsx     → Search/filter component (使用 useListSearch)
 api/          → API functions organized by domain (order.ts, login.ts, common.ts)
 stores/       → Zustand global stores (auth, country, merchant)
 lib/          → Core utilities (http.ts, i18n.ts, swr-config.ts, cookies.ts)
@@ -31,16 +31,26 @@ components/   → Shared UI (hook-form/, country-merchant-selector/, etc.)
 - **HTTP client** (`src/lib/http.ts`): Custom `HttpClient` singleton wrapping Axios. Request interceptor auto-injects `Token` header, `country`, and `merchantId` from Zustand persist storage. Response interceptor handles `401` (redirect to login), `201` (error toast), `403` (refresh).
 - **API functions** in `src/api/` call `http.get/post` directly — no hooks in this layer.
 - **SWR hooks** live in each section's `hooks.ts`. Pattern:
+
   ```typescript
-  const key = selectedCountry
-    ? ['domain', 'action', params, selectedCountry.code, selectedMerchant?.appid]
-    : null; // null key = skip fetch
-  const { data, isLoading, mutate } = useSWR(key, () => apiFn(params), {
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-  });
+  export const FIELD_KEYS = ['channel', 'status', 'startTime', 'endTime'] as const;
+
+  export function useXxxList() {
+    const params = useSearchParamsObject(FIELD_KEYS) as XxxParams;
+
+    const key = useListSWRKey('domain', 'action', params);
+
+    const { data, isLoading, mutate } = useSWR(key, () => apiFn(params), {
+      revalidateOnFocus: false,
+      keepPreviousData: true,
+    });
+  }
   ```
-- Always include `selectedCountry.code` and `selectedMerchant?.appid` in SWR keys so data refreshes on context switch.
+
+- **SWR key 统一使用 `useListSWRKey`**（`src/hooks/use-list-swr-key.ts`）：该 hook 内部读取 `selectedCountry.code` 和 `selectedMerchant?.appid` 并追加到 key 末尾，当 `selectedCountry` 为空时返回 `null`（跳过请求）。不要在业务 hooks 中手动导入 country-store / merchant-store 来构建 SWR key。
+- **国家切换重置 URL 参数但不导致双重请求**：`CountryMerchantSelector` 切换国家时，先**同步**执行 Zustand 更新 + `setSearchParams` 重置 URL（React 18 自动批处理为单次渲染），再异步拉取汇率。关键：所有同步状态更新必须在 `await` **之前**完成，否则 `await` 之后的更新脱离事件处理上下文，React 无法批处理，导致多次渲染和多次请求。
+  - **必须用 `startTransition` 包裹**：React Router v7 的 `setSearchParams` 内部使用 `startTransition`（低优先级），而 Zustand 的 `useSyncExternalStore` 走同步优先级。优先级不同导致 React 分两次渲染 → 两次请求。用 `startTransition` 包裹所有 Zustand + URL 更新，统一到同一优先级 → 单次渲染 → 单次请求。
+- `FIELD_KEYS` 必须在 `hooks.ts` 中导出，供 search 组件的 `useListSearch(FIELD_KEYS)` 和 SWR hook 的 `useSearchParamsObject(FIELD_KEYS)` 共用。
 
 ## State Management
 
@@ -90,12 +100,12 @@ Lightweight custom implementation (not i18next). `t('orders.receiveSummary.title
   // ✅ 正确
   sx={{ fontSize: 'body2.fontSize', color: 'text.secondary', p: 2 }}
   ```
-- **DataGrid 必须占满容器宽度**：列少时不要全部设固定 `width`，至少有一列使用 `flex: 1` 或不设宽度，让表格自动撑满，避免右侧留白。示例：
+- **DataGrid 列宽统一使用 `flex: 1` 自适应**：所有列默认使用 `flex: 1`，不要设固定 `width`。需要限制最小宽度时用 `minWidth`。示例：
   ```typescript
   const columns: GridColDef[] = [
-    { field: 'date', headerName: '日期', width: 150 },
-    { field: 'channel', headerName: '渠道', width: 200 },
-    { field: 'amount', headerName: '金额', flex: 1, minWidth: 120 }, // 自动填充剩余空间
+    { field: 'date', headerName: '日期', flex: 1, minWidth: 150 },
+    { field: 'channel', headerName: '渠道', flex: 1, minWidth: 200 },
+    { field: 'amount', headerName: '金额', flex: 1, minWidth: 120 },
   ];
   ```
 - **DataGrid 文本溢出 Tooltip**：纯文本列需要溢出省略号 + hover 显示完整内容时，使用 `renderCellWithTooltip`（`src/components/data-grid/render-cell-with-tooltip.tsx`）。该函数仅在文本确实被截断时才弹出轻量 Popper 浮层，无动画、无跳动。用法：
@@ -120,10 +130,11 @@ Lightweight custom implementation (not i18next). `t('orders.receiveSummary.title
 ## Naming Conventions
 
 - **组件命名必须语义化**，以功能/用途命名而非泛化名称。文件名使用 kebab-case，示例：
-  - 搜索筛选区域 → `xxx-search.tsx`
+  - 搜索筛选区域 → `xxx-search.tsx`（**禁止使用 `toolbar` 命名**）
   - 订单详情抽屉 → `order-detail-drawer.tsx`
   - 行操作菜单 → `order-row-actions.tsx`
   - 视图组件 → `receive-summary-view.tsx`
+- **搜索组件命名规范**：搜索/筛选组件统一命名为 `*-search.tsx`，组件名为 `XxxSearch`。不要用 `*-toolbar.tsx` / `XxxToolbar`。
 - **避免**使用 `Component1.tsx`、`Section.tsx`、`Content.tsx` 等无意义命名。
 
 ## Conventions
@@ -134,4 +145,4 @@ Lightweight custom implementation (not i18next). `t('orders.receiveSummary.title
 - **Amount conversion**: `useConvertAmount` hook applies exchange rates based on `displayCurrency` from country store.
 - **Env vars**: Prefixed with `VITE_`. Dev uses Vite proxy (`/admin` → test server); test/prod use direct `VITE_TRAOPAY_API_URL`.
 - **Response type**: All API responses follow `{ code, message, data?, result? }` shape (`ResponseData<T>`).
-- **Section modules**: Follow the fixed structure: `index.ts` + `hooks.ts` + `*-view.tsx` + `toolbar.tsx`.
+- **Section modules**: Follow the fixed structure: `index.ts` + `hooks.ts` + `*-view.tsx` + `*-search.tsx`。搜索组件必须使用公共 hook `useListSearch(FIELD_KEYS)`（`src/hooks/use-list-search.ts`），hooks 中使用 `useSearchParamsObject(FIELD_KEYS)` 读取 URL 参数，不要手写 `useSearchParams` + `useState` 管理搜索状态。

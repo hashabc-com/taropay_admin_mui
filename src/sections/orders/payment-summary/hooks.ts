@@ -3,12 +3,11 @@ import type { PaymentSummaryParams } from 'src/api/order';
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
+import { useListSWRKey } from 'src/hooks/use-list-swr-key';
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
 import { getPaymentSummary } from 'src/api/order';
-import { useCountryStore } from 'src/stores/country-store';
-import { useMerchantStore } from 'src/stores/merchant-store';
 
 // ----------------------------------------------------------------------
 
@@ -39,12 +38,9 @@ export const FIELD_KEYS = ['channel', 'startTime', 'endTime'] as const;
 
 export function usePaymentSummaryList() {
   const params = useSearchParamsObject(FIELD_KEYS) as PaymentSummaryParams;
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
-  const key = selectedCountry
-    ? ['orders', 'payment-summary', params, selectedMerchant?.appid]
-    : null;
+
+  const key = useListSWRKey('orders', 'payment-summary', params);
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     key,

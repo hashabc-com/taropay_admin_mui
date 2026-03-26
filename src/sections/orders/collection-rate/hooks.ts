@@ -3,11 +3,10 @@ import type { CollectionRateParams } from 'src/api/order';
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
+import { useListSWRKey } from 'src/hooks/use-list-swr-key';
 import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
 import { getCollectionSuccessRate } from 'src/api/order';
-import { useCountryStore } from 'src/stores/country-store';
-import { useMerchantStore } from 'src/stores/merchant-store';
 
 // ----------------------------------------------------------------------
 
@@ -37,12 +36,8 @@ export const FIELD_KEYS = ['channel', 'pickupCenter', 'startTime', 'endTime'] as
 
 export function useCollectionRateList() {
   const params = useSearchParamsObject(FIELD_KEYS) as unknown as CollectionRateParams;
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
 
-  const key = selectedCountry
-    ? ['orders', 'collection-rate', params, selectedMerchant?.appid]
-    : null;
+  const key = useListSWRKey('orders', 'collection-rate', params);
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     key,

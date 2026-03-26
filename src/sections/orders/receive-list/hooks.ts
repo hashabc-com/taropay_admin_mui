@@ -4,11 +4,10 @@ import type { OrderListParams } from 'src/api/order';
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
+import { useListSWRKey } from 'src/hooks/use-list-swr-key';
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
-import { useCountryStore } from 'src/stores/country-store';
-import { useMerchantStore } from 'src/stores/merchant-store';
 import { getOrderList, getCollectionOrderStats } from 'src/api/order';
 
 // ----------------------------------------------------------------------
@@ -29,11 +28,9 @@ export const FIELD_KEYS = [
 
 export function useOrderList() {
   const params = useSearchParamsObject(FIELD_KEYS) as OrderListParams;
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
 
-  const key = selectedCountry ? ['orders', 'receive-list', params, selectedMerchant?.appid] : null;
+  const key = useListSWRKey('orders', 'receive-list', params);
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(key, () => getOrderList(params), {
     revalidateOnFocus: false,
@@ -59,20 +56,15 @@ export function useOrderList() {
 
 export function useOrderStats() {
   const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status'] as const);
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
 
-  const key = selectedCountry
-    ? [
-        'orders',
-        'receive-stat',
-        params.startTime,
-        params.endTime,
-        params.pickupCenter,
-        params.status,
-        selectedMerchant?.appid,
-      ]
-    : null;
+  const key = useListSWRKey(
+    'orders',
+    'receive-stat',
+    params.startTime,
+    params.endTime,
+    params.pickupCenter,
+    params.status
+  );
 
   const { data, isLoading } = useSWR(
     key,

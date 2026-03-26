@@ -22,12 +22,11 @@ import { NavMobile } from './nav-mobile';
 import { VerticalDivider } from './content';
 import { NavVertical } from './nav-vertical';
 import { NavHorizontal } from './nav-horizontal';
-import { _account } from '../nav-config-account';
 import { Searchbar } from '../components/searchbar';
 import { useNavData } from '../nav-config-dashboard';
 // import { _workspaces } from '../nav-config-workspace';
 import { MenuButton } from '../components/menu-button';
-import { AccountDrawer } from '../components/account-drawer';
+import { AccountPopover } from '../components/account-popover';
 import { SettingsButton } from '../components/settings-button';
 import { LanguagePopover } from '../components/language-popover';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
@@ -146,18 +145,16 @@ export function DashboardLayout({
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
-          {/** @slot Country / Merchant selector */}
-          <CountryMerchantSelector />
-
+          {/** @slot Searchbar */}
+          <Searchbar data={navData} />
           {/** @slot Divider — separates context selectors from utility buttons */}
           <Divider
             orientation="vertical"
             flexItem
             sx={{ mx: 0.5, display: { xs: 'none', sm: 'flex' } }}
           />
-
-          {/** @slot Searchbar */}
-          <Searchbar data={navData} />
+          {/** @slot Country / Merchant selector */}
+          <CountryMerchantSelector />
 
           {/** @slot Language popover */}
           <LanguagePopover
@@ -176,8 +173,8 @@ export function DashboardLayout({
           {/** @slot Settings button */}
           <SettingsButton />
 
-          {/** @slot Account drawer */}
-          <AccountDrawer data={_account} />
+          {/** @slot Account popover */}
+          <AccountPopover />
         </Box>
       ),
     };

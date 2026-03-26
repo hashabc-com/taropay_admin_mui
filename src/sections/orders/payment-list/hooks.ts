@@ -4,11 +4,10 @@ import type { OrderStats } from '../receive-list/types';
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
+import { useListSWRKey } from 'src/hooks/use-list-swr-key';
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
-import { useCountryStore } from 'src/stores/country-store';
-import { useMerchantStore } from 'src/stores/merchant-store';
 import { getPaymentLists, getDisbursementOrderStats } from 'src/api/order';
 
 // ----------------------------------------------------------------------
@@ -63,11 +62,9 @@ export const FIELD_KEYS = [
 
 export function usePaymentList() {
   const params = useSearchParamsObject(FIELD_KEYS) as unknown as PaymentListParams;
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
 
-  const key = selectedCountry ? ['orders', 'payment-list', params, selectedMerchant?.appid] : null;
+  const key = useListSWRKey('orders', 'payment-list', params);
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     key,
@@ -92,20 +89,15 @@ export function usePaymentList() {
 
 export function usePaymentStats() {
   const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status'] as const);
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
 
-  const key = selectedCountry
-    ? [
-        'orders',
-        'payment-stat',
-        params.startTime,
-        params.endTime,
-        params.pickupCenter,
-        params.status,
-        selectedMerchant?.appid,
-      ]
-    : null;
+  const key = useListSWRKey(
+    'orders',
+    'payment-stat',
+    params.startTime,
+    params.endTime,
+    params.pickupCenter,
+    params.status
+  );
 
   const { data, isLoading } = useSWR(
     key,

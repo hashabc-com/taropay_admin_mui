@@ -41,6 +41,8 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
   const { value: open, onFalse: onClose, onTrue: onOpen, onToggle } = useBoolean();
   const [searchQuery, setSearchQuery] = useState('');
 
+  const isMac = typeof window !== 'undefined' && /Mac|iPhone|iPod|iPad/.test(navigator.platform);
+
   const handleClose = useCallback(() => {
     onClose();
     setSearchQuery('');
@@ -48,13 +50,16 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.metaKey && event.key.toLowerCase() === 'k') {
+      const isK = event.key.toLowerCase() === 'k';
+      const isModifier = isMac ? event.metaKey : event.ctrlKey;
+
+      if (isModifier && isK) {
         event.preventDefault();
         onToggle();
         setSearchQuery('');
       }
     },
-    [onToggle]
+    [onToggle, isMac]
   );
 
   useEffect(() => {
@@ -91,6 +96,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
           alignItems: 'center',
           [theme.breakpoints.up(breakpoint)]: {
             pr: 1,
+            minWidth: 240,
             borderRadius: 1.5,
             cursor: 'pointer',
             bgcolor: varAlpha(theme.vars.palette.grey['500Channel'], 0.08),
@@ -120,6 +126,18 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
         <Iconify icon="eva:search-fill" />
       </Box>
 
+      <Box
+        component="span"
+        sx={{
+          flexGrow: 1,
+          typography: 'body2',
+          color: 'text.disabled',
+          display: { xs: 'none', [breakpoint]: 'inline-flex' },
+        }}
+      >
+        Search...
+      </Box>
+
       <Label
         sx={{
           color: 'grey.800',
@@ -130,7 +148,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
           display: { xs: 'none', [breakpoint]: 'inline-flex' },
         }}
       >
-        ⌘K
+        {isMac ? '⌘' : 'Ctrl'} K
       </Label>
     </Box>
   );

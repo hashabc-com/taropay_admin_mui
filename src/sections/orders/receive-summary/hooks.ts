@@ -3,12 +3,11 @@ import type { ReceiveSummaryParams } from 'src/api/order';
 import useSWR from 'swr';
 import { useMemo } from 'react';
 
+import { useListSWRKey } from 'src/hooks/use-list-swr-key';
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 import { useSearchParamsObject } from 'src/hooks/use-list-search';
 
 import { getReceiveSummary } from 'src/api/order';
-import { useCountryStore } from 'src/stores/country-store';
-import { useMerchantStore } from 'src/stores/merchant-store';
 
 export type ReceiveSummaryRow = {
   id?: number;
@@ -37,13 +36,9 @@ export const FIELD_KEYS = ['channel', 'startTime', 'endTime'] as const;
 
 export function useReceiveSummaryList() {
   const params = useSearchParamsObject(FIELD_KEYS) as unknown as ReceiveSummaryParams;
-  const { selectedCountry } = useCountryStore();
-  const { selectedMerchant } = useMerchantStore();
   const convertAmount = useConvertAmount();
 
-  const key = selectedCountry
-    ? ['orders', 'receive-summary', params, selectedMerchant?.appid]
-    : null;
+  const key = useListSWRKey('orders', 'receive-summary', params);
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     key,
