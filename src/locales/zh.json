@@ -95,7 +95,9 @@
     "applicationApproval": "申请审批",
     "accountSettlement": "账户结算",
     "merchantDailySummary": "商户每日汇总",
-    "countryDailySummary": "国家每日汇总"
+    "countryDailySummary": "国家每日汇总",
+    "merchantManagement": "商户管理",
+    "merchantInfo": "商户信息"
   },
   "fund": {
     "settlement": {
@@ -392,6 +394,89 @@
       "payin": "代收",
       "payout": "代付",
       "paramsDetail": "参数详情"
+    }
+  },
+  "merchant": {
+    "info": {
+      "title": "商户信息",
+      "account": "账号",
+      "merchantName": "商户名称",
+      "country": "国家",
+      "merchantId": "商户ID",
+      "systemPublicKey": "系统公钥",
+      "status": "状态",
+      "enable": "启用",
+      "disable": "禁用",
+      "createTime": "创建时间",
+      "addMerchant": "添加商户",
+      "editMerchant": "编辑商户",
+      "changePassword": "修改密码",
+      "rateConfig": "费率配置",
+      "password": "密码",
+      "settlementDays": "结算天数",
+      "addIP": "添加IP",
+      "ipAddress": "IP地址",
+      "chatId": "TG群组ID",
+      "rate": "费率",
+      "singleFixedAmount": "单笔固定金额",
+      "singleFee": "单笔价格",
+      "secretKeyCopied": "密钥已复制到剪贴板",
+      "copyFailed": "复制失败，请手动复制",
+      "unbindSecretKey": "解绑秘钥",
+      "bindIp": "绑定IP",
+      "autoLogin": "登录后台",
+      "bindTgGroup": "绑定TG群组",
+      "unbindSecretKeyFor": "为商户解绑秘钥",
+      "confirmUnbind": "确认解绑",
+      "addIPFor": "为商户添加后台IP白名单",
+      "confirmAdd": "确认添加",
+      "confirmBind": "确认绑定",
+      "changePasswordFor": "为商户修改登录密码",
+      "confirmNewPassword": "确认新密码",
+      "confirmChange": "确认修改",
+      "payoutChannel": "代付渠道配置",
+      "collectionChannel": "代收渠道配置",
+      "freezeType": "代收金额计算时间",
+      "transactionDay": "交易日",
+      "naturalDay": "自然日",
+      "callbackQueue": "绑定回调队列组",
+      "validation": {
+        "accountRequired": "请输入账号",
+        "merchantNameRequired": "请输入商户名称",
+        "countryRequired": "请先选择国家",
+        "passwordRequired": "请输入密码",
+        "daysRequired": "请输入天数",
+        "daysMinZero": "不能为负数",
+        "callbackQueueRequired": "请选择回调队列组",
+        "googleCodeRequired": "请输入谷歌验证码",
+        "ipRequired": "请输入IP地址",
+        "chatIdRequired": "请输入TG群组ID",
+        "passwordMinLength": "密码至少6个字符",
+        "passwordMismatch": "两次输入的密码不一致",
+        "rateFeeRequired": "费率和单笔固定金额必须同时填写或同时不填"
+      },
+      "placeholder": {
+        "ipAddress": "请输入IP地址",
+        "chatId": "请输入TG群组ID",
+        "newPassword": "请输入新密码"
+      },
+      "success": {
+        "unbindSuccess": "解绑成功",
+        "addSuccess": "添加成功",
+        "bindTgGroupSuccess": "绑定TG群组成功",
+        "rateConfigUpdated": "费率配置更新成功",
+        "passwordChanged": "密码修改成功"
+      },
+      "error": {
+        "unbindFailed": "解绑失败",
+        "addFailed": "添加失败",
+        "bindTgGroupFailed": "绑定TG群组失败",
+        "autoLoginFailed": "获取自动登录令牌失败",
+        "rateConfigUpdateFailed": "费率配置更新失败",
+        "passwordChangeFailed": "修改密码失败",
+        "fetchRateDataFailed": "获取费率数据失败",
+        "statusUpdateFailed": "状态更新失败"
+      }
     }
   }
 }

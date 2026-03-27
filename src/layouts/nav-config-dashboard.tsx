@@ -79,6 +79,12 @@ export function useNavData(): NavSectionProps['data'] {
             ],
           },
           {
+            title: t('sidebar.merchantManagement'),
+            path: paths.merchant.root,
+            icon: ICONS.user,
+            children: [{ title: t('sidebar.merchantInfo'), path: paths.merchant.merchantInfo }],
+          },
+          {
             title: t('sidebar.logManagement'),
             path: paths.logs.root,
             icon: ICONS.file,

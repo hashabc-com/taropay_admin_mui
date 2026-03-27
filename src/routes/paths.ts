@@ -32,6 +32,11 @@ export const paths = {
     merchantDailySummary: '/fund/merchant-daily-summary',
     countryDailySummary: '/fund/country-daily-summary',
   },
+  // MERCHANT
+  merchant: {
+    root: '/merchant',
+    merchantInfo: '/merchant/merchant-info',
+  },
   // LOGS
   logs: {
     root: '/logs',

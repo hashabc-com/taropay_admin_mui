@@ -26,6 +26,9 @@ const LogMessageRecord = lazy(() => import('src/pages/logs/message-record'));
 const LogMerchantRequest = lazy(() => import('src/pages/logs/merchant-request'));
 const LogRiskControl = lazy(() => import('src/pages/logs/risk-control'));
 
+// Merchant
+const MerchantInfo = lazy(() => import('src/pages/merchant/merchant-info'));
+
 // Fund
 const FundSettlementList = lazy(() => import('src/pages/fund/settlement-list'));
 const FundRechargeWithdraw = lazy(() => import('src/pages/fund/recharge-withdraw'));
@@ -63,6 +66,10 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'payment-summary', element: <OrderPaymentSummary /> },
           { path: 'collection-rate', element: <OrderCollectionRate /> },
         ],
+      },
+      {
+        path: 'merchant',
+        children: [{ path: 'merchant-info', element: <MerchantInfo /> }],
       },
       {
         path: 'logs',

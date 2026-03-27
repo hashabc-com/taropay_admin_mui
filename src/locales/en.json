@@ -95,7 +95,9 @@
     "applicationApproval": "Application Approval",
     "accountSettlement": "Account Settlement",
     "merchantDailySummary": "Merchant Daily Summary",
-    "countryDailySummary": "Country Daily Summary"
+    "countryDailySummary": "Country Daily Summary",
+    "merchantManagement": "Merchant Management",
+    "merchantInfo": "Merchant Info"
   },
   "orders": {
     "stats": {
@@ -392,6 +394,89 @@
       "paymentProfit": "Payment Profit",
       "finalSettlement": "Final Settlement",
       "successOrders": "Successful Orders"
+    }
+  },
+  "merchant": {
+    "info": {
+      "title": "Merchant Info",
+      "account": "Account",
+      "merchantName": "Merchant Name",
+      "country": "Country",
+      "merchantId": "Merchant ID",
+      "systemPublicKey": "System Public Key",
+      "status": "Status",
+      "enable": "Enabled",
+      "disable": "Disabled",
+      "createTime": "Create Time",
+      "addMerchant": "Add Merchant",
+      "editMerchant": "Edit Merchant",
+      "changePassword": "Change Password",
+      "rateConfig": "Rate Config",
+      "password": "Password",
+      "settlementDays": "Settlement Days",
+      "addIP": "Add IP",
+      "ipAddress": "IP Address",
+      "chatId": "Chat ID",
+      "rate": "Rate",
+      "singleFixedAmount": "Single Fixed Amount",
+      "singleFee": "Single Fee",
+      "secretKeyCopied": "Secret key copied to clipboard",
+      "copyFailed": "Copy failed, please copy manually",
+      "unbindSecretKey": "Unbind Secret Key",
+      "bindIp": "Bind IP",
+      "autoLogin": "Auto Login",
+      "bindTgGroup": "Bind TG Group",
+      "unbindSecretKeyFor": "Unbind secret key for merchant",
+      "confirmUnbind": "Confirm Unbind",
+      "addIPFor": "Add backend IP whitelist for merchant",
+      "confirmAdd": "Confirm Add",
+      "confirmBind": "Confirm Bind",
+      "changePasswordFor": "Change login password for merchant",
+      "confirmNewPassword": "Confirm New Password",
+      "confirmChange": "Confirm Change",
+      "payoutChannel": "Payout Channel Config",
+      "collectionChannel": "Collection Channel Config",
+      "freezeType": "Collection Amount Calculation Time",
+      "transactionDay": "Transaction Day",
+      "naturalDay": "Natural Day",
+      "callbackQueue": "Callback Queue Group",
+      "validation": {
+        "accountRequired": "Please enter account",
+        "merchantNameRequired": "Please enter merchant name",
+        "countryRequired": "Please select country first",
+        "passwordRequired": "Please enter password",
+        "daysRequired": "Please enter days",
+        "daysMinZero": "Cannot be negative",
+        "callbackQueueRequired": "Please select callback queue group",
+        "googleCodeRequired": "Please enter Google auth code",
+        "ipRequired": "Please enter IP address",
+        "chatIdRequired": "Please enter chat ID",
+        "passwordMinLength": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match",
+        "rateFeeRequired": "Rate and single fixed amount must be filled in together or both left empty"
+      },
+      "placeholder": {
+        "ipAddress": "Please enter IP address",
+        "chatId": "Please enter chat ID",
+        "newPassword": "Please enter new password"
+      },
+      "success": {
+        "unbindSuccess": "Unbind successful",
+        "addSuccess": "Add successful",
+        "bindTgGroupSuccess": "Bind TG group successful",
+        "rateConfigUpdated": "Rate configuration updated successfully",
+        "passwordChanged": "Password changed successfully"
+      },
+      "error": {
+        "unbindFailed": "Unbind failed",
+        "addFailed": "Add failed",
+        "bindTgGroupFailed": "Bind TG group failed",
+        "autoLoginFailed": "Failed to get auto login token",
+        "rateConfigUpdateFailed": "Rate configuration update failed",
+        "passwordChangeFailed": "Password change failed",
+        "fetchRateDataFailed": "Failed to fetch rate data",
+        "statusUpdateFailed": "Status update failed"
+      }
     }
   }
 }
