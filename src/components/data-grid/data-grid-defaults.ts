@@ -76,10 +76,11 @@ export function processColumns<R extends GridValidRowModel>(
  * ```
  */
 export const dataGridSx: SystemStyleObject<Theme> = {
-  // 单元格：flex 布局 + 垂直居中
+  // 单元格：flex 布局 + 垂直居中 + 最小行高
   '& .MuiDataGrid-cell': {
     display: 'flex',
     alignItems: 'center',
+    minHeight: 56,
   },
   // 水平对齐：映射 MUI 的 align class → flex justify-content
   '& .MuiDataGrid-cell--textCenter': {
