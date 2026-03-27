@@ -10,8 +10,10 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
-import { getCountryList, getMerchantList } from 'src/api/common';
-import { type Country, useCountryStore } from 'src/stores/country-store';
+import { useCountries } from 'src/hooks/use-countries';
+
+import { getMerchantList } from 'src/api/common';
+import { useCountryStore } from 'src/stores/country-store';
 import { type Merchant, useMerchantStore } from 'src/stores/merchant-store';
 
 import { Iconify } from 'src/components/iconify';
@@ -26,16 +28,8 @@ export function CountryMerchantSelector() {
   const { selectedMerchant, setSelectedMerchant } = useMerchantStore();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Fetch countries via SWR
-  const { data: countriesData } = useSWR('countries', () => getCountryList(), {
-    revalidateOnFocus: false,
-    dedupingInterval: 5 * 60 * 1000,
-  });
-
-  const countries = useMemo<Country[]>(
-    () => (countriesData?.result || countriesData?.data || []) as Country[],
-    [countriesData]
-  );
+  // Fetch countries via shared hook
+  const { countries } = useCountries();
 
   // Fetch merchants via SWR
   const { data: merchantsData } = useSWR(

@@ -26,6 +26,13 @@ const LogMessageRecord = lazy(() => import('src/pages/logs/message-record'));
 const LogMerchantRequest = lazy(() => import('src/pages/logs/merchant-request'));
 const LogRiskControl = lazy(() => import('src/pages/logs/risk-control'));
 
+// Fund
+const FundSettlementList = lazy(() => import('src/pages/fund/settlement-list'));
+const FundRechargeWithdraw = lazy(() => import('src/pages/fund/recharge-withdraw'));
+const FundAccountSettlement = lazy(() => import('src/pages/fund/account-settlement'));
+const FundMerchantDailySummary = lazy(() => import('src/pages/fund/merchant-daily-summary'));
+const FundCountryDailySummary = lazy(() => import('src/pages/fund/country-daily-summary'));
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -63,6 +70,16 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'message-record', element: <LogMessageRecord /> },
           { path: 'merchant-request', element: <LogMerchantRequest /> },
           { path: 'risk-control', element: <LogRiskControl /> },
+        ],
+      },
+      {
+        path: 'fund',
+        children: [
+          { path: 'settlement-list', element: <FundSettlementList /> },
+          { path: 'recharge-withdraw', element: <FundRechargeWithdraw /> },
+          { path: 'account-settlement', element: <FundAccountSettlement /> },
+          { path: 'merchant-daily-summary', element: <FundMerchantDailySummary /> },
+          { path: 'country-daily-summary', element: <FundCountryDailySummary /> },
         ],
       },
     ],

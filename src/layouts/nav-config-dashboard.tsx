@@ -67,6 +67,18 @@ export function useNavData(): NavSectionProps['data'] {
             ],
           },
           {
+            title: t('sidebar.fundManagement'),
+            path: paths.fund.root,
+            icon: ICONS.banking,
+            children: [
+              { title: t('sidebar.settlementRecords'), path: paths.fund.settlementList },
+              { title: t('sidebar.applicationApproval'), path: paths.fund.rechargeWithdraw },
+              { title: t('sidebar.accountSettlement'), path: paths.fund.accountSettlement },
+              { title: t('sidebar.merchantDailySummary'), path: paths.fund.merchantDailySummary },
+              { title: t('sidebar.countryDailySummary'), path: paths.fund.countryDailySummary },
+            ],
+          },
+          {
             title: t('sidebar.logManagement'),
             path: paths.logs.root,
             icon: ICONS.file,

@@ -23,6 +23,15 @@ export const paths = {
     paymentSummary: '/orders/payment-summary',
     collectionRate: '/orders/collection-rate',
   },
+  // FUND
+  fund: {
+    root: '/fund',
+    settlementList: '/fund/settlement-list',
+    rechargeWithdraw: '/fund/recharge-withdraw',
+    accountSettlement: '/fund/account-settlement',
+    merchantDailySummary: '/fund/merchant-daily-summary',
+    countryDailySummary: '/fund/country-daily-summary',
+  },
   // LOGS
   logs: {
     root: '/logs',
