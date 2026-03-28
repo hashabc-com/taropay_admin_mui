@@ -58,6 +58,7 @@ export function MerchantRequestView() {
       processColumns<MerchantRequest>([
         {
           field: 'transactionType',
+          minWidth: 80,
           headerName: t('logs.merchantRequest.transactionType'),
           flex: 1,
           renderCell: ({ value }) => {
@@ -70,6 +71,7 @@ export function MerchantRequestView() {
         },
         {
           field: 'referenceno',
+          minWidth: 200,
           headerName: t('logs.merchantRequest.referenceno'),
           flex: 1,
           align: 'left',
@@ -80,6 +82,7 @@ export function MerchantRequestView() {
         },
         {
           field: 'transId',
+          minWidth: 200,
           headerName: t('logs.merchantRequest.transId'),
           flex: 1,
           align: 'left',
@@ -90,34 +93,44 @@ export function MerchantRequestView() {
         },
         {
           field: 'paymentCompany',
+          minWidth: 100,
           headerName: t('logs.merchantRequest.paymentCompany'),
           flex: 1,
           tooltip: true,
         },
         {
           field: 'userName',
+          minWidth: 100,
           headerName: t('logs.merchantRequest.userName'),
           flex: 1,
           tooltip: true,
         },
         {
           field: 'mobile',
+          minWidth: 150,
           headerName: t('logs.merchantRequest.mobile'),
           flex: 1,
           align: 'left',
           tooltip: true,
         },
-        { field: 'amount', headerName: t('logs.merchantRequest.amount'), flex: 1 },
-        { field: 'serviceAmount', headerName: t('logs.merchantRequest.serviceAmount'), flex: 1 },
+        { field: 'amount', headerName: t('logs.merchantRequest.amount'), flex: 1, minWidth: 100 },
+        {
+          field: 'serviceAmount',
+          headerName: t('logs.merchantRequest.serviceAmount'),
+          flex: 1,
+          minWidth: 100,
+        },
         {
           field: 'createTime',
           headerName: t('logs.merchantRequest.createTime'),
+          minWidth: 150,
           flex: 1,
         },
         {
           field: 'actions',
           headerName: t('common.action'),
           flex: 1,
+          minWidth: 100,
           renderCell: ({ row }) => (
             <Chip
               label={t('logs.merchantRequest.viewDetail')}

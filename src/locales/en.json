@@ -159,7 +159,8 @@
       "paymentTime": "Payment Time",
       "transactionSummary": "Transaction Summary",
       "product": "Product",
-      "updateStatus": "Update Status"
+      "updateStatus": "Update Status",
+      "reject": "Reject"
     },
     "receiveSummary": {
       "title": "Receive Summary",

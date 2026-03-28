@@ -81,6 +81,9 @@ export interface PaymentSummaryParams {
 export const getPaymentSummary = (params: PaymentSummaryParams) =>
   http.get('/admin/disbursement/v1/summaryList', params);
 
+export const payOutReject = (data: FormData) =>
+  http.post('/admin/disbursement/payOutReject', data);
+
 export const prepareExportPayment = (params: { startTime?: string; endTime?: string }) =>
   http.get('/admin/disbursement/prepareExportData', params);
 

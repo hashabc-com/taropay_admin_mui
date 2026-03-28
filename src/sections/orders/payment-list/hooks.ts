@@ -32,6 +32,7 @@ export type PaymentOrder = {
   address?: string;
   referenceno?: string;
   transId?: string;
+  country?: string;
 };
 
 export const PAYMENT_STATUS_MAP: Record<

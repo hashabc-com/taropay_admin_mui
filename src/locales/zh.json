@@ -366,7 +366,8 @@
       "paymentTime": "付款时间",
       "transactionSummary": "交易摘要",
       "product": "产品",
-      "updateStatus": "商户补单"
+      "updateStatus": "商户补单",
+      "reject": "驳回"
     },
     "receiveSummary": {
       "title": "收款汇总",

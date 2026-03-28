@@ -104,7 +104,7 @@ export function OrderListView() {
         {
           field: 'companyName',
           headerName: t('orders.receiveOrders.merchant'),
-          // width: 120,
+          minWidth: 100,
           flex: 1,
           tooltip: true,
         },
@@ -112,6 +112,7 @@ export function OrderListView() {
           field: 'localTime',
           headerName: `${t('orders.receiveOrders.createTime')}/${t('orders.receiveOrders.finishTime')}`,
           // width: 170,
+          minWidth: 170,
           flex: 1,
           align: 'left',
           renderCell: ({ row }) => {
@@ -146,21 +147,21 @@ export function OrderListView() {
         {
           field: 'mobile',
           headerName: t('orders.receiveOrders.mobile'),
-          // width: 120,
+          minWidth: 170,
           flex: 1,
           tooltip: true,
         },
         {
           field: 'userName',
           headerName: t('signIn.username'),
-          // width: 100,
+          minWidth: 100,
           flex: 1,
           tooltip: true,
         },
         {
           field: 'pickupCenter',
           headerName: t('orders.receiveOrders.product'),
-          // width: 100,
+          minWidth: 80,
           flex: 1,
           renderCell: ({ value }) =>
             value ? <Chip label={value} size="small" variant="outlined" /> : '-',
@@ -168,31 +169,31 @@ export function OrderListView() {
         {
           field: 'paymentCompany',
           headerName: t('common.channel'),
-          // width: 100
+          minWidth: 100,
           flex: 1,
         },
         {
           field: 'amount',
           headerName: t('orders.receiveOrders.orderAmount'),
-          // width: 110
+          minWidth: 120,
           flex: 1,
         },
         {
           field: 'realAmount',
           headerName: t('orders.receiveOrders.realAmount'),
-          // width: 110
+          minWidth: 120,
           flex: 1,
         },
         {
           field: 'serviceAmount',
           headerName: t('orders.receiveOrders.serviceFee'),
-          // width: 110
+          minWidth: 120,
           flex: 1,
         },
         {
           field: 'status',
           headerName: t('orders.receiveOrders.status'),
-          // width: 110,
+          minWidth: 120,
           flex: 1,
           renderCell: ({ value }) => {
             const info = ORDER_STATUS_MAP[value as string];

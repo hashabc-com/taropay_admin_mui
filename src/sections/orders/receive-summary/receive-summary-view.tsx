@@ -63,6 +63,7 @@ export function ReceiveSummaryView() {
           field: 'companyName',
           headerName: t('orders.receiveSummary.merchant'),
           sortable: false,
+          minWidth: 120,
           flex: 1,
         },
         {
@@ -70,6 +71,7 @@ export function ReceiveSummaryView() {
           headerName: t('orders.receiveSummary.paymentChannel'),
           sortable: false,
           flex: 1,
+          minWidth: 100,
           renderCell: ({ value }) =>
             value ? <Chip label={value} size="small" variant="outlined" /> : '-',
         },
@@ -77,12 +79,14 @@ export function ReceiveSummaryView() {
           field: 'dealTime',
           headerName: t('orders.receiveSummary.transactionTime'),
           sortable: false,
+          minWidth: 100,
           flex: 1,
         },
         {
           field: 'billCount',
           headerName: t('orders.receiveSummary.orderCount'),
           sortable: false,
+          minWidth: 80,
           flex: 1,
         },
         {
@@ -90,18 +94,21 @@ export function ReceiveSummaryView() {
           headerName: t('orders.receiveSummary.amount'),
           sortable: false,
           flex: 1,
+          minWidth: 100,
         },
         {
           field: 'serviceAmount',
           headerName: t('orders.receiveSummary.serviceFee'),
           sortable: false,
           flex: 1,
+          minWidth: 100,
         },
         {
           field: 'totalAmount',
           headerName: t('orders.receiveSummary.totalAmount'),
           sortable: false,
           flex: 1,
+          minWidth: 100,
         },
       ]),
     [t]

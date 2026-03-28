@@ -88,24 +88,28 @@ export function RiskControlView() {
           field: 'ruleName',
           headerName: t('logs.riskControl.ruleName'),
           flex: 1,
+          minWidth: 80,
           tooltip: true,
         },
         {
           field: 'ruleId',
           headerName: t('logs.riskControl.ruleId'),
           flex: 1,
+          minWidth: 80,
           tooltip: true,
         },
         {
           field: 'customerName',
           headerName: t('logs.riskControl.merchantName'),
           flex: 1,
+          minWidth: 100,
           tooltip: true,
         },
         {
           field: 'businessType',
           headerName: t('logs.riskControl.businessType'),
           flex: 1,
+          minWidth: 100,
           renderCell: ({ value }) => {
             const label = BUSINESS_TYPE_LABELS[value as string]?.[lang] ?? (value as string);
             return (
@@ -120,6 +124,7 @@ export function RiskControlView() {
         },
         {
           field: 'businessId',
+          minWidth: 200,
           headerName: t('logs.riskControl.orderNo'),
           flex: 1,
           tooltip: true,
@@ -128,6 +133,7 @@ export function RiskControlView() {
           field: 'actionCode',
           headerName: t('logs.riskControl.action'),
           flex: 1,
+          minWidth: 100,
           renderCell: ({ value }) => {
             const label = ACTION_CODE_LABELS[value as string]?.[lang] ?? (value as string);
             return (
@@ -142,6 +148,7 @@ export function RiskControlView() {
         },
         {
           field: 'reason',
+          minWidth: 150,
           headerName: t('logs.riskControl.interceptReason'),
           flex: 1,
           tooltip: true,
@@ -150,6 +157,7 @@ export function RiskControlView() {
           field: 'requestParams',
           headerName: t('logs.riskControl.requestParams'),
           flex: 1,
+          minWidth: 100,
           renderCell: ({ value }) => {
             if (!value) return '-';
             return (
@@ -166,6 +174,7 @@ export function RiskControlView() {
         },
         {
           field: 'responseParams',
+          minWidth: 100,
           headerName: t('logs.riskControl.responseParams'),
           flex: 1,
           renderCell: ({ value }) => {
@@ -184,12 +193,14 @@ export function RiskControlView() {
         },
         {
           field: 'createTime',
+          minWidth: 150,
           headerName: t('logs.riskControl.createTime'),
           flex: 1,
           renderCell: ({ value }) => formatTime(value as string),
         },
         {
           field: 'localTime',
+          minWidth: 150,
           headerName: t('logs.riskControl.triggerTime'),
           flex: 1,
           renderCell: ({ value }) => formatTime(value as string),

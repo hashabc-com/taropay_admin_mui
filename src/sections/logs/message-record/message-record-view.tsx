@@ -73,17 +73,20 @@ export function MessageRecordView() {
           headerName: t('logs.messageRecord.messageId'),
           flex: 1,
           tooltip: true,
+          minWidth: 250,
         },
         {
           field: 'messageType',
           headerName: t('logs.messageRecord.messageType'),
           flex: 1,
+          minWidth: 150,
           tooltip: true,
         },
         {
           field: 'correlationId',
           headerName: t('logs.messageRecord.businessId'),
           flex: 1,
+          minWidth: 150,
           tooltip: true,
         },
         {
@@ -91,27 +94,32 @@ export function MessageRecordView() {
           headerName: t('logs.messageRecord.queueName'),
           flex: 1,
           tooltip: true,
+          minWidth: 200,
         },
         {
           field: 'exchangeName',
           headerName: t('logs.messageRecord.exchangeName'),
           flex: 1,
+          minWidth: 200,
           tooltip: true,
         },
         {
           field: 'routingKey',
+          minWidth: 200,
           headerName: t('logs.messageRecord.routingKey'),
           flex: 1,
           tooltip: true,
         },
         {
           field: 'consumerService',
+          minWidth: 140,
           headerName: t('logs.messageRecord.consumerService'),
           flex: 1,
           tooltip: true,
         },
         {
           field: 'consumeStatus',
+          minWidth: 100,
           headerName: t('logs.messageRecord.consumeStatus'),
           flex: 1,
           renderCell: ({ value }) => {
@@ -134,11 +142,17 @@ export function MessageRecordView() {
         },
         {
           field: 'retryCount',
+          minWidth: 80,
           headerName: t('logs.messageRecord.retryCount'),
           flex: 1,
           renderCell: ({ value }) => value ?? 0,
         },
-        { field: 'consumeTime', headerName: t('logs.messageRecord.consumeTime'), flex: 1 },
+        {
+          field: 'consumeTime',
+          headerName: t('logs.messageRecord.consumeTime'),
+          flex: 1,
+          minWidth: 150,
+        },
         {
           field: 'actions',
           headerName: t('common.action'),

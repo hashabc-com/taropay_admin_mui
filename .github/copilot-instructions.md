@@ -158,3 +158,31 @@ Lightweight custom implementation (not i18next). `t('orders.receiveSummary.title
 - **Env vars**: Prefixed with `VITE_`. Dev uses Vite proxy (`/admin` → test server); test/prod use direct `VITE_TRAOPAY_API_URL`.
 - **Response type**: All API responses follow `{ code, message, data?, result? }` shape (`ResponseData<T>`).
 - **Section modules**: Follow the fixed structure: `index.ts` + `hooks.ts` + `*-view.tsx` + `*-search.tsx`。搜索组件必须使用公共 hook `useListSearch(FIELD_KEYS)`（`src/hooks/use-list-search.ts`），hooks 中使用 `useSearchParamsObject(FIELD_KEYS)` 读取 URL 参数，不要手写 `useSearchParams` + `useState` 管理搜索状态。
+
+## MUI 组件注意事项
+
+- **DialogContent `dividers` 会裁切第一行输入框浮动 label**：`DialogContent` 设置 `dividers` 后，顶部 border + 默认 `paddingTop` 较小，`outlined` TextField 的浮动 label 上移时会被 `overflow: auto` 裁剪。解决：给 `DialogContent` 添加 `sx={{ pt: 3 }}` 留出空间。示例：
+  ```typescript
+  // ❌ label 会被裁切
+  <DialogContent dividers>
+    <TextField ... />
+  </DialogContent>
+  // ✅ 正确
+  <DialogContent dividers sx={{ pt: 3 }}>
+    <TextField ... />
+  </DialogContent>
+  ```
+- **Drawer 必须始终渲染，内容条件渲染**：需要 Drawer 滑入/滑出动画时，禁止在数据为空时 `return null` 跳过整个 `<Drawer>` 渲染，否则关闭时无滑出动画。正确做法：始终渲染 `<Drawer open={open}>`，仅在内部条件渲染内容。示例：
+  ```typescript
+  // ❌ 无关闭动画
+  if (!data) return null;
+  return <Drawer open={open}>...</Drawer>;
+  // ✅ 正确
+  return (
+    <Drawer open={open} onClose={onClose}>
+      {data && <Box>...</Box>}
+    </Drawer>
+  );
+  ```
+- **Card 背景色优先使用 `background.neutral`**：需要卡片区分背景时，使用 `bgcolor: 'background.neutral'`（Minimal UI 主题提供的中性色），不要使用 `primary.lighter` 等语义色作背景——在深色模式下对比度差、文字不可读。
+- **行操作菜单使用 MUI `Menu`**：DataGrid 行操作按钮统一使用 MUI 原生 `Menu` + `useState<HTMLElement | null>` 管理锚点，不要使用 `CustomPopover` 或不存在的 `usePopover` hook。参考 `src/sections/merchant/merchant-info/merchant-row-actions.tsx`。

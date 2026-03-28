@@ -152,11 +152,13 @@ export function MerchantInfoView() {
           headerName: t('merchant.info.account'),
           flex: 1,
           tooltip: true,
+          minWidth: 120,
         },
         {
           field: 'companyName',
           headerName: t('merchant.info.merchantName'),
           flex: 1,
+          minWidth: 120,
           tooltip: true,
         },
         {
@@ -169,6 +171,7 @@ export function MerchantInfoView() {
           field: 'appid',
           headerName: t('merchant.info.merchantId'),
           flex: 1,
+          minWidth: 150,
           tooltip: true,
         },
         {
@@ -204,6 +207,7 @@ export function MerchantInfoView() {
           field: 'status',
           headerName: t('merchant.info.status'),
           flex: 1,
+          minWidth: 80,
           renderCell: ({ value }) => {
             const isEnabled = value === 0;
             return (
@@ -220,6 +224,7 @@ export function MerchantInfoView() {
           field: 'createTime',
           headerName: t('merchant.info.createTime'),
           flex: 1,
+          minWidth: 160,
           renderCell: ({ value }) => dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
         },
         {
