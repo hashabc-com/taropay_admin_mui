@@ -229,12 +229,12 @@ export function RateConfigDialog({
               <Stack
                 direction="row"
                 alignItems="center"
-                justifyContent="space-between"
+                // justifyContent="space-between"
                 sx={{ mb: 2 }}
               >
                 <Typography variant="subtitle1">{t('merchant.info.collectionChannel')}</Typography>
-                <Stack direction="row" spacing={2}>
-                  <Typography variant="caption" sx={{ width: 120, textAlign: 'center' }}>
+                <Stack direction="row" spacing={2} sx={{ ml: 2 }}>
+                  <Typography variant="caption" sx={{ width: 120, textAlign: 'center', mr: 8 }}>
                     {t('merchant.info.rate')}
                   </Typography>
                   <Typography variant="caption" sx={{ width: 120, textAlign: 'center' }}>
@@ -261,7 +261,7 @@ export function RateConfigDialog({
                       value={item.rate}
                       onChange={(e) => updateRate('collection', index, 'rate', e.target.value)}
                       slotProps={{ htmlInput: { step: 0.001, min: 0 } }}
-                      sx={{ width: 120 }}
+                      sx={{ width: 150 }}
                     />
                     <TextField
                       size="small"
@@ -270,7 +270,7 @@ export function RateConfigDialog({
                       value={item.feeAmount}
                       onChange={(e) => updateRate('collection', index, 'feeAmount', e.target.value)}
                       slotProps={{ htmlInput: { step: 0.01, min: 0 } }}
-                      sx={{ width: 120 }}
+                      sx={{ width: 150 }}
                     />
                   </Stack>
                 ))}
@@ -286,8 +286,8 @@ export function RateConfigDialog({
                 sx={{ mb: 2 }}
               >
                 <Typography variant="subtitle1">{t('merchant.info.payoutChannel')}</Typography>
-                <Stack direction="row" spacing={2}>
-                  <Typography variant="caption" sx={{ width: 120, textAlign: 'center' }}>
+                <Stack direction="row" spacing={2} sx={{ ml: 2 }}>
+                  <Typography variant="caption" sx={{ width: 120, textAlign: 'center', mr: 8 }}>
                     {t('merchant.info.rate')}
                   </Typography>
                   <Typography variant="caption" sx={{ width: 120, textAlign: 'center' }}>
@@ -314,7 +314,7 @@ export function RateConfigDialog({
                       value={item.rate}
                       onChange={(e) => updateRate('payout', index, 'rate', e.target.value)}
                       slotProps={{ htmlInput: { step: 0.001, min: 0 } }}
-                      sx={{ width: 120 }}
+                      sx={{ width: 150 }}
                     />
                     <TextField
                       size="small"
@@ -323,7 +323,7 @@ export function RateConfigDialog({
                       value={item.feeAmount}
                       onChange={(e) => updateRate('payout', index, 'feeAmount', e.target.value)}
                       slotProps={{ htmlInput: { step: 0.01, min: 0 } }}
-                      sx={{ width: 120 }}
+                      sx={{ width: 150 }}
                     />
                   </Stack>
                 ))}

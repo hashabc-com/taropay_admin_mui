@@ -32,7 +32,6 @@ class HttpClient {
     this.instance = axios.create({
       baseURL: import.meta.env.VITE_API_BASE_URL || '',
       timeout: 60000,
-      headers: { 'Content-Type': 'application/json' },
     });
 
     this.setupInterceptors();
