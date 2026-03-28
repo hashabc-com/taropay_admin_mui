@@ -122,7 +122,7 @@ const NavRoot = styled('div', {
     display: 'none',
     position: 'fixed',
     flexDirection: 'column',
-    zIndex: 'var(--layout-nav-zIndex)',
+    // zIndex: 'var(--layout-nav-zIndex)',
     backgroundColor: 'var(--layout-nav-bg)',
     width: isNavMini ? 'var(--layout-nav-mini-width)' : 'var(--layout-nav-vertical-width)',
     borderRight: `1px solid var(--layout-nav-border-color, ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)})`,

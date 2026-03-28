@@ -29,6 +29,12 @@ const LogRiskControl = lazy(() => import('src/pages/logs/risk-control'));
 // Merchant
 const MerchantInfo = lazy(() => import('src/pages/merchant/merchant-info'));
 
+// Business
+const BusinessMerchantBind = lazy(() => import('src/pages/business/merchant-bind'));
+const BusinessDailySummary = lazy(() => import('src/pages/business/daily-summary'));
+const BusinessMonthlySummary = lazy(() => import('src/pages/business/monthly-summary'));
+const BusinessCustomerConsult = lazy(() => import('src/pages/business/customer-consult'));
+
 // Fund
 const FundSettlementList = lazy(() => import('src/pages/fund/settlement-list'));
 const FundRechargeWithdraw = lazy(() => import('src/pages/fund/recharge-withdraw'));
@@ -77,6 +83,15 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'message-record', element: <LogMessageRecord /> },
           { path: 'merchant-request', element: <LogMerchantRequest /> },
           { path: 'risk-control', element: <LogRiskControl /> },
+        ],
+      },
+      {
+        path: 'business',
+        children: [
+          { path: 'merchant-bind', element: <BusinessMerchantBind /> },
+          { path: 'daily-summary', element: <BusinessDailySummary /> },
+          { path: 'monthly-summary', element: <BusinessMonthlySummary /> },
+          { path: 'customer-consult', element: <BusinessCustomerConsult /> },
         ],
       },
       {

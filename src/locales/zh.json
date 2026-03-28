@@ -97,7 +97,12 @@
     "merchantDailySummary": "商户每日汇总",
     "countryDailySummary": "国家每日汇总",
     "merchantManagement": "商户管理",
-    "merchantInfo": "商户信息"
+    "merchantInfo": "商户信息",
+    "businessManagement": "商务管理",
+    "merchantBind": "商务绑定列表",
+    "businessDailySummary": "商务日汇总",
+    "businessMonthlySummary": "商务月汇总",
+    "customerConsult": "咨询列表"
   },
   "fund": {
     "settlement": {
@@ -201,6 +206,109 @@
       "paymentProfit": "付款利润",
       "finalSettlement": "最终结算",
       "successOrders": "成功笔数"
+    }
+  },
+  "business": {
+    "merchantBind": {
+      "title": "商务绑定列表",
+      "businessAccount": "商务账号",
+      "businessUserName": "商务名称",
+      "merchantName": "商户名称",
+      "createTime": "创建时间",
+      "bindMerchant": "绑定商户",
+      "unbind": "解绑",
+      "enabled": "启用",
+      "disabled": "禁用",
+      "bindSuccess": "绑定成功",
+      "unbindSuccess": "解绑成功"
+    },
+    "dailySummary": {
+      "title": "商务日汇总",
+      "businessAccount": "商务账号",
+      "date": "日期",
+      "collectionCount": "代收笔数",
+      "collectionAmount": "收款金额",
+      "collectionFee": "收款手续费",
+      "inAmountProfit": "代收利润",
+      "payoutCount": "代付笔数",
+      "paymentAmount": "付款金额",
+      "payoutFee": "代付手续费",
+      "outAmountProfit": "代付利润"
+    },
+    "monthlySummary": {
+      "title": "商务月汇总",
+      "businessAccount": "商务账号",
+      "month": "月份",
+      "startMonth": "开始月份",
+      "endMonth": "结束月份",
+      "collectionCount": "代收笔数",
+      "collectionAmount": "收款金额",
+      "collectionFee": "收款手续费",
+      "inAmountProfit": "代收利润",
+      "payoutCount": "代付笔数",
+      "paymentAmount": "付款金额",
+      "payoutFee": "代付手续费",
+      "outAmountProfit": "代付利润"
+    },
+    "customerConsult": {
+      "title": "咨询列表",
+      "contactPerson": "联系人",
+      "phone": "联系电话",
+      "email": "邮箱",
+      "company": "公司名称",
+      "source": "客户来源",
+      "country": "所属国家",
+      "countryCode": "区号",
+      "status": "客户状态",
+      "level": "客户级别",
+      "consultContent": "咨询内容",
+      "remark": "备注",
+      "createdAt": "创建时间",
+      "followUp": "跟进",
+      "followType": "跟进方式",
+      "followContent": "跟进内容",
+      "followResult": "跟进结果",
+      "followBy": "跟进人",
+      "addCustomer": "新增客户",
+      "addFollowUp": "新增跟进",
+      "followUpRecords": "跟进记录",
+      "historyRecords": "历史记录",
+      "records": "条记录",
+      "pleaseEnterContactPerson": "请输入联系人",
+      "pleaseEnterPhone": "请输入联系电话",
+      "pleaseEnterEmail": "请输入邮箱",
+      "pleaseEnterValidEmail": "请输入有效邮箱",
+      "pleaseEnterCompany": "请输入公司名称",
+      "pleaseSelectCountry": "请选择国家",
+      "pleaseEnterSource": "请输入客户来源",
+      "pleaseEnterConsultContent": "请输入咨询内容",
+      "pleaseSelectFollowType": "请选择跟进方式",
+      "pleaseEnterFollowContent": "请输入跟进内容",
+      "pleaseSelectFollowResult": "请选择跟进结果",
+      "statusValues": {
+        "NEW": "新客户",
+        "FOLLOWING": "跟进中",
+        "DEAL": "已成交",
+        "LOST": "已流失"
+      },
+      "levelValues": {
+        "A": "重点客户",
+        "B": "一般客户",
+        "C": "普通客户"
+      },
+      "followTypeValues": {
+        "PHONE": "电话",
+        "VISIT": "拜访",
+        "EMAIL": "邮件",
+        "WECHAT": "微信",
+        "OTHER": "其他"
+      },
+      "followResultValues": {
+        "INTERESTED": "有兴趣",
+        "CONSIDERING": "考虑中",
+        "REFUSED": "已拒绝",
+        "SUCCESS": "成功"
+      }
     }
   },
   "orders": {

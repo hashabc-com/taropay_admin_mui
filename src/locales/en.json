@@ -97,7 +97,12 @@
     "merchantDailySummary": "Merchant Daily Summary",
     "countryDailySummary": "Country Daily Summary",
     "merchantManagement": "Merchant Management",
-    "merchantInfo": "Merchant Info"
+    "merchantInfo": "Merchant Info",
+    "businessManagement": "Business Management",
+    "merchantBind": "Business Bind List",
+    "businessDailySummary": "Business Daily Summary",
+    "businessMonthlySummary": "Business Monthly Summary",
+    "customerConsult": "Customer Consult"
   },
   "orders": {
     "stats": {
@@ -394,6 +399,109 @@
       "paymentProfit": "Payment Profit",
       "finalSettlement": "Final Settlement",
       "successOrders": "Successful Orders"
+    }
+  },
+  "business": {
+    "merchantBind": {
+      "title": "Business Bind List",
+      "businessAccount": "Business Account",
+      "businessUserName": "Business Name",
+      "merchantName": "Merchant Name",
+      "createTime": "Create Time",
+      "bindMerchant": "Bind Merchant",
+      "unbind": "Unbind",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "bindSuccess": "Binding successful",
+      "unbindSuccess": "Unbind successful"
+    },
+    "dailySummary": {
+      "title": "Business Daily Summary",
+      "businessAccount": "Business Account",
+      "date": "Date",
+      "collectionCount": "Collection Count",
+      "collectionAmount": "Collection Amount",
+      "collectionFee": "Collection Fee",
+      "inAmountProfit": "Collection Profit",
+      "payoutCount": "Payout Count",
+      "paymentAmount": "Payment Amount",
+      "payoutFee": "Payout Fee",
+      "outAmountProfit": "Payout Profit"
+    },
+    "monthlySummary": {
+      "title": "Business Monthly Summary",
+      "businessAccount": "Business Account",
+      "month": "Month",
+      "startMonth": "Start Month",
+      "endMonth": "End Month",
+      "collectionCount": "Collection Count",
+      "collectionAmount": "Collection Amount",
+      "collectionFee": "Collection Fee",
+      "inAmountProfit": "Collection Profit",
+      "payoutCount": "Payout Count",
+      "paymentAmount": "Payment Amount",
+      "payoutFee": "Payout Fee",
+      "outAmountProfit": "Payout Profit"
+    },
+    "customerConsult": {
+      "title": "Customer Consult",
+      "contactPerson": "Contact Person",
+      "phone": "Phone",
+      "email": "Email",
+      "company": "Company",
+      "source": "Source",
+      "country": "Country",
+      "countryCode": "Country Code",
+      "status": "Status",
+      "level": "Level",
+      "consultContent": "Consult Content",
+      "remark": "Remark",
+      "createdAt": "Created At",
+      "followUp": "Follow Up",
+      "followType": "Follow Type",
+      "followContent": "Follow Content",
+      "followResult": "Follow Result",
+      "followBy": "Follow By",
+      "addCustomer": "Add Customer",
+      "addFollowUp": "Add Follow Up",
+      "followUpRecords": "Follow Up Records",
+      "historyRecords": "History Records",
+      "records": "records",
+      "pleaseEnterContactPerson": "Please enter contact person",
+      "pleaseEnterPhone": "Please enter phone",
+      "pleaseEnterEmail": "Please enter email",
+      "pleaseEnterValidEmail": "Please enter a valid email",
+      "pleaseEnterCompany": "Please enter company",
+      "pleaseSelectCountry": "Please select country",
+      "pleaseEnterSource": "Please enter source",
+      "pleaseEnterConsultContent": "Please enter consult content",
+      "pleaseSelectFollowType": "Please select follow type",
+      "pleaseEnterFollowContent": "Please enter follow content",
+      "pleaseSelectFollowResult": "Please select follow result",
+      "statusValues": {
+        "NEW": "New",
+        "FOLLOWING": "Following",
+        "DEAL": "Deal",
+        "LOST": "Lost"
+      },
+      "levelValues": {
+        "A": "Key Customer",
+        "B": "General Customer",
+        "C": "Normal Customer"
+      },
+      "followTypeValues": {
+        "PHONE": "Phone",
+        "VISIT": "Visit",
+        "EMAIL": "Email",
+        "WECHAT": "WeChat",
+        "OTHER": "Other"
+      },
+      "followResultValues": {
+        "INTERESTED": "Interested",
+        "CONSIDERING": "Considering",
+        "REFUSED": "Refused",
+        "SUCCESS": "Success"
+      }
     }
   },
   "merchant": {

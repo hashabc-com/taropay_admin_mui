@@ -37,6 +37,14 @@ export const paths = {
     root: '/merchant',
     merchantInfo: '/merchant/merchant-info',
   },
+  // BUSINESS
+  business: {
+    root: '/business',
+    merchantBind: '/business/merchant-bind',
+    dailySummary: '/business/daily-summary',
+    monthlySummary: '/business/monthly-summary',
+    customerConsult: '/business/customer-consult',
+  },
   // LOGS
   logs: {
     root: '/logs',

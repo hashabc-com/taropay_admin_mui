@@ -34,7 +34,6 @@ export function OrderDetailDrawer({ open, onClose, order }: Props) {
       anchor="right"
       open={open}
       onClose={onClose}
-      sx={{ zIndex: 1400 }}
       PaperProps={{ sx: { width: { xs: '100%', sm: 480 } } }}
     >
       {order && (

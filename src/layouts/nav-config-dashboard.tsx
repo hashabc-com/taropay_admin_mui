@@ -85,6 +85,17 @@ export function useNavData(): NavSectionProps['data'] {
             children: [{ title: t('sidebar.merchantInfo'), path: paths.merchant.merchantInfo }],
           },
           {
+            title: t('sidebar.businessManagement'),
+            path: paths.business.root,
+            icon: ICONS.job,
+            children: [
+              { title: t('sidebar.merchantBind'), path: paths.business.merchantBind },
+              { title: t('sidebar.businessDailySummary'), path: paths.business.dailySummary },
+              { title: t('sidebar.businessMonthlySummary'), path: paths.business.monthlySummary },
+              { title: t('sidebar.customerConsult'), path: paths.business.customerConsult },
+            ],
+          },
+          {
             title: t('sidebar.logManagement'),
             path: paths.logs.root,
             icon: ICONS.file,
