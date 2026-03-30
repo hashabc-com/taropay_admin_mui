@@ -59,4 +59,10 @@ export const paths = {
     routeStrategy: '/config/route-strategy',
     riskControlRule: '/config/risk-control-rule',
   },
+  // SYSTEM
+  system: {
+    root: '/system',
+    roleManage: '/system/role-manage',
+    accountManage: '/system/account-manage',
+  },
 };

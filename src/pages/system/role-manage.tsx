@@ -1,17 +1,17 @@
 import { CONFIG } from 'src/global-config';
 
-import { JwtSignInView } from 'src/auth/view/jwt';
+import { RoleManageView } from 'src/sections/system/role-manage';
 
 // ----------------------------------------------------------------------
 
-const metadata = { title: `${CONFIG.appName}` };
+const metadata = { title: `角色管理 - ${CONFIG.appName}` };
 
 export default function Page() {
   return (
     <>
       <title>{metadata.title}</title>
 
-      <JwtSignInView />
+      <RoleManageView />
     </>
   );
 }

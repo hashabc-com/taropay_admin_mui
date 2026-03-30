@@ -47,6 +47,10 @@ const ConfigPaymentChannel = lazy(() => import('src/pages/config/payment-channel
 const ConfigRouteStrategy = lazy(() => import('src/pages/config/route-strategy'));
 const ConfigRiskControlRule = lazy(() => import('src/pages/config/risk-control-rule'));
 
+// System
+const SystemRoleManage = lazy(() => import('src/pages/system/role-manage'));
+const SystemAccountManage = lazy(() => import('src/pages/system/account-manage'));
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -115,6 +119,13 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'payment-channel', element: <ConfigPaymentChannel /> },
           { path: 'route-strategy', element: <ConfigRouteStrategy /> },
           { path: 'risk-control-rule', element: <ConfigRiskControlRule /> },
+        ],
+      },
+      {
+        path: 'system',
+        children: [
+          { path: 'role-manage', element: <SystemRoleManage /> },
+          { path: 'account-manage', element: <SystemAccountManage /> },
         ],
       },
     ],

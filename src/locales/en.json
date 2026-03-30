@@ -68,6 +68,19 @@
     "pleaseEnterPassword": "Please enter password",
     "pleaseSelectMerchantFirst": "Please select merchant first",
     "enterRemark": "Please enter remark",
+    "addSuccess": "Added successfully",
+    "updateSuccess": "Updated successfully",
+    "deleteFailed": "Delete failed",
+    "confirmDelete": "Confirm Delete",
+    "deleteConfirmation": "Are you sure you want to delete? This action cannot be undone.",
+    "deleting": "Deleting...",
+    "selectAll": "Select All",
+    "description": "Description",
+    "account": "Account",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "role": "Role",
+    "type": "Type",
     "countrys": {
       "ID": "Indonesia",
       "BR": "Brazil",
@@ -112,7 +125,10 @@
     "configManagement": "Config Management",
     "paymentChannel": "Payment Channel",
     "routeStrategy": "Route Strategy",
-    "riskControlRule": "Risk Control Rule"
+    "riskControlRule": "Risk Control Rule",
+    "systemManagement": "System Management",
+    "roleManage": "Role Management",
+    "accountManage": "Account Management"
   },
   "orders": {
     "stats": {
@@ -704,6 +720,62 @@
         "actionCodeRequired": "Please select an action code",
         "priorityMin": "Minimum priority is 1",
         "priorityMax": "Maximum priority is 10"
+      }
+    }
+  },
+  "system": {
+    "roleManage": {
+      "title": "Role Management",
+      "roleName": "Role Name",
+      "addRole": "Add Role",
+      "editRole": "Edit Role",
+      "deleteRole": "Delete Role",
+      "modulePermissions": "Module Permissions",
+      "createDescription": "Create a new role and assign permissions",
+      "editDescription": "Edit role information and permissions",
+      "validation": {
+        "roleNameRequired": "Please enter role name",
+        "resourceRequired": "Please select at least one module"
+      },
+      "placeholder": {
+        "roleName": "Please enter role name",
+        "roleDescription": "Please enter role description"
+      }
+    },
+    "accountManage": {
+      "title": "Account Management",
+      "name": "Name",
+      "addAdministrator": "Add Administrator",
+      "editAdministrator": "Edit Administrator",
+      "changePassword": "Change Password",
+      "newPassword": "New Password",
+      "accountStatus": "Account Status",
+      "passwordMismatch": "Passwords do not match",
+      "passwordUpdateSuccess": "Password updated successfully",
+      "passwordUpdateFailed": "Password update failed",
+      "createDescription": "Create a new administrator account",
+      "editDescription": "Edit administrator account information",
+      "validation": {
+        "nameRequired": "Please enter name",
+        "accountRequired": "Please enter account",
+        "typeRequired": "Please select type",
+        "passwordRequired": "Please enter password",
+        "newPasswordRequired": "Please enter new password",
+        "confirmPasswordRequired": "Please enter password again"
+      },
+      "placeholder": {
+        "name": "Please enter name",
+        "account": "Please enter account",
+        "password": "Please enter password",
+        "phone": "Please enter phone number",
+        "newPassword": "Please enter new password",
+        "confirmPassword": "Please enter password again"
+      },
+      "userTypes": {
+        "superAdmin": "Super Administrator",
+        "finance": "Finance",
+        "business": "Business",
+        "other": "Other"
       }
     }
   }

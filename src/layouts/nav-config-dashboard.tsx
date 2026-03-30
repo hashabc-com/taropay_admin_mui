@@ -115,6 +115,15 @@ export function useNavData(): NavSectionProps['data'] {
               { title: t('sidebar.riskControl'), path: paths.logs.riskControl },
             ],
           },
+          {
+            title: t('sidebar.systemManagement'),
+            path: paths.system.root,
+            icon: ICONS.lock,
+            children: [
+              { title: t('sidebar.roleManage'), path: paths.system.roleManage },
+              { title: t('sidebar.accountManage'), path: paths.system.accountManage },
+            ],
+          },
         ],
       },
     ],

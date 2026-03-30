@@ -68,6 +68,19 @@
     "pleaseEnterPassword": "请输入密码",
     "pleaseSelectMerchantFirst": "请先选择商户",
     "enterRemark": "请输入备注",
+    "addSuccess": "添加成功",
+    "updateSuccess": "更新成功",
+    "deleteFailed": "删除失败",
+    "confirmDelete": "确认删除",
+    "deleteConfirmation": "确定要删除吗？此操作不可恢复。",
+    "deleting": "删除中...",
+    "selectAll": "全选",
+    "description": "描述",
+    "account": "账号",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "role": "角色",
+    "type": "类型",
     "countrys": {
       "ID": "印尼",
       "BR": "巴西",
@@ -112,7 +125,10 @@
     "configManagement": "配置管理",
     "paymentChannel": "支付通道配置",
     "routeStrategy": "路由策略配置",
-    "riskControlRule": "风控规则配置"
+    "riskControlRule": "风控规则配置",
+    "systemManagement": "系统管理",
+    "roleManage": "角色管理",
+    "accountManage": "账户管理"
   },
   "fund": {
     "settlement": {
@@ -704,6 +720,62 @@
         "actionCodeRequired": "请选择动作标识",
         "priorityMin": "优先级最小值为1",
         "priorityMax": "优先级最大值为10"
+      }
+    }
+  },
+  "system": {
+    "roleManage": {
+      "title": "角色管理",
+      "roleName": "角色名",
+      "addRole": "添加角色",
+      "editRole": "编辑角色",
+      "deleteRole": "删除角色",
+      "modulePermissions": "模块权限",
+      "createDescription": "创建新的角色并分配权限",
+      "editDescription": "修改角色信息和权限",
+      "validation": {
+        "roleNameRequired": "请输入角色名",
+        "resourceRequired": "请至少选择一个模块"
+      },
+      "placeholder": {
+        "roleName": "请输入角色名",
+        "roleDescription": "请输入角色描述"
+      }
+    },
+    "accountManage": {
+      "title": "账户管理",
+      "name": "姓名",
+      "addAdministrator": "添加管理员",
+      "editAdministrator": "编辑管理员",
+      "changePassword": "修改密码",
+      "newPassword": "新密码",
+      "accountStatus": "账号状态",
+      "passwordMismatch": "两次输入的密码不一致",
+      "passwordUpdateSuccess": "密码修改成功",
+      "passwordUpdateFailed": "密码修改失败",
+      "createDescription": "创建新的管理员账户",
+      "editDescription": "修改管理员账户信息",
+      "validation": {
+        "nameRequired": "请输入姓名",
+        "accountRequired": "请输入账号",
+        "typeRequired": "请选择类型",
+        "passwordRequired": "请输入密码",
+        "newPasswordRequired": "请输入新密码",
+        "confirmPasswordRequired": "请再次输入密码"
+      },
+      "placeholder": {
+        "name": "请输入姓名",
+        "account": "请输入账号",
+        "password": "请输入密码",
+        "phone": "请输入手机号",
+        "newPassword": "请输入新密码",
+        "confirmPassword": "请再次输入密码"
+      },
+      "userTypes": {
+        "superAdmin": "超级管理员",
+        "finance": "财务人员",
+        "business": "商务",
+        "other": "其他"
       }
     }
   }

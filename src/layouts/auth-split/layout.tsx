@@ -12,8 +12,6 @@ import { paths } from 'src/routes/paths';
 
 import { CONFIG } from 'src/global-config';
 
-import { Logo } from 'src/components/logo';
-
 import { AuthSplitSection } from './section';
 import { AuthSplitContent } from './content';
 import { SettingsButton } from '../components/settings-button';
@@ -51,12 +49,12 @@ export function AuthSplitLayout({
           This is an info Alert.
         </Alert>
       ),
-      leftArea: (
-        <>
-          {/** @slot Logo */}
-          <Logo />
-        </>
-      ),
+      // leftArea: (
+      //   <>
+      //     {/** @slot Logo */}
+      //     <Logo />
+      //   </>
+      // ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 1.5 } }}>
           {/** @slot Settings button */}
