@@ -23,6 +23,11 @@
     "upload": "Upload",
     "action": "Action",
     "status": "Status",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "disable": "Disable",
+    "createTime": "Create Time",
     "date": "Date",
     "amount": "Amount",
     "signOut": "Sign out",
@@ -34,6 +39,7 @@
     "total": "Total",
     "operationFailed": "Operation failed",
     "operationSuccess": "Operation successful",
+    "deleteSuccess": "Deleted successfully",
     "statusUpdateSuccess": "Status updated successfully",
     "statusUpdateFailed": "Status update failed",
     "phone": "Phone",
@@ -102,7 +108,11 @@
     "merchantBind": "Business Bind List",
     "businessDailySummary": "Business Daily Summary",
     "businessMonthlySummary": "Business Monthly Summary",
-    "customerConsult": "Customer Consult"
+    "customerConsult": "Customer Consult",
+    "configManagement": "Config Management",
+    "paymentChannel": "Payment Channel",
+    "routeStrategy": "Route Strategy",
+    "riskControlRule": "Risk Control Rule"
   },
   "orders": {
     "stats": {
@@ -585,6 +595,115 @@
         "passwordChangeFailed": "Password change failed",
         "fetchRateDataFailed": "Failed to fetch rate data",
         "statusUpdateFailed": "Status update failed"
+      }
+    }
+  },
+  "config": {
+    "paymentChannel": {
+      "title": "Payment Channel Config",
+      "channelCode": "Channel Code",
+      "channelName": "Channel Name",
+      "channelDesc": "Channel Description",
+      "fundType": "Fund Type",
+      "collection": "Collection",
+      "payout": "Payout",
+      "both": "Both",
+      "singleMinAmount": "Min Amount",
+      "singleMaxAmount": "Max Amount",
+      "singleLimit": "Single Limit",
+      "dailyMaxAmount": "Daily Max Amount",
+      "dailyLimit": "Daily Limit",
+      "channelStatus": "Channel Status",
+      "statusNormal": "Normal",
+      "statusMaintenance": "Maintenance",
+      "statusPaused": "Paused",
+      "transProcessTime": "Settlement Time",
+      "runTimeRange": "Operating Hours",
+      "balance": "Balance",
+      "addChannel": "Add Channel",
+      "editChannel": "Edit Channel",
+      "pauseChannel": "Pause Channel",
+      "enableChannel": "Enable Channel",
+      "rateConfig": "Rate Config",
+      "manageSubChannels": "Sub-channels",
+      "queryBalance": "Query Balance",
+      "queryBalanceSuccess": "Balance queried successfully",
+      "queryBalanceFailed": "Failed to query balance",
+      "subChannelManagement": "Sub-channel Management",
+      "addSubChannel": "Add Sub-channel",
+      "subChannelCode": "Sub-channel Code",
+      "subChannelName": "Sub-channel Name",
+      "subChannelType": "Sub-channel Type",
+      "noSubChannels": "No sub-channels",
+      "disableSubChannel": "Disable Sub-channel",
+      "enableSubChannel": "Enable Sub-channel",
+      "disableSubChannelConfirmation": "Are you sure you want to disable sub-channel {name}?",
+      "enableSubChannelConfirmation": "Are you sure you want to enable sub-channel {name}?",
+      "deleteSubChannelConfirmation": "Are you sure you want to delete sub-channel {name}? This action cannot be undone.",
+      "channelCodePlaceholder": "Enter channel code",
+      "channelNamePlaceholder": "Enter channel name",
+      "channelDescPlaceholder": "Enter channel description",
+      "remarkPlaceholder": "Enter remark",
+      "subChannelCodePlaceholder": "Enter sub-channel code",
+      "subChannelNamePlaceholder": "Enter sub-channel name",
+      "validation": {
+        "channelCodeRequired": "Channel code is required",
+        "channelNameRequired": "Channel name is required"
+      }
+    },
+    "routeStrategy": {
+      "title": "Route Strategy Config",
+      "merchantName": "Merchant Name",
+      "merchantOptionalTip": "Leave empty for global default strategy",
+      "type": "Type",
+      "payout": "Payout",
+      "collection": "Collection",
+      "paymentMethod": "Payment Method",
+      "routeStrategy": "Route Strategy",
+      "weightRoundRobin": "Weight Round Robin",
+      "costPriority": "Cost Priority",
+      "paymentChannels": "Payment Channels",
+      "weight": "Weight",
+      "addRouteConfig": "Add Route Strategy",
+      "editRouteConfig": "Edit Route Strategy",
+      "selectPaymentMethodFirst": "Please select payment method first",
+      "validation": {
+        "selectPaymentMethod": "Please select a payment method",
+        "selectAtLeastOneChannel": "Please select at least one payment channel"
+      }
+    },
+    "riskControlRule": {
+      "title": "Risk Control Rule Config",
+      "addRule": "Add Rule",
+      "editRule": "Edit Rule",
+      "ruleName": "Rule Name",
+      "ruleDescription": "Rule Description",
+      "ruleScene": "Rule Scene",
+      "conditionExpression": "Condition Expression",
+      "conditionExprExample": "Example: amount > 10000 && country == 'ID'",
+      "actionCode": "Action Code",
+      "priority": "Priority",
+      "priorityPlaceholder": "1-10",
+      "actionParams": "Action Params",
+      "actionParamsPlaceholder": "JSON format action params",
+      "actionParamsInvalidJson": "Action params must be valid JSON",
+      "sceneCode": {
+        "PAY_PAYOUT": "Payout",
+        "PAY_PAYIN": "Collection"
+      },
+      "actionCodeMap": {
+        "ALARM": "Alarm",
+        "BLOCK": "Block",
+        "AUDIT": "Audit",
+        "REJECT": "Reject"
+      },
+      "validation": {
+        "ruleNameRequired": "Rule name is required",
+        "sceneCodeRequired": "Please select a rule scene",
+        "conditionExprRequired": "Condition expression is required",
+        "actionCodeRequired": "Please select an action code",
+        "priorityMin": "Minimum priority is 1",
+        "priorityMax": "Maximum priority is 10"
       }
     }
   }

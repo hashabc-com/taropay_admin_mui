@@ -52,4 +52,11 @@ export const paths = {
     merchantRequest: '/logs/merchant-request',
     riskControl: '/logs/risk-control',
   },
+  // CONFIG
+  config: {
+    root: '/config',
+    paymentChannel: '/config/payment-channel',
+    routeStrategy: '/config/route-strategy',
+    riskControlRule: '/config/risk-control-rule',
+  },
 };

@@ -96,6 +96,16 @@ export function useNavData(): NavSectionProps['data'] {
             ],
           },
           {
+            title: t('sidebar.configManagement'),
+            path: paths.config.root,
+            icon: ICONS.params,
+            children: [
+              { title: t('sidebar.paymentChannel'), path: paths.config.paymentChannel },
+              { title: t('sidebar.routeStrategy'), path: paths.config.routeStrategy },
+              { title: t('sidebar.riskControlRule'), path: paths.config.riskControlRule },
+            ],
+          },
+          {
             title: t('sidebar.logManagement'),
             path: paths.logs.root,
             icon: ICONS.file,

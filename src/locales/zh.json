@@ -23,6 +23,11 @@
     "upload": "上传",
     "action": "操作",
     "status": "状态",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "enable": "启用",
+    "disable": "禁用",
+    "createTime": "创建时间",
     "date": "日期",
     "amount": "金额",
     "signOut": "退出登录",
@@ -34,6 +39,7 @@
     "total": "合计",
     "operationFailed": "操作失败",
     "operationSuccess": "操作成功",
+    "deleteSuccess": "删除成功",
     "statusUpdateSuccess": "状态更新成功",
     "statusUpdateFailed": "状态更新失败",
     "phone": "手机号",
@@ -102,7 +108,11 @@
     "merchantBind": "商务绑定列表",
     "businessDailySummary": "商务日汇总",
     "businessMonthlySummary": "商务月汇总",
-    "customerConsult": "咨询列表"
+    "customerConsult": "咨询列表",
+    "configManagement": "配置管理",
+    "paymentChannel": "支付通道配置",
+    "routeStrategy": "路由策略配置",
+    "riskControlRule": "风控规则配置"
   },
   "fund": {
     "settlement": {
@@ -585,6 +595,115 @@
         "passwordChangeFailed": "修改密码失败",
         "fetchRateDataFailed": "获取费率数据失败",
         "statusUpdateFailed": "状态更新失败"
+      }
+    }
+  },
+  "config": {
+    "paymentChannel": {
+      "title": "支付通道配置",
+      "channelCode": "渠道编码",
+      "channelName": "渠道名称",
+      "channelDesc": "渠道描述",
+      "fundType": "收付类型",
+      "collection": "收款",
+      "payout": "付款",
+      "both": "收付两用",
+      "singleMinAmount": "单笔最低限额",
+      "singleMaxAmount": "单笔最高限额",
+      "singleLimit": "单笔限额",
+      "dailyMaxAmount": "日累计限额",
+      "dailyLimit": "日限额",
+      "channelStatus": "通道状态",
+      "statusNormal": "正常",
+      "statusMaintenance": "维护",
+      "statusPaused": "暂停",
+      "transProcessTime": "结算时间",
+      "runTimeRange": "运行时段",
+      "balance": "余额",
+      "addChannel": "新增通道",
+      "editChannel": "编辑通道",
+      "pauseChannel": "暂停通道",
+      "enableChannel": "启用通道",
+      "rateConfig": "费率配置",
+      "manageSubChannels": "子渠道管理",
+      "queryBalance": "查询余额",
+      "queryBalanceSuccess": "余额查询成功",
+      "queryBalanceFailed": "余额查询失败",
+      "subChannelManagement": "子渠道管理",
+      "addSubChannel": "新增子渠道",
+      "subChannelCode": "子渠道编码",
+      "subChannelName": "子渠道名称",
+      "subChannelType": "子渠道类型",
+      "noSubChannels": "暂无子渠道",
+      "disableSubChannel": "禁用子渠道",
+      "enableSubChannel": "启用子渠道",
+      "disableSubChannelConfirmation": "确定要禁用子渠道 {name} 吗？",
+      "enableSubChannelConfirmation": "确定要启用子渠道 {name} 吗？",
+      "deleteSubChannelConfirmation": "确定要删除子渠道 {name} 吗？此操作不可撤销。",
+      "channelCodePlaceholder": "请输入渠道编码",
+      "channelNamePlaceholder": "请输入渠道名称",
+      "channelDescPlaceholder": "请输入渠道描述",
+      "remarkPlaceholder": "请输入备注",
+      "subChannelCodePlaceholder": "请输入子渠道编码",
+      "subChannelNamePlaceholder": "请输入子渠道名称",
+      "validation": {
+        "channelCodeRequired": "渠道编码不能为空",
+        "channelNameRequired": "渠道名称不能为空"
+      }
+    },
+    "routeStrategy": {
+      "title": "路由策略配置",
+      "merchantName": "商户名称",
+      "merchantOptionalTip": "不选则为全局默认策略",
+      "type": "收付类型",
+      "payout": "代付",
+      "collection": "代收",
+      "paymentMethod": "支付方式",
+      "routeStrategy": "路由策略",
+      "weightRoundRobin": "权重轮询",
+      "costPriority": "成本优先",
+      "paymentChannels": "支付渠道",
+      "weight": "权重",
+      "addRouteConfig": "新增路由策略",
+      "editRouteConfig": "编辑路由策略",
+      "selectPaymentMethodFirst": "请先选择支付方式",
+      "validation": {
+        "selectPaymentMethod": "请选择支付方式",
+        "selectAtLeastOneChannel": "请至少选择一个支付渠道"
+      }
+    },
+    "riskControlRule": {
+      "title": "风控规则配置",
+      "addRule": "新增规则",
+      "editRule": "编辑规则",
+      "ruleName": "规则名称",
+      "ruleDescription": "规则描述",
+      "ruleScene": "规则场景",
+      "conditionExpression": "条件表达式",
+      "conditionExprExample": "示例：amount > 10000 && country == 'ID'",
+      "actionCode": "动作标识",
+      "priority": "优先级",
+      "priorityPlaceholder": "1-10",
+      "actionParams": "动作参数",
+      "actionParamsPlaceholder": "JSON格式的动作参数",
+      "actionParamsInvalidJson": "动作参数必须是有效的JSON格式",
+      "sceneCode": {
+        "PAY_PAYOUT": "代付",
+        "PAY_PAYIN": "代收"
+      },
+      "actionCodeMap": {
+        "ALARM": "告警",
+        "BLOCK": "拦截",
+        "AUDIT": "审核",
+        "REJECT": "拒绝"
+      },
+      "validation": {
+        "ruleNameRequired": "规则名称不能为空",
+        "sceneCodeRequired": "请选择规则场景",
+        "conditionExprRequired": "条件表达式不能为空",
+        "actionCodeRequired": "请选择动作标识",
+        "priorityMin": "优先级最小值为1",
+        "priorityMax": "优先级最大值为10"
       }
     }
   }

@@ -42,6 +42,11 @@ const FundAccountSettlement = lazy(() => import('src/pages/fund/account-settleme
 const FundMerchantDailySummary = lazy(() => import('src/pages/fund/merchant-daily-summary'));
 const FundCountryDailySummary = lazy(() => import('src/pages/fund/country-daily-summary'));
 
+// Config
+const ConfigPaymentChannel = lazy(() => import('src/pages/config/payment-channel'));
+const ConfigRouteStrategy = lazy(() => import('src/pages/config/route-strategy'));
+const ConfigRiskControlRule = lazy(() => import('src/pages/config/risk-control-rule'));
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -102,6 +107,14 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'account-settlement', element: <FundAccountSettlement /> },
           { path: 'merchant-daily-summary', element: <FundMerchantDailySummary /> },
           { path: 'country-daily-summary', element: <FundCountryDailySummary /> },
+        ],
+      },
+      {
+        path: 'config',
+        children: [
+          { path: 'payment-channel', element: <ConfigPaymentChannel /> },
+          { path: 'route-strategy', element: <ConfigRouteStrategy /> },
+          { path: 'risk-control-rule', element: <ConfigRiskControlRule /> },
         ],
       },
     ],
