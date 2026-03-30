@@ -241,7 +241,12 @@ export function JwtSignInView() {
   // ---------- render ----------
   const renderForm = () => (
     <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
-      <Field.Text name="username" label="用户名" slotProps={{ inputLabel: { shrink: true } }} />
+      <Field.Text
+        name="username"
+        label="用户名"
+        placeholder="请输入用户名"
+        slotProps={{ inputLabel: { shrink: true } }}
+      />
 
       <Field.Text
         name="password"
@@ -266,15 +271,15 @@ export function JwtSignInView() {
         <Field.Text
           name="validatecode"
           label="验证码"
+          placeholder="请输入验证码"
           slotProps={{ inputLabel: { shrink: true } }}
           sx={{ flex: 1 }}
         />
         <Box
           onClick={fetchVerifyCode}
           sx={{
-            mt: 1,
             width: 120,
-            height: 40,
+            height: 56,
             flexShrink: 0,
             cursor: 'pointer',
             borderRadius: 1,
