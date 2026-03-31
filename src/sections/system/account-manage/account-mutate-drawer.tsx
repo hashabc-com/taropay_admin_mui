@@ -8,9 +8,11 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import Switch from '@mui/material/Switch';
+import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import RadioGroup from '@mui/material/RadioGroup';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -18,6 +20,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { useLanguage } from 'src/context/language-provider';
 import { getAllRoles, createAccount, updateAccount, getAccountById } from 'src/api/system';
+
+import { Iconify } from 'src/components/iconify';
 
 import { USER_TYPES, type IAccountType } from './types';
 
@@ -150,119 +154,141 @@ export function AccountMutateDrawer({ open, onClose, record, isAdd, onSuccess }:
       onClose={onClose}
       PaperProps={{ sx: { width: { xs: '100%', sm: 540 } } }}
     >
-      {/* Always render Drawer, conditionally render content */}
-      <Box sx={{ p: 3, overflow: 'auto', height: '100%' }}>
-        <Typography variant="h6" sx={{ mb: 3 }}>
-          {isAdd
-            ? t('system.accountManage.addAdministrator')
-            : t('system.accountManage.editAdministrator')}
-        </Typography>
-
-        <Stack spacing={3}>
-          {/* userName */}
-          <TextField
-            label={t('system.accountManage.name')}
-            placeholder={t('system.accountManage.placeholder.name')}
-            size="small"
-            fullWidth
-            value={form.userName}
-            onChange={(e) => set('userName', e.target.value)}
-            error={!!errors.userName}
-            helperText={errors.userName}
-          />
-
-          {/* account */}
-          <TextField
-            label={t('common.account')}
-            placeholder={t('system.accountManage.placeholder.account')}
-            size="small"
-            fullWidth
-            value={form.account}
-            onChange={(e) => set('account', e.target.value)}
-            error={!!errors.account}
-            helperText={errors.account}
-          />
-
-          {/* password (only for add) */}
-          {isAdd && (
-            <TextField
-              label={t('common.password')}
-              placeholder={t('system.accountManage.placeholder.password')}
-              type="password"
-              size="small"
-              fullWidth
-              value={form.password}
-              onChange={(e) => set('password', e.target.value)}
-              error={!!errors.password}
-              helperText={errors.password}
-            />
-          )}
-
-          {/* mobile */}
-          <TextField
-            label={t('common.phone')}
-            placeholder={t('system.accountManage.placeholder.phone')}
-            size="small"
-            fullWidth
-            value={form.mobile}
-            onChange={(e) => set('mobile', e.target.value)}
-          />
-
-          {/* userType */}
-          <FormControl error={!!errors.userType}>
-            <FormLabel>{t('common.type')}</FormLabel>
-            <RadioGroup
-              row
-              value={String(form.userType)}
-              onChange={(e) => set('userType', Number(e.target.value))}
-            >
-              {Object.entries(USER_TYPES).map(([val, key]) => (
-                <FormControlLabel
-                  key={val}
-                  value={val}
-                  control={<Radio size="small" />}
-                  label={t(key)}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-
-          {/* roleIds */}
-          <FormControl>
-            <FormLabel>{t('common.role')}</FormLabel>
-            <RadioGroup
-              row
-              value={String(form.roleIds)}
-              onChange={(e) => set('roleIds', Number(e.target.value))}
-            >
-              {roleList.map((role) => (
-                <FormControlLabel
-                  key={role.value}
-                  value={String(role.value)}
-                  control={<Radio size="small" />}
-                  label={role.label}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-
-          {/* disabledStatus */}
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Box>
-              <Typography variant="subtitle2">{t('system.accountManage.accountStatus')}</Typography>
-              <Typography variant="caption" color="text.secondary">
-                {form.disabledStatus === 0 ? t('common.enabled') : t('common.disabled')}
-              </Typography>
-            </Box>
-            <Switch
-              checked={form.disabledStatus === 0}
-              onChange={(e) => set('disabledStatus', e.target.checked ? 0 : 1)}
-            />
-          </Stack>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        {/* Header */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ px: 2.5, py: 2 }}
+        >
+          <Typography variant="h6">
+            {isAdd
+              ? t('system.accountManage.addAdministrator')
+              : t('system.accountManage.editAdministrator')}
+          </Typography>
+          <IconButton onClick={onClose}>
+            <Iconify icon="mingcute:close-line" />
+          </IconButton>
         </Stack>
 
-        {/* Actions */}
-        <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 4 }}>
+        <Divider />
+
+        {/* Scrollable Content */}
+        <Box sx={{ flex: 1, overflow: 'auto', px: 2.5, py: 3 }}>
+          <Stack spacing={2.5}>
+            {/* userName */}
+            <TextField
+              label={t('system.accountManage.name')}
+              placeholder={t('system.accountManage.placeholder.name')}
+              size="small"
+              fullWidth
+              value={form.userName}
+              onChange={(e) => set('userName', e.target.value)}
+              error={!!errors.userName}
+              helperText={errors.userName}
+            />
+
+            {/* account */}
+            <TextField
+              label={t('common.account')}
+              placeholder={t('system.accountManage.placeholder.account')}
+              size="small"
+              fullWidth
+              value={form.account}
+              onChange={(e) => set('account', e.target.value)}
+              error={!!errors.account}
+              helperText={errors.account}
+            />
+
+            {/* password (only for add) */}
+            {isAdd && (
+              <TextField
+                label={t('common.password')}
+                placeholder={t('system.accountManage.placeholder.password')}
+                type="password"
+                size="small"
+                fullWidth
+                value={form.password}
+                onChange={(e) => set('password', e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
+              />
+            )}
+
+            {/* mobile */}
+            <TextField
+              label={t('common.phone')}
+              placeholder={t('system.accountManage.placeholder.phone')}
+              size="small"
+              fullWidth
+              value={form.mobile}
+              onChange={(e) => set('mobile', e.target.value)}
+            />
+
+            <Divider />
+
+            {/* userType */}
+            <FormControl error={!!errors.userType}>
+              <FormLabel>{t('common.type')}</FormLabel>
+              <RadioGroup
+                row
+                value={String(form.userType)}
+                onChange={(e) => set('userType', Number(e.target.value))}
+              >
+                {Object.entries(USER_TYPES).map(([val, key]) => (
+                  <FormControlLabel
+                    key={val}
+                    value={val}
+                    control={<Radio size="small" />}
+                    label={t(key)}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+
+            {/* roleIds */}
+            <FormControl>
+              <FormLabel>{t('common.role')}</FormLabel>
+              <RadioGroup
+                row
+                value={String(form.roleIds)}
+                onChange={(e) => set('roleIds', Number(e.target.value))}
+              >
+                {roleList.map((role) => (
+                  <FormControlLabel
+                    key={role.value}
+                    value={String(role.value)}
+                    control={<Radio size="small" />}
+                    label={role.label}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+
+            <Divider />
+
+            {/* disabledStatus */}
+            <Stack direction="row" alignItems="center" justifyContent="space-between">
+              <Box>
+                <Typography variant="subtitle2">
+                  {t('system.accountManage.accountStatus')}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {form.disabledStatus === 0 ? t('common.enabled') : t('common.disabled')}
+                </Typography>
+              </Box>
+              <Switch
+                checked={form.disabledStatus === 0}
+                onChange={(e) => set('disabledStatus', e.target.checked ? 0 : 1)}
+              />
+            </Stack>
+          </Stack>
+        </Box>
+
+        {/* Footer */}
+        <Divider />
+        <Stack direction="row" spacing={1.5} justifyContent="flex-end" sx={{ p: 2.5 }}>
           <Button variant="outlined" onClick={onClose}>
             {t('common.cancel')}
           </Button>

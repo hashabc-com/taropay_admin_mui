@@ -34,11 +34,21 @@ export function AccountManageSearch({ onAdd }: Props) {
         }}
       />
 
-      <Button variant="contained" size="small" onClick={handleSearch}>
+      <Button
+        variant="contained"
+        size="small"
+        startIcon={<Iconify icon="eva:search-fill" />}
+        onClick={handleSearch}
+      >
         {t('common.search')}
       </Button>
       {hasFilters && (
-        <Button variant="outlined" size="small" onClick={handleReset}>
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<Iconify icon="solar:close-circle-bold" />}
+          onClick={handleReset}
+        >
           {t('common.reset')}
         </Button>
       )}

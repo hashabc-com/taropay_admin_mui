@@ -3,16 +3,10 @@ import { useSearchParams } from 'react-router';
 import { useMemo, useState, useCallback } from 'react';
 
 import Chip from '@mui/material/Chip';
-import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import Switch from '@mui/material/Switch';
-import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import DialogTitle from '@mui/material/DialogTitle';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -22,12 +16,12 @@ import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
 import { deleteAccount, updateDisabledStatus } from 'src/api/system';
 
-import { Iconify } from 'src/components/iconify';
 import { dataGridSx, processColumns } from 'src/components/data-grid';
 
 import { useAccountList } from './hooks';
 import { type IAccountType } from './types';
 import { PasswordDialog } from './password-dialog';
+import { AccountRowActions } from './account-row-actions';
 import { AccountManageSearch } from './account-manage-search';
 import { AccountMutateDrawer } from './account-mutate-drawer';
 
@@ -103,8 +97,8 @@ export function AccountManageView() {
   }, [deleteTarget, t, mutate]);
 
   const handleStatusToggle = useCallback(
-    async (row: IAccountType, checked: boolean) => {
-      const disableStatus = checked ? 0 : 1;
+    async (row: IAccountType) => {
+      const disableStatus = row.disabledStatus === 0 ? 1 : 0;
       const res = await updateDisabledStatus({ id: row.id, disableStatus });
       if (res.code == 200) {
         toast.success(t('common.updateSuccess'));
@@ -246,85 +240,5 @@ export function AccountManageView() {
         </DialogActions>
       </Dialog>
     </DashboardContent>
-  );
-}
-
-// -- Row Actions Menu --
-function AccountRowActions({
-  row,
-  onEdit,
-  onPassword,
-  onStatusToggle,
-  onDelete,
-}: {
-  row: IAccountType;
-  onEdit: (row: IAccountType) => void;
-  onPassword: (row: IAccountType) => void;
-  onStatusToggle: (row: IAccountType, checked: boolean) => void;
-  onDelete: (row: IAccountType) => void;
-}) {
-  const { t } = useLanguage();
-  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
-
-  return (
-    <>
-      <IconButton size="small" onClick={(e) => setAnchor(e.currentTarget)}>
-        <Iconify icon="eva:more-vertical-fill" />
-      </IconButton>
-      <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={() => setAnchor(null)}>
-        <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            onEdit(row);
-          }}
-        >
-          <ListItemIcon>
-            <Iconify icon="solar:pen-bold" />
-          </ListItemIcon>
-          <ListItemText>{t('common.edit')}</ListItemText>
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            onPassword(row);
-          }}
-        >
-          <ListItemIcon>
-            <Iconify icon="solar:lock-password-bold" />
-          </ListItemIcon>
-          <ListItemText>{t('system.accountManage.changePassword')}</ListItemText>
-        </MenuItem>
-        <MenuItem
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <ListItemIcon>
-            <Iconify icon="solar:toggle-on-bold" />
-          </ListItemIcon>
-          <ListItemText>{t('common.status')}</ListItemText>
-          <Switch
-            size="small"
-            checked={row.disabledStatus === 0}
-            onChange={(e) => {
-              setAnchor(null);
-              onStatusToggle(row, e.target.checked);
-            }}
-          />
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setAnchor(null);
-            onDelete(row);
-          }}
-          sx={{ color: 'error.main' }}
-        >
-          <ListItemIcon>
-            <Iconify icon="solar:trash-bin-trash-bold" color="inherit" />
-          </ListItemIcon>
-          <ListItemText>{t('common.delete')}</ListItemText>
-        </MenuItem>
-      </Menu>
-    </>
   );
 }
