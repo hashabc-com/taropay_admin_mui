@@ -841,6 +841,7 @@ __metadata:
     "@types/stylis": "npm:^4.2.7"
     "@typescript-eslint/parser": "npm:^8.49.0"
     "@vitejs/plugin-react-swc": "npm:^4.2.2"
+    apexcharts: "npm:^5.10.4"
     autosuggest-highlight: "npm:^3.3.4"
     axios: "npm:^1.13.2"
     dayjs: "npm:^1.11.19"
@@ -858,6 +859,7 @@ __metadata:
     nprogress: "npm:^0.2.0"
     prettier: "npm:^3.7.4"
     react: "npm:^19.2.3"
+    react-apexcharts: "npm:^2.1.0"
     react-dom: "npm:^19.2.3"
     react-hook-form: "npm:^7.68.0"
     react-qr-code: "npm:^2.0.18"
@@ -1981,6 +1983,13 @@ __metadata:
   dependencies:
     color-convert: "npm:^2.0.1"
   checksum: 10c0/895a23929da416f2bd3de7e9cb4eabd340949328ab85ddd6e484a637d8f6820d485f53933446f5291c3b760cbc488beb8e88573dd0f9c7daf83dccc8fe81b041
+  languageName: node
+  linkType: hard
+
+"apexcharts@npm:^5.10.4":
+  version: 5.10.4
+  resolution: "apexcharts@npm:5.10.4"
+  checksum: 10c0/4261ea1da61058f022256a712015e236ca10b736e5141a5015c75f9504e65a56e3880cb11647fa171d8f58bdd998534ffedd07a5faa9f4f4eb9121a5c01c505f
   languageName: node
   linkType: hard
 
@@ -4586,6 +4595,18 @@ __metadata:
   version: 0.0.0
   resolution: "qr.js@npm:0.0.0"
   checksum: 10c0/1c6a4c7a58d04e52ec2fee99e39b680fdc5b2a510a981df42c36b716a8eac6634d130fc4d65af8f030f2a07dbf5fa046b97cdfa7456c250ebb50a73916efdcb5
+  languageName: node
+  linkType: hard
+
+"react-apexcharts@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "react-apexcharts@npm:2.1.0"
+  dependencies:
+    prop-types: "npm:^15.8.1"
+  peerDependencies:
+    apexcharts: ">=5.10.1"
+    react: ">=16.8.0"
+  checksum: 10c0/effc074236bceee0780260e34f33ede7b81a00b99b068f89ca6e6fcff7d80974ff2b7ec5b71eacd4cd6d8d7fe58acfe03593badc6ece3d416ee9c41a1343073f
   languageName: node
   linkType: hard
 

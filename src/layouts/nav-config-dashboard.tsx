@@ -55,6 +55,11 @@ export function useNavData(): NavSectionProps['data'] {
       {
         items: [
           {
+            title: t('sidebar.dashboard'),
+            path: paths.dashboard.overview,
+            icon: ICONS.dashboard,
+          },
+          {
             title: t('sidebar.orderManagement'),
             path: paths.orders.root,
             icon: ICONS.order,

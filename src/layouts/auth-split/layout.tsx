@@ -8,8 +8,6 @@ import { merge } from 'es-toolkit';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 
-import { paths } from 'src/routes/paths';
-
 import { CONFIG } from 'src/global-config';
 
 import { AuthSplitSection } from './section';
@@ -92,13 +90,13 @@ export function AuthSplitLayout({
         layoutQuery={layoutQuery}
         method={CONFIG.auth.method}
         {...slotProps?.section}
-        methods={[
-          {
-            label: 'Jwt',
-            path: paths.auth.jwt.signIn,
-            icon: `${CONFIG.assetsDir}/assets/icons/platforms/ic-jwt.svg`,
-          },
-        ]}
+        // methods={[
+        //   {
+        //     label: 'Jwt',
+        //     path: paths.auth.jwt.signIn,
+        //     icon: `${CONFIG.assetsDir}/assets/icons/platforms/ic-jwt.svg`,
+        //   },
+        // ]}
       />
       <AuthSplitContent layoutQuery={layoutQuery} {...slotProps?.content}>
         {children}

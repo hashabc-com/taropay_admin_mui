@@ -42,7 +42,7 @@ export const CONFIG: ConfigValue = {
   auth: {
     method: 'jwt',
     skip: false,
-    redirectPath: paths.orders.receiveList,
+    redirectPath: paths.dashboard.overview,
   },
   /**
    * Firebase

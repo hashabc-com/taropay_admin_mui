@@ -128,7 +128,31 @@
     "riskControlRule": "风控规则配置",
     "systemManagement": "系统管理",
     "roleManage": "角色管理",
-    "accountManage": "账户管理"
+    "accountManage": "账户管理",
+    "dashboard": "概览"
+  },
+  "dashboard": {
+    "title": "概览",
+    "subtitle": "欢迎回来，",
+    "welcomeDescription": "以下是您的账户概览和近期交易数据。",
+    "goToRecharge": "去充值",
+    "goToWithdraw": "去提现",
+    "availableBalance": "账户可用余额",
+    "pendingSettlement": "待结算金额",
+    "frozenAmount": "冻结金额",
+    "rechargeAmount": "充值金额",
+    "withdrawalAmount": "提现金额",
+    "collectionPaymentStats": "收款/付款统计",
+    "recentDaysComparison": "近七日收款与付款数据对比",
+    "totalAmount": "总金额",
+    "orderCount": "订单数",
+    "serviceFee": "服务费",
+    "collectionAmount": "收款金额",
+    "paymentAmount": "付款金额",
+    "collectionFee": "收款服务费",
+    "paymentFee": "付款服务费",
+    "collectionCount": "收款订单数",
+    "paymentCount": "付款订单数"
   },
   "fund": {
     "settlement": {

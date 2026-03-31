@@ -16,6 +16,9 @@ import { usePathname } from '../hooks';
 
 // Orders
 const OrderReceiveList = lazy(() => import('src/pages/orders/receive-list'));
+
+// Dashboard
+const DashboardOverview = lazy(() => import('src/pages/dashboard/overview'));
 const OrderReceiveSummary = lazy(() => import('src/pages/orders/receive-summary'));
 const OrderPaymentList = lazy(() => import('src/pages/orders/payment-list'));
 const OrderPaymentSummary = lazy(() => import('src/pages/orders/payment-summary'));
@@ -72,6 +75,10 @@ export const dashboardRoutes: RouteObject[] = [
   {
     element: CONFIG.auth.skip ? dashboardLayout() : <AuthGuard>{dashboardLayout()}</AuthGuard>,
     children: [
+      {
+        path: 'dashboard',
+        children: [{ path: 'overview', element: <DashboardOverview /> }],
+      },
       {
         path: 'orders',
         children: [

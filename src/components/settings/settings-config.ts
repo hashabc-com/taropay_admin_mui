@@ -14,7 +14,7 @@ export const defaultSettings: SettingsState = {
   navLayout: 'vertical',
   primaryColor: 'default',
   navColor: 'integrate',
-  compactLayout: false,
+  compactLayout: true,
   fontSize: 16,
   fontFamily: themeConfig.fontFamily.primary,
   version: CONFIG.appVersion,

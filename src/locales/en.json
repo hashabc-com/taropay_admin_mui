@@ -128,7 +128,31 @@
     "riskControlRule": "Risk Control Rule",
     "systemManagement": "System Management",
     "roleManage": "Role Management",
-    "accountManage": "Account Management"
+    "accountManage": "Account Management",
+    "dashboard": "Overview"
+  },
+  "dashboard": {
+    "title": "Overview",
+    "subtitle": "Welcome back, ",
+    "welcomeDescription": "Here is your account overview and recent transaction data.",
+    "goToRecharge": "Go to Recharge",
+    "goToWithdraw": "Go to Withdraw",
+    "availableBalance": "Available Balance",
+    "pendingSettlement": "Pending Settlement",
+    "frozenAmount": "Frozen Amount",
+    "rechargeAmount": "Recharge Amount",
+    "withdrawalAmount": "Withdrawal Amount",
+    "collectionPaymentStats": "Collection / Payment Stats",
+    "recentDaysComparison": "Recent 7-day collection and payment data comparison",
+    "totalAmount": "Total Amount",
+    "orderCount": "Order Count",
+    "serviceFee": "Service Fee",
+    "collectionAmount": "Collection Amount",
+    "paymentAmount": "Payment Amount",
+    "collectionFee": "Collection Fee",
+    "paymentFee": "Payment Fee",
+    "collectionCount": "Collection Orders",
+    "paymentCount": "Payment Orders"
   },
   "orders": {
     "stats": {

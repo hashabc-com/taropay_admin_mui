@@ -14,6 +14,11 @@ export const paths = {
       signUp: `${ROOTS.AUTH}/jwt/sign-up`,
     },
   },
+  // DASHBOARD
+  dashboard: {
+    root: '/dashboard',
+    overview: '/dashboard/overview',
+  },
   // ORDERS
   orders: {
     root: '/orders',
