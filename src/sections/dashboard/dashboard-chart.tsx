@@ -1,20 +1,40 @@
 import type { ApexOptions } from 'apexcharts';
 import type { DayChartData } from 'src/api/dashboard';
 
-import { useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useMemo, useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
 import Tabs from '@mui/material/Tabs';
-import { useTheme } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
+import { useTheme, useColorScheme } from '@mui/material/styles';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
 import { useLanguage } from 'src/context/language-provider';
+
+// ----------------------------------------------------------------------
+// ApexCharts renders in SVG/Canvas and cannot resolve CSS variables.
+// MUI v7 CSS variables mode means `theme.palette.*` returns `var(--xxx)` strings
+// that won't display correctly. We read computed values from the DOM instead.
+
+function resolveCssVar(varName: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+}
+
+function resolveChartColors() {
+  const grey500Ch = resolveCssVar('--palette-grey-500Channel');
+  return {
+    primary: resolveCssVar('--palette-primary-main'),
+    warning: resolveCssVar('--palette-warning-main'),
+    textPrimary: resolveCssVar('--palette-text-primary'),
+    textSecondary: resolveCssVar('--palette-text-secondary'),
+    divider: grey500Ch ? `rgba(${grey500Ch}, 0.2)` : 'rgba(145, 158, 171, 0.2)',
+  };
+}
 
 // ----------------------------------------------------------------------
 
@@ -27,8 +47,24 @@ type MetricKey = 'amount' | 'count' | 'service';
 export function DashboardChart({ chartData }: Props) {
   const theme = useTheme();
   const { t } = useLanguage();
+  const { mode, systemMode } = useColorScheme();
   const convertAmount = useConvertAmount();
   const [metric, setMetric] = useState<MetricKey>('amount');
+
+  // Resolved mode: when user picks "system", use the actual OS preference
+  const resolvedMode = (mode === 'system' ? systemMode : mode) || 'light';
+
+  // Resolve CSS variable colors for ApexCharts.
+  // Must run in useEffect (after DOM paint) so CSS vars reflect the new color scheme.
+  const [chartColors, setChartColors] = useState(() => resolveChartColors());
+
+  useEffect(() => {
+    // requestAnimationFrame ensures the browser has applied the new data-color-scheme styles
+    const raf = requestAnimationFrame(() => {
+      setChartColors(resolveChartColors());
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [resolvedMode]);
 
   const metricConfig: Record<
     MetricKey,
@@ -84,7 +120,7 @@ export function DashboardChart({ chartData }: Props) {
       zoom: { enabled: false },
       fontFamily: theme.typography.fontFamily,
     },
-    colors: [theme.palette.primary.main, theme.palette.warning.main],
+    colors: [chartColors.primary, chartColors.warning],
     stroke: { width: 2.5, curve: 'smooth' },
     fill: {
       type: 'gradient',
@@ -94,11 +130,11 @@ export function DashboardChart({ chartData }: Props) {
       categories,
       axisBorder: { show: false },
       axisTicks: { show: false },
-      labels: { style: { colors: theme.palette.text.secondary, fontSize: '12px' } },
+      labels: { style: { colors: chartColors.textSecondary, fontSize: '12px' } },
     },
     yaxis: {
       labels: {
-        style: { colors: theme.palette.text.secondary, fontSize: '12px' },
+        style: { colors: chartColors.textSecondary, fontSize: '12px' },
         formatter: (val: number) =>
           metric === 'count'
             ? String(Math.round(val))
@@ -107,11 +143,11 @@ export function DashboardChart({ chartData }: Props) {
     },
     grid: {
       strokeDashArray: 3,
-      borderColor: theme.palette.divider,
+      borderColor: chartColors.divider,
       xaxis: { lines: { show: false } },
     },
     tooltip: {
-      theme: theme.palette.mode,
+      theme: resolvedMode,
       x: { show: true },
       y: {
         formatter: (val: number) =>
@@ -123,7 +159,7 @@ export function DashboardChart({ chartData }: Props) {
     legend: {
       position: 'top',
       horizontalAlign: 'right',
-      labels: { colors: theme.palette.text.primary },
+      labels: { colors: chartColors.textPrimary },
       fontSize: '13px',
       itemMargin: { horizontal: 12 },
       onItemClick: { toggleDataSeries: false },
@@ -169,7 +205,13 @@ export function DashboardChart({ chartData }: Props) {
       <CardContent sx={{ pt: 2 }}>
         <Box sx={{ height: 320 }}>
           {processedData.length > 0 ? (
-            <ReactApexChart type="area" series={series} options={chartOptions} height="100%" />
+            <ReactApexChart
+              key={resolvedMode}
+              type="area"
+              series={series}
+              options={chartOptions}
+              height="100%"
+            />
           ) : (
             <Box
               sx={{

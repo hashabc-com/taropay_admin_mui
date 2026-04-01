@@ -57,7 +57,7 @@ export function RechargeWithdrawView() {
           field: 'createTime',
           headerName: t('fund.rechargeWithdraw.applicationDate'),
           flex: 1,
-          minWidth: 160,
+          minWidth: 180,
         },
         { field: 'type', headerName: t('fund.rechargeWithdraw.type'), flex: 1, minWidth: 80 },
         {
