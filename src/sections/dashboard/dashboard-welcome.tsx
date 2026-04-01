@@ -23,15 +23,32 @@ export function DashboardWelcome() {
     <Card
       sx={{
         p: { xs: 3, md: 5 },
-        display: 'flex',
-        alignItems: 'center',
+        // display: 'flex',
+        // alignItems: 'center',
         justifyContent: 'space-between',
-        background: (theme) =>
-          `linear-gradient(135deg, ${theme.vars.palette.primary.darker} 0%, ${theme.vars.palette.primary.dark} 100%)`,
-        color: 'common.white',
-        borderRadius: 3,
-        position: 'relative',
+        // background: (theme) =>
+        //   `linear-gradient(135deg, ${theme.vars.palette.primary.darker} 0%, ${theme.vars.palette.primary.dark} 100%)`,
+        // color: 'common.white',
+        // borderRadius: 3,
+        // position: 'relative',
         overflow: 'hidden',
+
+        backgroundImage:
+          'linear-gradient(to right, var(--palette-grey-900) 25%, rgba(var(--palette-primary-darkerChannel) / 88%)),url(/public/assets/background/background-6.webp)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+        paddingTop: 'calc(5 * var(--spacing))',
+        paddingBottom: 'calc(5 * var(--spacing))',
+        paddingRight: 'calc(3 * var(--spacing))',
+        gap: 'calc(5 * var(--spacing))',
+        borderRadius: 'calc(2 * var(--shape-borderRadius))',
+        display: 'flex',
+        position: 'relative',
+        WebkitBoxAlign: 'center',
+        alignItems: 'center',
+        color: 'var(--palette-common-white)',
+        border: 'solid 1px var(--palette-grey-800)',
       }}
     >
       {/* Decorative circles */}
