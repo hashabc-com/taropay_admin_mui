@@ -74,16 +74,16 @@ export function DashboardWelcome() {
           <Button
             variant="contained"
             color="warning"
-            startIcon={<Iconify icon="solar:download-minimalistic-bold" />}
+            startIcon={<Iconify icon="solar:card-transfer-bold" />}
             onClick={() => router.push(paths.fund.rechargeWithdraw)}
             sx={{ fontWeight: 600 }}
           >
-            {t('dashboard.goToRecharge')}
+            {t('dashboard.goToRechargeWithdraw')}
           </Button>
           <Button
             variant="outlined"
-            startIcon={<Iconify icon="solar:upload-minimalistic-bold" />}
-            onClick={() => router.push(paths.fund.rechargeWithdraw)}
+            startIcon={<Iconify icon="solar:download-minimalistic-bold" />}
+            onClick={() => router.push(paths.orders.receiveList)}
             sx={{
               fontWeight: 600,
               color: 'common.white',
@@ -91,7 +91,20 @@ export function DashboardWelcome() {
               '&:hover': { borderColor: 'common.white', bgcolor: 'rgba(255,255,255,0.08)' },
             }}
           >
-            {t('dashboard.goToWithdraw')}
+            {t('dashboard.goToCollection')}
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<Iconify icon="solar:upload-minimalistic-bold" />}
+            onClick={() => router.push(paths.orders.paymentList)}
+            sx={{
+              fontWeight: 600,
+              color: 'common.white',
+              borderColor: 'rgba(255,255,255,0.48)',
+              '&:hover': { borderColor: 'common.white', bgcolor: 'rgba(255,255,255,0.08)' },
+            }}
+          >
+            {t('dashboard.goToPayment')}
           </Button>
         </Box>
       </Box>
