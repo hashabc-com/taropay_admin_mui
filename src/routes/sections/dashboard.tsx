@@ -54,6 +54,10 @@ const ConfigRiskControlRule = lazy(() => import('src/pages/config/risk-control-r
 const SystemRoleManage = lazy(() => import('src/pages/system/role-manage'));
 const SystemAccountManage = lazy(() => import('src/pages/system/account-manage'));
 
+// Top-level pages
+const SendAnnouncement = lazy(() => import('src/pages/system/send-announcement'));
+const ExportManagement = lazy(() => import('src/pages/system/export-management'));
+
 // ----------------------------------------------------------------------
 
 function SuspenseOutlet() {
@@ -135,6 +139,8 @@ export const dashboardRoutes: RouteObject[] = [
           { path: 'account-manage', element: <SystemAccountManage /> },
         ],
       },
+      { path: 'send-announcement', element: <SendAnnouncement /> },
+      { path: 'export-management', element: <ExportManagement /> },
     ],
   },
 ];

@@ -70,4 +70,8 @@ export const paths = {
     roleManage: '/system/role-manage',
     accountManage: '/system/account-manage',
   },
+  // SEND ANNOUNCEMENT
+  sendAnnouncement: '/send-announcement',
+  // EXPORT MANAGEMENT
+  exportManagement: '/export-management',
 };

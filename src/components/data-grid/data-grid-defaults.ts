@@ -76,6 +76,12 @@ export function processColumns<R extends GridValidRowModel>(
  * ```
  */
 export const dataGridSx: SystemStyleObject<Theme> = {
+  // 覆盖 DataGrid 默认行高 52 → 56
+  '& .MuiDataGrid-row': {
+    '--height': '56px',
+    minHeight: '56px !important',
+    maxHeight: 'none !important',
+  },
   // 单元格：flex 布局 + 垂直居中 + 最小行高
   '& .MuiDataGrid-cell': {
     display: 'flex',

@@ -93,7 +93,9 @@
     },
     "countryTime": {
       "beijing": "Beijing"
-    }
+    },
+    "pleaseSelectCountryFirst": "Please select a country first",
+    "unknown": "Unknown"
   },
   "signIn": {
     "username": "Username"
@@ -129,6 +131,8 @@
     "systemManagement": "System Management",
     "roleManage": "Role Management",
     "accountManage": "Account Management",
+    "sendAnnouncement": "Send Announcement",
+    "exportManagement": "Export Management",
     "dashboard": "Overview"
   },
   "dashboard": {
@@ -803,5 +807,46 @@
         "other": "Other"
       }
     }
+  },
+  "sendAnnouncement": {
+    "title": "Send Announcement",
+    "country": "Country",
+    "merchant": "Merchant",
+    "content": "Content",
+    "googleCode": "Google Code",
+    "send": "Send",
+    "allMerchants": "All Merchants",
+    "placeholder": {
+      "selectCountry": "Please select country",
+      "selectMerchant": "Please select merchant",
+      "enterContent": "Please enter content",
+      "enterGoogleCode": "Please enter google code"
+    },
+    "validation": {
+      "countryRequired": "Please select a country",
+      "contentRequired": "Please enter content",
+      "googleCodeFormat": "Please enter 6-digit google code"
+    },
+    "success": "Announcement sent successfully",
+    "failed": "Announcement sent failed"
+  },
+  "export": {
+    "title": "Export Management",
+    "fileName": "File Name",
+    "exportType": "Export Type",
+    "createTime": "Export Time",
+    "type": {
+      "payment": "Receive Records",
+      "lending": "Payment Records",
+      "summary": "Transaction Summary"
+    },
+    "status": {
+      "generating": "Generating",
+      "downloadable": "Downloadable",
+      "failed": "Failed"
+    },
+    "downloadWarning": "File is not ready for download",
+    "downloadSuccess": "Download successful",
+    "downloadError": "Download failed, please try again"
   }
 }

@@ -32,7 +32,7 @@ const customTabsIndicatorStyles = {
       backgroundColor: theme.vars.palette.background.neutral,
       [`& .${tabClasses.root}`]: {
         zIndex: 1,
-        minHeight: 52,
+        minHeight: 56,
         paddingLeft: 'var(--item-padding-x)',
         paddingRight: 'var(--item-padding-x)',
       },

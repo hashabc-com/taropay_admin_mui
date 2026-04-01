@@ -93,7 +93,9 @@
     },
     "countryTime": {
       "beijing": "北京时间"
-    }
+    },
+    "pleaseSelectCountryFirst": "请先选择国家",
+    "unknown": "未知"
   },
   "signIn": {
     "username": "用户名"
@@ -129,6 +131,8 @@
     "systemManagement": "系统管理",
     "roleManage": "角色管理",
     "accountManage": "账户管理",
+    "sendAnnouncement": "发送公告",
+    "exportManagement": "导出管理",
     "dashboard": "概览"
   },
   "dashboard": {
@@ -803,5 +807,46 @@
         "other": "其他"
       }
     }
+  },
+  "sendAnnouncement": {
+    "title": "发送公告",
+    "country": "国家",
+    "merchant": "商户",
+    "content": "发送内容",
+    "googleCode": "谷歌验证码",
+    "send": "发送",
+    "allMerchants": "所有商户",
+    "placeholder": {
+      "selectCountry": "请选择国家",
+      "selectMerchant": "请选择商户",
+      "enterContent": "请输入发送内容",
+      "enterGoogleCode": "请输入谷歌验证码"
+    },
+    "validation": {
+      "countryRequired": "请选择国家",
+      "contentRequired": "请输入发送内容",
+      "googleCodeFormat": "请输入6位谷歌验证码"
+    },
+    "success": "公告发送成功",
+    "failed": "公告发送失败"
+  },
+  "export": {
+    "title": "导出管理",
+    "fileName": "文件名",
+    "exportType": "导出类型",
+    "createTime": "导出时间",
+    "type": {
+      "payment": "收款记录",
+      "lending": "付款记录",
+      "summary": "交易汇总"
+    },
+    "status": {
+      "generating": "生成中",
+      "downloadable": "可下载",
+      "failed": "生成失败"
+    },
+    "downloadWarning": "文件尚未生成完成，无法下载",
+    "downloadSuccess": "下载成功",
+    "downloadError": "下载失败，请重试"
   }
 }

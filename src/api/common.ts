@@ -25,3 +25,46 @@ export const payInNotify = (data: { transId: string; status: number }) =>
 
 export const updateStatus = (data: FormData) =>
   http.post<ResponseData>('/admin/collection/payInStatusQuery', data);
+
+// 发送公告 - 获取商户列表
+export const getMerchantListBySend = (country: string) =>
+  http.get<ResponseData<Merchant[]>>(
+    '/admin/user/v1/getAllUserList',
+    { country },
+    { autoAddCountry: false }
+  );
+
+// 发送公告
+export const sendAnnouncement = (params: {
+  country: string;
+  appidList?: string[];
+  gauthKey: string;
+  content: string;
+}) =>
+  http.post<ResponseData>('/admin/accountmanage/v1/sendNotify', params, {
+    autoAddCountry: false,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+// 导出管理
+export interface IExportRecord {
+  id: number;
+  fileName: string;
+  exportType: 'PAYMENT' | 'LENDING' | 'TRAN';
+  status: 0 | 1 | 2; // 0:生成中 1:可下载 2:生成失败
+  fileId: string;
+  createTime: string;
+}
+
+export const getExportList = (params: Record<string, unknown>) =>
+  http.get<{ list: IExportRecord[]; total: number }>('/admin/exportRecord/list', { params });
+
+export const downloadExportFile = (fileId: string) =>
+  http.get(
+    `/admin/collection/downloadExportData?fileId=${fileId}`,
+    {},
+    {
+      autoAddCountry: false,
+      responseType: 'blob',
+    }
+  );

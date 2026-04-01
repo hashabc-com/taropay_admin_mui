@@ -129,6 +129,16 @@ export function useNavData(): NavSectionProps['data'] {
               { title: t('sidebar.accountManage'), path: paths.system.accountManage },
             ],
           },
+          {
+            title: t('sidebar.sendAnnouncement'),
+            path: paths.sendAnnouncement,
+            icon: ICONS.chat,
+          },
+          {
+            title: t('sidebar.exportManagement'),
+            path: paths.exportManagement,
+            icon: ICONS.folder,
+          },
         ],
       },
     ],
