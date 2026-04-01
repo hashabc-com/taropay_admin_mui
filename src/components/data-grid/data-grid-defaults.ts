@@ -89,10 +89,6 @@ export const dataGridSx: SystemStyleObject<Theme> = {
   '& .MuiDataGrid-cell--textRight': {
     justifyContent: 'flex-end',
   },
-  // 表头背景色
-  '& .MuiDataGrid-columnHeader': {
-    bgcolor: 'background.neutral',
-  },
   // 表头对齐：配合 headerAlign
   '& .MuiDataGrid-columnHeader--alignCenter .MuiDataGrid-columnHeaderTitleContainer': {
     justifyContent: 'center',

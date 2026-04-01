@@ -252,27 +252,31 @@ const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
     root: ({ theme }) => {
       const baseStyles: CSSObject = {
         borderWidth: 0,
-        backgroundColor: 'transparent',
+        backgroundColor: theme.vars.palette.background.paper,
+        borderRadius: `${Number(theme.shape.borderRadius) * 2}px`,
+        boxShadow: theme.vars.customShadows.card,
       };
 
       return {
-        '--unstable_DataGrid-radius': 0,
+        '--unstable_DataGrid-radius': `${Number(theme.shape.borderRadius) * 2}px`,
         '--unstable_DataGrid-headWeight': theme.typography.fontWeightSemiBold,
         ...theme.mixins.scrollbarStyles(theme),
         ...baseStyles,
       };
     },
-    footerContainer: {
+    footerContainer: ({ theme }) => ({
       minHeight: 'auto',
       borderTopStyle: 'dashed',
+      borderTopColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.12),
       [`& .${gridClasses.selectedRowCount}`]: {
         whiteSpace: 'nowrap',
       },
-    },
+    }),
     /**
      * @overlay
      */
     overlay: ({ theme }) => ({
+      backgroundColor: theme.vars.palette.background.paper,
       [`& .${linearProgressClasses.root}`]: {
         height: 3,
         borderRadius: 0,
@@ -289,6 +293,10 @@ const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
      * @column
      */
     columnHeader: ({ theme }) => ({
+      fontSize: theme.typography.caption.fontSize,
+      fontWeight: theme.typography.fontWeightBold,
+      textTransform: 'uppercase' as const,
+      letterSpacing: '0.5px',
       color: theme.vars.palette.text.secondary,
       backgroundColor: theme.vars.palette.background.neutral,
       [`&.${gridClasses['columnHeader--sorted']}, &.${gridClasses['columnHeader--sorted']} .${gridClasses.sortIcon}`]:
@@ -301,18 +309,14 @@ const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
      */
     cell: ({ theme }) => ({
       borderTopStyle: 'dashed',
+      borderTopColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.12),
+    }),
+    row: ({ theme }) => ({
       '&:hover': {
-        color: theme.vars.palette.primary.main,
+        backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.04),
       },
-      [`&.${gridClasses['cell--editing']}`]: {
-        boxShadow: 'none',
-        backgroundColor: varAlpha(theme.vars.palette.primary.mainChannel, 0.08),
-      },
-      [`&.${gridClasses['cell--withLeftBorder']}`]: {
-        borderLeftStyle: 'dashed',
-      },
-      [`&.${gridClasses['cell--withRightBorder']}`]: {
-        borderRightStyle: 'dashed',
+      [`&.${gridClasses['row--lastVisible']} .${gridClasses.cell}`]: {
+        borderBottom: 'none',
       },
     }),
     /**
