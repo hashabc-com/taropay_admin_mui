@@ -47,4 +47,4 @@ export const getKey = (data: Partial<UserInfo>) => http.post('/admin/googleVerif
 export const bindKey = (data: Partial<UserInfo>) =>
   http.post('/admin/googleVerify/v1/bindKey', data);
 
-export const getAccountPermissions = () => http.get('/admin/account/getPermissions');
+export const getAccountPermissions = () => http.get('/admin/authority/v1/getUserAuthority');

@@ -1,7 +1,8 @@
 import type { Breakpoint } from '@mui/material/styles';
-import type { NavItemProps, NavSectionProps } from 'src/components/nav-section';
+import type { NavSectionProps } from 'src/components/nav-section';
 import type { MainSectionProps, HeaderSectionProps, LayoutSectionProps } from '../core';
 
+import { useMemo } from 'react';
 import { merge } from 'es-toolkit';
 import { useBoolean } from 'minimal-shared/hooks';
 
@@ -11,12 +12,14 @@ import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 import { iconButtonClasses } from '@mui/material/IconButton';
 
+import { filterNavByPermission } from 'src/utils/permission';
+
+import { useAuthStore } from 'src/stores/auth-store';
+
 import { Logo } from 'src/components/logo';
 import { CountryTime } from 'src/components/country-time';
 import { useSettingsContext } from 'src/components/settings';
 import { CountryMerchantSelector } from 'src/components/country-merchant-selector';
-
-import { useMockedUser } from 'src/auth/hooks';
 
 import { NavMobile } from './nav-mobile';
 import { VerticalDivider } from './content';
@@ -56,23 +59,26 @@ export function DashboardLayout({
 }: DashboardLayoutProps) {
   const theme = useTheme();
 
-  const { user } = useMockedUser();
-
   const settings = useSettingsContext();
 
   const navVars = dashboardNavColorVars(theme, settings.state.navColor, settings.state.navLayout);
 
   const { value: open, onFalse: onClose, onTrue: onOpen } = useBoolean();
 
+  // Subscribe to `permissions` so the component re-renders when they load
+  const permissions = useAuthStore((s) => s.permissions);
+  const hasPermission = useAuthStore((s) => s.hasPermission);
   const dashboardNavData = useNavData();
-  const navData = slotProps?.nav?.data ?? dashboardNavData;
+  const rawNavData = slotProps?.nav?.data ?? dashboardNavData;
+  const navData = useMemo(
+    () => filterNavByPermission(rawNavData, hasPermission),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rawNavData, permissions]
+  );
 
   const isNavMini = settings.state.navLayout === 'mini';
   const isNavHorizontal = settings.state.navLayout === 'horizontal';
   const isNavVertical = isNavMini || settings.state.navLayout === 'vertical';
-
-  const canDisplayItemByRole = (allowedRoles: NavItemProps['allowedRoles']): boolean =>
-    !allowedRoles?.includes(user?.role);
 
   const renderHeader = () => {
     const headerSlotProps: HeaderSectionProps['slotProps'] = {
@@ -96,12 +102,7 @@ export function DashboardLayout({
         </Alert>
       ),
       bottomArea: isNavHorizontal ? (
-        <NavHorizontal
-          data={navData}
-          layoutQuery={layoutQuery}
-          cssVars={navVars.section}
-          checkPermissions={canDisplayItemByRole}
-        />
+        <NavHorizontal data={navData} layoutQuery={layoutQuery} cssVars={navVars.section} />
       ) : null,
       leftArea: (
         <>
@@ -110,13 +111,7 @@ export function DashboardLayout({
             onClick={onOpen}
             sx={{ mr: 1, ml: -1, [theme.breakpoints.up(layoutQuery)]: { display: 'none' } }}
           />
-          <NavMobile
-            data={navData}
-            open={open}
-            onClose={onClose}
-            cssVars={navVars.section}
-            checkPermissions={canDisplayItemByRole}
-          />
+          <NavMobile data={navData} open={open} onClose={onClose} cssVars={navVars.section} />
 
           {/** @slot Logo */}
           {isNavHorizontal && (
@@ -197,7 +192,6 @@ export function DashboardLayout({
       isNavMini={isNavMini}
       layoutQuery={layoutQuery}
       cssVars={navVars.section}
-      checkPermissions={canDisplayItemByRole}
       onToggleNav={() =>
         settings.setField(
           'navLayout',

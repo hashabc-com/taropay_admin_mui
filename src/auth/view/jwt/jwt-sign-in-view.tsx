@@ -19,9 +19,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
 import DialogContentText from '@mui/material/DialogContentText';
 
-import { useRouter } from 'src/routes/hooks';
+import { hasRoutePermission, getFirstAuthorizedRoute } from 'src/utils/permission';
 
-import { useAuthStore } from 'src/stores/auth-store';
 import {
   getKey,
   bindKey,
@@ -35,8 +34,8 @@ import {
 import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
-import { useAuthContext } from '../../hooks';
 import { FormHead } from '../../components/form-head';
+import { useNavData } from '../../../layouts/nav-config-dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -51,10 +50,8 @@ type SignInSchemaType = z.infer<typeof SignInSchema>;
 // ----------------------------------------------------------------------
 
 export function JwtSignInView() {
-  const router = useRouter();
   const showPassword = useBoolean();
-  const { checkUserSession } = useAuthContext();
-  const { login: authLogin, setPermissions } = useAuthStore();
+  const navData = useNavData();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [verifyCode, setVerifyCode] = useState<{ base64ImgStr: string; key: string }>({
@@ -164,21 +161,56 @@ export function JwtSignInView() {
       const res = await loginApi({ ...loginParams, type: 'confirm', gauthkey: code });
       if (res.code === '200' && res.result) {
         toast.success('登录成功');
-        authLogin(res.result.TOKEN, res.result.userInfo);
 
+        // 1. Store token & userInfo to localStorage (HTTP interceptor reads from here)
+        localStorage.setItem('_token', res.result.TOKEN);
+        localStorage.setItem('_userInfo', JSON.stringify(res.result.userInfo));
+
+        // 2. Fetch permissions while still on the login page
         try {
           const permRes = await getAccountPermissions();
-          if (permRes.result) setPermissions(permRes.result);
+          if (permRes.result) {
+            localStorage.setItem('_permissions', JSON.stringify(permRes.result));
+          }
         } catch {
-          setPermissions({
+          const fallbackPerms = {
             menu: [{ name: '外观设置', url: '/settings/appearance' }],
             user: { roleId: 0, account: res.result.userInfo.name },
-          });
+          };
+          localStorage.setItem('_permissions', JSON.stringify(fallbackPerms));
         }
 
+        // 3. Calculate target route BEFORE triggering any state change
+        const permsRaw = localStorage.getItem('_permissions');
+        const perms = permsRaw ? JSON.parse(permsRaw) : null;
+        const hasPermFn = (url: string) => {
+          if (!perms?.menu) return false;
+          const normalizedUrl = url === '/' ? '/' : url.replace(/\/$/, '');
+          return perms.menu.some((item: { url: string }) => {
+            const menuUrl = item.url === '/' ? '/' : item.url.replace(/\/$/, '');
+            if (menuUrl === normalizedUrl) return true;
+            return (
+              normalizedUrl.startsWith(`${menuUrl}/`) ||
+              normalizedUrl.startsWith(`${menuUrl.replace(/s$/, '')}s/`)
+            );
+          });
+        };
+
+        const searchParams = new URLSearchParams(window.location.search);
+        const returnTo = searchParams.get('returnTo');
+        let target: string;
+
+        if (returnTo && hasRoutePermission(returnTo, perms)) {
+          target = returnTo;
+        } else {
+          target = getFirstAuthorizedRoute(navData, hasPermFn) || '/dashboard/overview';
+        }
+
+        // 4. Navigate directly — do NOT call authLogin() or setPermissions()
+        //    to avoid triggering GuestGuard's redirect to /dashboard/overview.
+        //    The new page will hydrate auth state from localStorage.
         setGoogleOpen(false);
-        await checkUserSession?.();
-        router.refresh();
+        window.location.href = target;
       } else {
         setGoogleOpen(false);
         fetchVerifyCode();

@@ -68,7 +68,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   hasPermission: (url) => {
     const { permissions } = get();
     if (!permissions?.menu) return false;
-    if (url.startsWith('/settings/')) return true;
-    return permissions.menu.some((item) => item.url === url);
+
+    const normalizedUrl = url === '/' ? '/' : url.replace(/\/$/, '');
+
+    return permissions.menu.some((item) => {
+      const menuUrl = item.url === '/' ? '/' : item.url.replace(/\/$/, '');
+
+      // Exact match
+      if (menuUrl === normalizedUrl) return true;
+
+      // Prefix match — e.g. menu "/order" grants access to "/orders/receive-list"
+      if (
+        normalizedUrl.startsWith(`${menuUrl}/`) ||
+        normalizedUrl.startsWith(`${menuUrl.replace(/s$/, '')}s/`)
+      ) {
+        return true;
+      }
+
+      return false;
+    });
   },
 }));
