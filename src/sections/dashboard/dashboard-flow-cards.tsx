@@ -58,7 +58,6 @@ export function DashboardFlowCards({ chartResult, isLoading }: Props) {
             display: 'flex',
             alignItems: 'center',
             gap: 2,
-            bgcolor: 'background.neutral',
           }}
         >
           <Box
