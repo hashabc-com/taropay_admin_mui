@@ -86,8 +86,8 @@ export function AccountPopover({ sx, ...other }: AccountPopoverProps) {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuList sx={{ p: 1 }}>
-          <MenuItem onClick={handleOpenApiDocs} sx={{ borderRadius: 1 }}>
+        <MenuList sx={{ py: 1 }}>
+          <MenuItem onClick={handleOpenApiDocs} sx={{ borderRadius: 1, gap: '0 !important' }}>
             <ListItemIcon sx={{ mr: 0 }}>
               <Iconify icon="solar:document-bold-duotone" />
             </ListItemIcon>
@@ -100,8 +100,11 @@ export function AccountPopover({ sx, ...other }: AccountPopoverProps) {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuList sx={{ p: 1 }}>
-          <MenuItem onClick={handleLogout} sx={{ borderRadius: 1, color: 'error.main' }}>
+        <MenuList sx={{ py: 1 }}>
+          <MenuItem
+            onClick={handleLogout}
+            sx={{ borderRadius: 1, color: 'error.main', gap: '0 !important' }}
+          >
             <ListItemIcon sx={{ color: 'inherit', mr: 0 }}>
               <Iconify icon="solar:logout-2-bold-duotone" />
             </ListItemIcon>

@@ -38,6 +38,7 @@ export function CurrencySelector() {
       size="small"
       value={displayCurrency ?? ''}
       onChange={(e) => setDisplayCurrency(e.target.value as any)}
+      MenuProps={{ disableAutoFocus: true }}
       sx={{ ...compactSelectSx, minWidth: 80 }}
     >
       {allCurrencies.map((currency) => {

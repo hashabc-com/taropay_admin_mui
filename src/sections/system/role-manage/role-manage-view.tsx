@@ -211,7 +211,12 @@ function RoleRowActions({
       <IconButton size="small" onClick={(e) => setAnchor(e.currentTarget)}>
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
-      <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={() => setAnchor(null)}>
+      <Menu
+        anchorEl={anchor}
+        open={Boolean(anchor)}
+        onClose={() => setAnchor(null)}
+        disableAutoFocus
+      >
         <MenuItem
           onClick={() => {
             setAnchor(null);

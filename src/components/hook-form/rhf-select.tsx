@@ -42,6 +42,7 @@ export function RHFSelect({
     select: {
       sx: { textTransform: 'capitalize' },
       MenuProps: {
+        disableAutoFocus: true,
         slotProps: {
           paper: {
             sx: { maxHeight: 240 },
@@ -144,6 +145,7 @@ export function RHFMultiSelect({
               multiple
               displayEmpty={!!placeholder}
               label={label}
+              MenuProps={{ disableAutoFocus: true }}
               renderValue={(selected) => {
                 const selectedItems = options.filter((item) =>
                   (selected as string[]).includes(item.value)

@@ -44,6 +44,7 @@ export function MerchantBindRowActions({ row, onAction }: Props) {
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}
+        disableAutoFocus
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >

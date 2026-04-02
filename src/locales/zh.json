@@ -52,7 +52,9 @@
     "googleAuthCodePlaceholder": "请输入谷歌验证码",
     "pleaseSelect": "请选择",
     "merchant": "商户",
+    "allMerchants": "全部商户",
     "country": "国家",
+    "fetchRateFailed": "获取汇率失败",
     "balance": "余额",
     "recharge": "充值",
     "withdrawal": "提现",
@@ -102,7 +104,22 @@
     "notFound": "未找到",
     "noResultsFor": "未找到相关结果",
     "apiDocs": "API 文档",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "searchPlaceholder": "搜索...",
+    "datePicker": {
+      "start": "开始",
+      "end": "结束",
+      "cancel": "取消",
+      "confirm": "确定",
+      "selectDateRange": "选择日期范围",
+      "selectDateTimeRange": "选择日期时间范围",
+      "today": "今天",
+      "yesterday": "昨天",
+      "last7Days": "最近7天",
+      "last30Days": "最近30天",
+      "thisMonth": "本月",
+      "lastMonth": "上月"
+    }
   },
   "signIn": {
     "username": "用户名"

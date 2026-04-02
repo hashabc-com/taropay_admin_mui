@@ -38,7 +38,7 @@ export function RouteStrategyRowActions({ row, onEdit, onToggleStatus }: Props) 
         <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
 
-      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
+      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose} disableAutoFocus>
         <MenuItem
           onClick={() => {
             handleClose();

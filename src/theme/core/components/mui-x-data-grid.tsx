@@ -297,10 +297,8 @@ const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
      * @column
      */
     columnHeader: ({ theme }) => ({
-      fontSize: theme.typography.caption.fontSize,
+      fontSize: theme.typography.body2.fontSize,
       fontWeight: theme.typography.fontWeightBold,
-      textTransform: 'uppercase' as const,
-      letterSpacing: '0.5px',
       color: theme.vars.palette.text.secondary,
       backgroundColor: theme.vars.palette.background.neutral,
       [`&.${gridClasses['columnHeader--sorted']}, &.${gridClasses['columnHeader--sorted']} .${gridClasses.sortIcon}`]:

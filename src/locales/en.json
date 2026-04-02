@@ -52,7 +52,9 @@
     "googleAuthCodePlaceholder": "Please enter Google Auth Code",
     "pleaseSelect": "Please select",
     "merchant": "Merchant",
+    "allMerchants": "All Merchants",
     "country": "Country",
+    "fetchRateFailed": "Failed to fetch exchange rates",
     "balance": "Balance",
     "recharge": "Recharge",
     "withdrawal": "Withdrawal",
@@ -102,7 +104,22 @@
     "notFound": "Not Found",
     "noResultsFor": "No results found for",
     "apiDocs": "API Docs",
-    "logout": "Logout"
+    "logout": "Logout",
+    "searchPlaceholder": "Search...",
+    "datePicker": {
+      "start": "Start",
+      "end": "End",
+      "cancel": "Cancel",
+      "confirm": "OK",
+      "selectDateRange": "Select date range",
+      "selectDateTimeRange": "Select date & time range",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "thisMonth": "This month",
+      "lastMonth": "Last month"
+    }
   },
   "signIn": {
     "username": "Username"

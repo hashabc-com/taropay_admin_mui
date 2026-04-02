@@ -20,6 +20,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+import { useLanguage } from 'src/context/language-provider';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -92,36 +94,39 @@ function getDefaultFormat(showTime?: boolean, showSeconds?: boolean): string {
   return showSeconds !== false ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm';
 }
 
-function getDefaultQuickSelects(showTime?: boolean): QuickSelectOption[] {
+function getDefaultQuickSelects(
+  showTime?: boolean,
+  t?: (key: string) => string
+): QuickSelectOption[] {
   const startOfDay = (d: Dayjs) => (showTime ? d.startOf('day') : d);
   const endOfDay = (d: Dayjs) => (showTime ? d.endOf('day') : d);
 
   return [
     {
-      label: '今天',
+      label: t?.('common.datePicker.today') ?? '今天',
       getValue: () => [startOfDay(dayjs()), endOfDay(dayjs())],
     },
     {
-      label: '昨天',
+      label: t?.('common.datePicker.yesterday') ?? '昨天',
       getValue: () => [
         startOfDay(dayjs().subtract(1, 'day')),
         endOfDay(dayjs().subtract(1, 'day')),
       ],
     },
     {
-      label: '最近7天',
+      label: t?.('common.datePicker.last7Days') ?? '最近7天',
       getValue: () => [startOfDay(dayjs().subtract(6, 'day')), endOfDay(dayjs())],
     },
     {
-      label: '最近30天',
+      label: t?.('common.datePicker.last30Days') ?? '最近30天',
       getValue: () => [startOfDay(dayjs().subtract(29, 'day')), endOfDay(dayjs())],
     },
     {
-      label: '本月',
+      label: t?.('common.datePicker.thisMonth') ?? '本月',
       getValue: () => [startOfDay(dayjs().startOf('month')), endOfDay(dayjs().endOf('month'))],
     },
     {
-      label: '上月',
+      label: t?.('common.datePicker.lastMonth') ?? '上月',
       getValue: () => [
         startOfDay(dayjs().subtract(1, 'month').startOf('month')),
         endOfDay(dayjs().subtract(1, 'month').endOf('month')),
@@ -362,13 +367,14 @@ export function DateTimeRangePicker({
   size = 'small',
   label,
   placeholder,
-  startLabel = '开始',
-  endLabel = '结束',
-  cancelText = '取消',
-  confirmText = '确定',
+  startLabel,
+  endLabel,
+  cancelText,
+  confirmText,
   quickSelects,
   sx,
 }: DateTimeRangePickerProps) {
+  const { t } = useLanguage();
   const theme = useTheme();
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -379,7 +385,12 @@ export function DateTimeRangePicker({
   const [hoveredDate, setHoveredDate] = useState<Dayjs | null>(null);
 
   const displayFormat = formatProp || getDefaultFormat(showTime, showSeconds);
-  const presets = quickSelects === false ? [] : quickSelects || getDefaultQuickSelects(showTime);
+  const presets = quickSelects === false ? [] : quickSelects || getDefaultQuickSelects(showTime, t);
+
+  const resolvedStartLabel = startLabel ?? t('common.datePicker.start');
+  const resolvedEndLabel = endLabel ?? t('common.datePicker.end');
+  const resolvedCancelText = cancelText ?? t('common.datePicker.cancel');
+  const resolvedConfirmText = confirmText ?? t('common.datePicker.confirm');
 
   // ---- Derived display range (handles hover preview + normalization) ----
 
@@ -473,7 +484,11 @@ export function DateTimeRangePicker({
     return `${startText || '——'} – ${endText || '——'}`;
   }, [value, displayFormat]);
 
-  const defaultPlaceholder = placeholder || (showTime ? '选择日期时间范围' : '选择日期范围');
+  const defaultPlaceholder =
+    placeholder ||
+    (showTime
+      ? t('common.datePicker.selectDateTimeRange')
+      : t('common.datePicker.selectDateRange'));
 
   // ---- Render ----
 
@@ -576,7 +591,7 @@ export function DateTimeRangePicker({
             {/* ---- Header: Start / End tabs ---- */}
             <Box sx={{ display: 'flex', borderBottom: 1, borderColor: 'divider' }}>
               <HeaderTab
-                label={startLabel}
+                label={resolvedStartLabel}
                 value={tempStart}
                 active={activeField === 'start'}
                 format={displayFormat}
@@ -584,7 +599,7 @@ export function DateTimeRangePicker({
               />
               <Divider orientation="vertical" flexItem />
               <HeaderTab
-                label={endLabel}
+                label={resolvedEndLabel}
                 value={tempEnd}
                 active={activeField === 'end'}
                 format={displayFormat}
@@ -659,10 +674,10 @@ export function DateTimeRangePicker({
               }}
             >
               <Button size="small" onClick={handleClose}>
-                {cancelText}
+                {resolvedCancelText}
               </Button>
               <Button size="small" variant="contained" onClick={handleOk}>
-                {confirmText}
+                {resolvedConfirmText}
               </Button>
             </Box>
           </Box>

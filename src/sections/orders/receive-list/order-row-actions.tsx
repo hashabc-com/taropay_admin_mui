@@ -37,6 +37,7 @@ export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }:
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}
+        disableAutoFocus
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >

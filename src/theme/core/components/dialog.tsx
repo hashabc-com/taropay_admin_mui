@@ -1,11 +1,18 @@
 import type { Theme, Components } from '@mui/material/styles';
 
+import { varAlpha } from 'minimal-shared/utils';
+
 // ----------------------------------------------------------------------
 
 const MuiDialog: Components<Theme>['MuiDialog'] = {
   // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
   defaultProps: {
     disableRestoreFocus: true,
+    slotProps: {
+      backdrop: {
+        sx: { backgroundColor: 'rgba(0, 0, 0, 0.48)' },
+      },
+    },
   },
   // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
@@ -17,6 +24,7 @@ const MuiDialog: Components<Theme>['MuiDialog'] = {
             margin: theme.spacing(2),
             boxShadow: theme.vars.customShadows.dialog,
             borderRadius: Number(theme.shape.borderRadius) * 2,
+            border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.16)}`,
           }),
         },
       ],

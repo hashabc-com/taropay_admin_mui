@@ -14,6 +14,7 @@ import { useCountries } from 'src/hooks/use-countries';
 
 import { getMerchantList } from 'src/api/common';
 import { useCountryStore } from 'src/stores/country-store';
+import { useLanguage } from 'src/context/language-provider';
 import { type Merchant, useMerchantStore } from 'src/stores/merchant-store';
 
 import { Iconify } from 'src/components/iconify';
@@ -24,6 +25,7 @@ import { compactSelectSx, selectorGroupSx } from './styles';
 // ----------------------------------------------------------------------
 
 export function CountryMerchantSelector() {
+  const { t } = useLanguage();
   const { selectedCountry, setSelectedCountry, setRates } = useCountryStore();
   const { selectedMerchant, setSelectedMerchant } = useMerchantStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -66,10 +68,10 @@ export function CountryMerchantSelector() {
           setRates(data.rates);
         }
       } catch {
-        toast.error('获取汇率失败');
+        toast.error(t('common.fetchRateFailed'));
       }
     },
-    [countries, setRates, setSelectedCountry, setSelectedMerchant, searchParams, setSearchParams]
+    [countries, setRates, setSelectedCountry, setSelectedMerchant, searchParams, setSearchParams, t]
   );
 
   // Auto-select first country
@@ -106,6 +108,7 @@ export function CountryMerchantSelector() {
         size="small"
         value={selectedCountry ? String(selectedCountry.id) : ''}
         onChange={(e) => handleCountryChange(e.target.value)}
+        MenuProps={{ disableAutoFocus: true }}
         sx={{ ...compactSelectSx, minWidth: 90 }}
       >
         {/*
@@ -118,7 +121,7 @@ export function CountryMerchantSelector() {
             value={String(selectedCountry.id)}
             sx={{ display: 'none' }}
           >
-            {selectedCountry.code}
+            {t(`common.countrys.${selectedCountry.code}`, selectedCountry.country)}
           </MenuItem>
         )}
         {countries.map((c) => (
@@ -133,7 +136,7 @@ export function CountryMerchantSelector() {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              {c.code}
+              {t(`common.countrys.${c.code}`, c.country)}
             </Box>
           </MenuItem>
         ))}
@@ -157,11 +160,12 @@ export function CountryMerchantSelector() {
         disabled={!selectedCountry}
         value={selectedMerchant?.appid ? String(selectedMerchant.appid) : ''}
         onChange={(e) => handleMerchantChange(e.target.value)}
+        MenuProps={{ disableAutoFocus: true }}
         renderValue={(selected) => {
           if (!selected) {
             return (
               <Typography variant="body2" sx={{ color: 'text.disabled', fontWeight: 400 }}>
-                全部商户
+                {t('common.allMerchants')}
               </Typography>
             );
           }

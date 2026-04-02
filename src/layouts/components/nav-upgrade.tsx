@@ -125,7 +125,7 @@ export function NavUpgrade({ sx, ...other }: BoxProps) {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuList sx={{ p: 1 }}>
+        <MenuList sx={{ py: 1 }}>
           <MenuItem onClick={handleOpenApiDocs} sx={{ borderRadius: 1 }}>
             <ListItemIcon sx={{ mr: 0 }}>
               <Iconify icon="solar:document-bold-duotone" />
@@ -139,7 +139,7 @@ export function NavUpgrade({ sx, ...other }: BoxProps) {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuList sx={{ p: 1 }}>
+        <MenuList sx={{ py: 1 }}>
           <MenuItem onClick={handleLogout} sx={{ borderRadius: 1, color: 'error.main' }}>
             <ListItemIcon sx={{ color: 'inherit', mr: 0 }}>
               <Iconify icon="solar:logout-2-bold-duotone" />

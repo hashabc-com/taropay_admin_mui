@@ -48,6 +48,7 @@ export function AccountRowActions({ row, onEdit, onPassword, onStatusToggle, onD
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}
+        disableAutoFocus
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
