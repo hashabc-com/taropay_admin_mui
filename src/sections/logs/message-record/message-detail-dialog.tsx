@@ -96,7 +96,7 @@ export function MessageDetailDialog({ open, onClose, record }: Props) {
               <Typography variant="subtitle2" color="text.secondary">
                 {label}:
               </Typography>
-              <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              <Typography component="div" variant="body2" sx={{ wordBreak: 'break-all' }}>
                 {value}
               </Typography>
             </Box>

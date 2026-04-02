@@ -5,6 +5,10 @@ import { varAlpha } from 'minimal-shared/utils';
 // ----------------------------------------------------------------------
 
 const MuiDrawer: Components<Theme>['MuiDrawer'] = {
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    disableRestoreFocus: true,
+  },
   // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     paper: {

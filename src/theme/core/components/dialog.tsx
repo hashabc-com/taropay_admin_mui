@@ -3,6 +3,10 @@ import type { Theme, Components } from '@mui/material/styles';
 // ----------------------------------------------------------------------
 
 const MuiDialog: Components<Theme>['MuiDialog'] = {
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    disableRestoreFocus: true,
+  },
   // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     paper: {

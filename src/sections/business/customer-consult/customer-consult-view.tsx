@@ -73,7 +73,7 @@ export function CustomerConsultView() {
           field: 'phone',
           headerName: t('business.customerConsult.phone'),
           flex: 1,
-          minWidth: 140,
+          minWidth: 160,
           renderCell: ({ row }) => (row.phone ? `+${row.countryCode} ${row.phone}` : '-'),
         },
         {

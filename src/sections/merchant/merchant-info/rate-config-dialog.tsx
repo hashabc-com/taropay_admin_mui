@@ -282,7 +282,7 @@ export function RateConfigDialog({
               <Stack
                 direction="row"
                 alignItems="center"
-                justifyContent="space-between"
+                // justifyContent="space-between"
                 sx={{ mb: 2 }}
               >
                 <Typography variant="subtitle1">{t('merchant.info.payoutChannel')}</Typography>
