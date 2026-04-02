@@ -139,6 +139,11 @@ export function useNavData(): NavSectionProps['data'] {
             path: paths.exportManagement,
             icon: ICONS.folder,
           },
+          {
+            title: t('sidebar.apiDocs'),
+            path: 'https://docs.taropay.com/guide/overview',
+            icon: ICONS.external,
+          },
         ],
       },
     ],

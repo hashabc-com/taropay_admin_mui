@@ -1,9 +1,13 @@
+import { m } from 'framer-motion';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
+
+import { varFade, MotionViewport } from 'src/components/animate';
 
 import { DashboardChart } from './dashboard-chart';
 import { DashboardStats } from './dashboard-stats';
@@ -24,25 +28,33 @@ export function DashboardOverviewView() {
         {t('dashboard.title')}
       </Typography>
 
-      <Stack spacing={3}>
-        {/* Welcome + Flow Cards Row */}
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 3,
-            gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' },
-          }}
-        >
-          <DashboardWelcome />
-          <DashboardFlowCards chartResult={chartResult} isLoading={chartLoading} />
-        </Box>
+      <MotionViewport>
+        <Stack spacing={3}>
+          {/* Welcome + Flow Cards Row */}
+          <m.div variants={varFade('inUp', { distance: 40 })}>
+            <Box
+              sx={{
+                display: 'grid',
+                gap: 3,
+                gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' },
+              }}
+            >
+              <DashboardWelcome />
+              <DashboardFlowCards chartResult={chartResult} isLoading={chartLoading} />
+            </Box>
+          </m.div>
 
-        {/* Chart */}
-        <DashboardChart chartData={chartResult?.data} />
+          {/* Chart */}
+          <m.div variants={varFade('inUp', { distance: 40 })}>
+            <DashboardChart chartData={chartResult?.data} />
+          </m.div>
 
-        {/* Balance Stats Cards */}
-        <DashboardStats amountInfo={amountInfo} isLoading={amountLoading} />
-      </Stack>
+          {/* Balance Stats Cards */}
+          <m.div variants={varFade('inUp', { distance: 40 })}>
+            <DashboardStats amountInfo={amountInfo} isLoading={amountLoading} />
+          </m.div>
+        </Stack>
+      </MotionViewport>
     </DashboardContent>
   );
 }

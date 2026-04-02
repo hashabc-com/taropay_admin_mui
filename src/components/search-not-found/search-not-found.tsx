@@ -5,6 +5,9 @@ import type { TypographyProps } from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import { CONFIG } from 'src/global-config';
+import { useLanguage } from 'src/context/language-provider';
+
 // ----------------------------------------------------------------------
 
 type SearchNotFoundProps = BoxProps & {
@@ -17,10 +20,12 @@ type SearchNotFoundProps = BoxProps & {
 };
 
 export function SearchNotFound({ query, sx, slotProps, ...other }: SearchNotFoundProps) {
+  const { t } = useLanguage();
+
   if (!query) {
     return (
       <Typography variant="body2" {...slotProps?.description}>
-        Please enter keywords
+        {t('common.enterKeywords')}
       </Typography>
     );
   }
@@ -34,11 +39,19 @@ export function SearchNotFound({ query, sx, slotProps, ...other }: SearchNotFoun
           borderRadius: 1.5,
           textAlign: 'center',
           flexDirection: 'column',
+          alignItems: 'center',
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
       {...other}
     >
+      <Box
+        component="img"
+        alt="search not found"
+        src={`${CONFIG.assetsDir}/assets/icons/empty/ic-content.svg`}
+        sx={{ width: 80, height: 80, mb: 1 }}
+      />
+
       <Typography
         variant="h6"
         {...slotProps?.title}
@@ -47,14 +60,12 @@ export function SearchNotFound({ query, sx, slotProps, ...other }: SearchNotFoun
           ...(Array.isArray(slotProps?.title?.sx) ? slotProps.title.sx : [slotProps?.title?.sx]),
         ]}
       >
-        Not found
+        {t('common.notFound')}
       </Typography>
 
       <Typography variant="body2" {...slotProps?.description}>
-        No results found for &nbsp;
+        {t('common.noResultsFor')}&nbsp;
         <strong>{`"${query}"`}</strong>
-        .
-        <br /> Try checking for typos or using complete words.
       </Typography>
     </Box>
   );

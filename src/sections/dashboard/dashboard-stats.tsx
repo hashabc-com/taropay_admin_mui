@@ -7,9 +7,11 @@ import Typography from '@mui/material/Typography';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
+import { CONFIG } from 'src/global-config';
+import { useCountryStore } from 'src/stores/country-store';
 import { useLanguage } from 'src/context/language-provider';
 
-import { Iconify } from 'src/components/iconify';
+import { AnimateCountUp } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +23,7 @@ type Props = {
 export function DashboardStats({ amountInfo, isLoading }: Props) {
   const { t } = useLanguage();
   const convertAmount = useConvertAmount();
+  const { displayCurrency } = useCountryStore();
 
   if (isLoading) {
     return (
@@ -42,19 +45,22 @@ export function DashboardStats({ amountInfo, isLoading }: Props) {
     {
       label: t('dashboard.availableBalance'),
       value: convertAmount(amountInfo?.availableAmount || 0),
-      icon: 'solar:wallet-bold-duotone',
+      numericValue: Number(convertAmount(amountInfo?.availableAmount || 0, false, false)) || 0,
+      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-bag.svg`,
       color: 'primary' as const,
     },
     {
       label: t('dashboard.pendingSettlement'),
       value: convertAmount(amountInfo?.frozenAmount || 0),
-      icon: 'solar:clock-circle-bold-duotone',
+      numericValue: Number(convertAmount(amountInfo?.frozenAmount || 0, false, false)) || 0,
+      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-message.svg`,
       color: 'info' as const,
     },
     {
       label: t('dashboard.frozenAmount'),
       value: convertAmount(amountInfo?.rechargeAmount || 0),
-      icon: 'solar:lock-keyhole-bold-duotone',
+      numericValue: Number(convertAmount(amountInfo?.rechargeAmount || 0, false, false)) || 0,
+      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-users.svg`,
       color: 'warning' as const,
     },
   ];
@@ -70,27 +76,23 @@ export function DashboardStats({ amountInfo, isLoading }: Props) {
       {balanceCards.map((card) => (
         <Card key={card.label} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2.5 }}>
           <Box
-            sx={{
-              width: 56,
-              height: 56,
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 2,
-              bgcolor: `${card.color}.lighter`,
-              color: `${card.color}.darker`,
-            }}
-          >
-            <Iconify icon={card.icon} width={32} />
-          </Box>
+            component="img"
+            alt={card.label}
+            src={card.icon}
+            sx={{ width: 48, height: 48, flexShrink: 0 }}
+          />
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
               {card.label}
             </Typography>
-            <Typography variant="h5" noWrap>
-              {card.value}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
+              {displayCurrency && (
+                <Typography variant="subtitle2" sx={{ color: 'text.secondary', mr: 1 }}>
+                  {displayCurrency}
+                </Typography>
+              )}
+              <AnimateCountUp variant="h5" to={card.numericValue} toFixed={2} duration={1.5} />
+            </Box>
           </Box>
         </Card>
       ))}

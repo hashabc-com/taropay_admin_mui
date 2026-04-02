@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { RouterLink } from 'src/routes/components';
 
 import { CONFIG } from 'src/global-config';
+import { useLanguage } from 'src/context/language-provider';
 
 // ----------------------------------------------------------------------
 
@@ -32,11 +33,15 @@ export function AuthSplitSection({
   method,
   methods,
   layoutQuery = 'md',
-  title = 'Manage the job',
+  title,
   imgUrl = `${CONFIG.assetsDir}/assets/illustrations/illustration-dashboard.webp`,
-  subtitle = 'More effectively with optimized workflows.',
+  subtitle,
   ...other
 }: AuthSplitSectionProps) {
+  const { t } = useLanguage();
+
+  const resolvedTitle = title || t('auth.brandTitle');
+  const resolvedSubtitle = subtitle || t('auth.brandSubtitle');
   return (
     <Box
       sx={[
@@ -68,12 +73,12 @@ export function AuthSplitSection({
     >
       <div>
         <Typography variant="h3" sx={{ textAlign: 'center' }}>
-          {title}
+          {resolvedTitle}
         </Typography>
 
-        {subtitle && (
+        {resolvedSubtitle && (
           <Typography sx={{ color: 'text.secondary', textAlign: 'center', mt: 2 }}>
-            {subtitle}
+            {resolvedSubtitle}
           </Typography>
         )}
       </div>

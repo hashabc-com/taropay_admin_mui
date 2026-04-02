@@ -95,10 +95,30 @@
       "beijing": "Beijing"
     },
     "pleaseSelectCountryFirst": "Please select a country first",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "noDataTitle": "No Data",
+    "noDataDescription": "Try adjusting your filters or check back later",
+    "enterKeywords": "Please enter keywords",
+    "notFound": "Not Found",
+    "noResultsFor": "No results found for",
+    "apiDocs": "API Docs",
+    "logout": "Logout"
   },
   "signIn": {
     "username": "Username"
+  },
+  "auth": {
+    "brandTitle": "Efficient Management, Secure Payments",
+    "brandSubtitle": "TaroPay Global Payment Management Platform"
+  },
+  "error": {
+    "goHome": "Go to Home",
+    "serverError": "500 Internal Server Error",
+    "serverErrorDesc": "The server encountered an error. Please try again later. If the issue persists, contact our support team.",
+    "maintenance": "Under Maintenance",
+    "maintenanceDesc": "We are currently performing scheduled maintenance. We'll be back shortly. Thank you for your patience.",
+    "comingSoon": "Coming Soon",
+    "comingSoonDesc": "This feature is currently under development. Stay tuned! We'll notify you as soon as it's ready."
   },
   "sidebar": {
     "orderManagement": "Order Management",
@@ -133,6 +153,7 @@
     "accountManage": "Account Management",
     "sendAnnouncement": "Send Announcement",
     "exportManagement": "Export Management",
+    "apiDocs": "API Docs",
     "dashboard": "Overview"
   },
   "dashboard": {
@@ -157,7 +178,8 @@
     "collectionFee": "Collection Fee",
     "paymentFee": "Payment Fee",
     "collectionCount": "Collection Orders",
-    "paymentCount": "Payment Orders"
+    "paymentCount": "Payment Orders",
+    "noChartData": "No chart data available"
   },
   "orders": {
     "stats": {

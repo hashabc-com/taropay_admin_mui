@@ -8,9 +8,11 @@ import Typography from '@mui/material/Typography';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
+import { CONFIG } from 'src/global-config';
+import { useCountryStore } from 'src/stores/country-store';
 import { useLanguage } from 'src/context/language-provider';
 
-import { Iconify } from 'src/components/iconify';
+import { AnimateCountUp } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +24,7 @@ type Props = {
 export function DashboardFlowCards({ chartResult, isLoading }: Props) {
   const { t } = useLanguage();
   const convertAmount = useConvertAmount();
+  const { displayCurrency } = useCountryStore();
 
   if (isLoading) {
     return (
@@ -36,13 +39,15 @@ export function DashboardFlowCards({ chartResult, isLoading }: Props) {
     {
       label: t('dashboard.rechargeAmount'),
       value: convertAmount(chartResult?.rechargeAmount || 0),
-      icon: 'solar:download-minimalistic-bold-duotone',
+      numericValue: Number(convertAmount(chartResult?.rechargeAmount || 0, false, false)) || 0,
+      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-buy.svg`,
       color: 'primary' as const,
     },
     {
       label: t('dashboard.withdrawalAmount'),
       value: convertAmount(chartResult?.withdrawalAmount || 0),
-      icon: 'solar:upload-minimalistic-bold-duotone',
+      numericValue: Number(convertAmount(chartResult?.withdrawalAmount || 0, false, false)) || 0,
+      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-bag.svg`,
       color: 'success' as const,
     },
   ];
@@ -61,27 +66,23 @@ export function DashboardFlowCards({ chartResult, isLoading }: Props) {
           }}
         >
           <Box
-            sx={{
-              width: 48,
-              height: 48,
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 1.5,
-              bgcolor: `${card.color}.lighter`,
-              color: `${card.color}.main`,
-            }}
-          >
-            <Iconify icon={card.icon} width={28} />
-          </Box>
+            component="img"
+            alt={card.label}
+            src={card.icon}
+            sx={{ width: 40, height: 40, flexShrink: 0 }}
+          />
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
               {card.label}
             </Typography>
-            <Typography variant="h6" noWrap>
-              {card.value}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
+              {displayCurrency && (
+                <Typography variant="subtitle2" sx={{ color: 'text.secondary', mr: 1 }}>
+                  {displayCurrency}
+                </Typography>
+              )}
+              <AnimateCountUp variant="h5" to={card.numericValue} toFixed={2} duration={1.5} />
+            </Box>
           </Box>
         </Card>
       ))}

@@ -100,6 +100,11 @@ function filterNavItems(
         return null;
       }
 
+      // External links — always visible, skip permission check
+      if (item.path?.startsWith('http')) {
+        return item;
+      }
+
       // Leaf item — check permission by path
       if (item.path) {
         return checkPermission(item.path) ? item : null;

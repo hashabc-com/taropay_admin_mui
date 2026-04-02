@@ -95,10 +95,30 @@
       "beijing": "北京时间"
     },
     "pleaseSelectCountryFirst": "请先选择国家",
-    "unknown": "未知"
+    "unknown": "未知",
+    "noDataTitle": "暂无数据",
+    "noDataDescription": "请调整筛选条件或稍后再试",
+    "enterKeywords": "请输入关键词",
+    "notFound": "未找到",
+    "noResultsFor": "未找到相关结果",
+    "apiDocs": "API 文档",
+    "logout": "退出登录"
   },
   "signIn": {
     "username": "用户名"
+  },
+  "auth": {
+    "brandTitle": "高效管理，安全支付",
+    "brandSubtitle": "TaroPay 全球支付管理平台"
+  },
+  "error": {
+    "goHome": "返回首页",
+    "serverError": "500 服务器内部错误",
+    "serverErrorDesc": "服务器遇到了一个错误，请稍后再试。如果问题持续存在，请联系技术支持。",
+    "maintenance": "系统维护中",
+    "maintenanceDesc": "系统正在进行维护升级，请稍后再来。我们会尽快恢复服务，感谢您的耐心等待。",
+    "comingSoon": "即将上线",
+    "comingSoonDesc": "该功能正在紧锣密鼓地开发中，敬请期待！我们会在准备就绪后第一时间通知您。"
   },
   "sidebar": {
     "orderManagement": "订单管理",
@@ -133,6 +153,7 @@
     "accountManage": "账户管理",
     "sendAnnouncement": "发送公告",
     "exportManagement": "导出管理",
+    "apiDocs": "API 文档",
     "dashboard": "概览"
   },
   "dashboard": {
@@ -157,7 +178,8 @@
     "collectionFee": "收款服务费",
     "paymentFee": "付款服务费",
     "collectionCount": "收款订单数",
-    "paymentCount": "付款订单数"
+    "paymentCount": "付款订单数",
+    "noChartData": "暂无图表数据"
   },
   "fund": {
     "settlement": {

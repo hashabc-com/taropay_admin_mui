@@ -1,10 +1,13 @@
 import type { Breakpoint } from '@mui/material/styles';
 import type { ContainerProps } from '@mui/material/Container';
 
+import { m } from 'framer-motion';
 import { mergeClasses } from 'minimal-shared/utils';
 
+import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { useSettingsContext } from 'src/components/settings';
 
@@ -15,6 +18,8 @@ import { layoutClasses } from '../core';
 export type DashboardContentProps = ContainerProps & {
   layoutQuery?: Breakpoint;
   disablePadding?: boolean;
+  /** Disable page enter animation (default: false) */
+  disableAnimation?: boolean;
 };
 
 export function DashboardContent({
@@ -22,13 +27,16 @@ export function DashboardContent({
   children,
   className,
   disablePadding,
+  disableAnimation,
   maxWidth = 'lg',
   layoutQuery = 'lg',
   ...other
 }: DashboardContentProps) {
   const settings = useSettingsContext();
+  const smDown = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   const isNavHorizontal = settings.state.navLayout === 'horizontal';
+  const shouldAnimate = !disableAnimation && !smDown;
 
   return (
     <Container
@@ -59,7 +67,19 @@ export function DashboardContent({
       ]}
       {...other}
     >
-      {children}
+      {shouldAnimate ? (
+        <Box
+          component={m.div}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}
+        >
+          {children}
+        </Box>
+      ) : (
+        children
+      )}
     </Container>
   );
 }

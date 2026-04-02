@@ -13,6 +13,8 @@ import { listItemIconClasses } from '@mui/material/ListItemIcon';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
 import { circularProgressClasses } from '@mui/material/CircularProgress';
 
+import { DataGridEmptyOverlay } from 'src/components/data-grid';
+
 // ----------------------------------------------------------------------
 
 export type IconProps = Omit<SvgIconProps & GridBaseIconProps, 'color'>;
@@ -232,6 +234,8 @@ const MuiDataGrid: Components<Theme>['MuiDataGrid'] = {
       /* Quick filter */
       quickFilterIcon: SearchIcon,
       quickFilterClearIcon: CloseIcon,
+      /* Empty state */
+      noRowsOverlay: DataGridEmptyOverlay,
     },
     slotProps: {
       baseSelect: {

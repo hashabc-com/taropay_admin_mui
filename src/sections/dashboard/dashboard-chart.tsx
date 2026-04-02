@@ -8,13 +8,16 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
 import Tabs from '@mui/material/Tabs';
+import Stack from '@mui/material/Stack';
 import CardHeader from '@mui/material/CardHeader';
+import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import { useTheme, useColorScheme } from '@mui/material/styles';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
 import { useLanguage } from 'src/context/language-provider';
+import { BookingIllustration } from 'src/assets/illustrations';
 
 // ----------------------------------------------------------------------
 // ApexCharts renders in SVG/Canvas and cannot resolve CSS variables.
@@ -213,18 +216,18 @@ export function DashboardChart({ chartData }: Props) {
               height="100%"
             />
           ) : (
-            <Box
+            <Stack
               sx={{
                 height: 1,
-                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'text.disabled',
-                fontSize: 'body2.fontSize',
               }}
             >
-              {t('common.noData')}
-            </Box>
+              <BookingIllustration sx={{ width: 160, height: 160 }} />
+              <Typography variant="body2" sx={{ color: 'text.disabled', mt: 2 }}>
+                {t('dashboard.noChartData')}
+              </Typography>
+            </Stack>
           )}
         </Box>
       </CardContent>
