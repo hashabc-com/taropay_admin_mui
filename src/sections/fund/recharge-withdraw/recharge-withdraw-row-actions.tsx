@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import InputAdornment from '@mui/material/InputAdornment';
 import CircularProgress from '@mui/material/CircularProgress';
 import DialogContentText from '@mui/material/DialogContentText';
 
@@ -148,6 +149,7 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
           toast.success(t('fund.rechargeWithdraw.approveSuccess'));
           setApproveOpen(false);
           approveForm.reset();
+          setCalculatedAmount('');
           onRefresh();
         } else {
           toast.error(res.message || t('fund.rechargeWithdraw.approveFailed'));
@@ -245,7 +247,16 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
       </Menu>
 
       {/* Approve Dialog */}
-      <Dialog open={approveOpen} onClose={() => setApproveOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={approveOpen}
+        onClose={() => {
+          setApproveOpen(false);
+          approveForm.reset();
+          setCalculatedAmount('');
+        }}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>
           {row.type === '充值'
             ? t('fund.rechargeWithdraw.recharge')
@@ -264,8 +275,17 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
                 ? t('fund.rechargeWithdraw.topUpAmount')
                 : t('fund.rechargeWithdraw.withdrawalAmount')
             }
-            value={`${row.rechargeAmount} ${row.type === '充值' ? row.currencyType || '' : selectedCountry?.currency || ''}`}
+            value={row.rechargeAmount}
             disabled
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {row.type === '充值' ? row.currencyType || '' : selectedCountry?.currency || ''}
+                  </InputAdornment>
+                ),
+              },
+            }}
             sx={{ mb: 2 }}
           />
 
@@ -274,9 +294,27 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
             size="small"
             label={t('fund.rechargeWithdraw.exchangeRate')}
             required
+            inputMode="decimal"
             {...approveForm.register('exchangeRate')}
             error={!!approveForm.formState.errors.exchangeRate}
             helperText={approveForm.formState.errors.exchangeRate?.message}
+            onKeyDown={(e) => {
+              const allowedKeys = [
+                'Backspace',
+                'Delete',
+                'Tab',
+                'ArrowLeft',
+                'ArrowRight',
+                'Home',
+                'End',
+              ];
+              if (allowedKeys.includes(e.key)) return;
+              if (e.key === '.' && (e.currentTarget as HTMLInputElement).value.includes('.')) {
+                e.preventDefault();
+              } else if (!/[0-9.]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
             sx={{ mb: 2 }}
           />
 
@@ -285,9 +323,27 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
             size="small"
             label={t('fund.rechargeWithdraw.costExchangeRate')}
             required
+            inputMode="decimal"
             {...approveForm.register('costRate')}
             error={!!approveForm.formState.errors.costRate}
             helperText={approveForm.formState.errors.costRate?.message}
+            onKeyDown={(e) => {
+              const allowedKeys = [
+                'Backspace',
+                'Delete',
+                'Tab',
+                'ArrowLeft',
+                'ArrowRight',
+                'Home',
+                'End',
+              ];
+              if (allowedKeys.includes(e.key)) return;
+              if (e.key === '.' && (e.currentTarget as HTMLInputElement).value.includes('.')) {
+                e.preventDefault();
+              } else if (!/[0-9.]/.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
             sx={{ mb: 2 }}
           />
 
@@ -297,6 +353,15 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
             label={t('fund.rechargeWithdraw.actualAmount')}
             value={convertAmount(calculatedAmount, false)}
             disabled
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {row.type === '充值' ? selectedCountry?.currency || '' : 'USDT'}
+                  </InputAdornment>
+                ),
+              },
+            }}
             sx={{ mb: 2 }}
           />
 
@@ -340,6 +405,7 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
             onClick={() => {
               setApproveOpen(false);
               approveForm.reset();
+              setCalculatedAmount('');
             }}
           >
             {t('common.cancel')}
@@ -356,7 +422,15 @@ export function RechargeWithdrawRowActions({ row, onRefresh }: Props) {
       </Dialog>
 
       {/* Reject Dialog */}
-      <Dialog open={rejectOpen} onClose={() => setRejectOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={rejectOpen}
+        onClose={() => {
+          setRejectOpen(false);
+          rejectForm.reset();
+        }}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>{t('common.reject')}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>

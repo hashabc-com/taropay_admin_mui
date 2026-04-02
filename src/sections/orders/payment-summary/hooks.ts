@@ -63,11 +63,11 @@ export function usePaymentSummaryList() {
   const totals: PaymentSummaryTotals = useMemo(
     () => ({
       orderTotal: data?.result?.orderTotal,
-      amountTotal: data?.result?.amountTotal,
-      amountServiceTotal: data?.result?.amountServiceTotal,
-      totalAmountTotal: data?.result?.totalAmountTotal,
+      amountTotal: convertAmount(data?.result?.amountTotal, false),
+      amountServiceTotal: convertAmount(data?.result?.amountServiceTotal, false),
+      totalAmountTotal: convertAmount(data?.result?.totalAmountTotal, false),
     }),
-    [data]
+    [data, convertAmount]
   );
 
   return { rows, totalRecord, totals, error, isLoading, isValidating, mutate, params };

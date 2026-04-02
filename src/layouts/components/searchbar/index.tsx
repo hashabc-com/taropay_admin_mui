@@ -50,7 +50,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }: SearchbarProps)
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      const isK = event.key.toLowerCase() === 'k';
+      const isK = event.key?.toLowerCase() === 'k';
       const isModifier = isMac ? event.metaKey : event.ctrlKey;
 
       if (isModifier && isK) {

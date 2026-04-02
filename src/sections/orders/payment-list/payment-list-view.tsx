@@ -273,7 +273,8 @@ export function PaymentListView() {
       <OrderDetailDrawer
         open={detailOpen}
         onClose={handleCloseDetail}
-        order={detailOrder as never}
+        order={detailOrder}
+        variant="payment"
       />
       {googleAuthDialog}
     </DashboardContent>

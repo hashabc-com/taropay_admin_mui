@@ -49,14 +49,14 @@ export function MerchantBindRowActions({ row, onAction }: Props) {
       >
         <MenuItem onClick={handleAction('bind')}>
           <ListItemIcon>
-            <Iconify icon="mdi:link-variant" />
+            <Iconify icon="solar:link-bold" />
           </ListItemIcon>
           <ListItemText>{t('business.merchantBind.bindMerchant')}</ListItemText>
         </MenuItem>
 
         <MenuItem onClick={handleAction('rate')}>
           <ListItemIcon>
-            <Iconify icon="mdi:currency-usd" />
+            <Iconify icon="solar:dollar-bold" />
           </ListItemIcon>
           <ListItemText>{t('merchant.info.rateConfig')}</ListItemText>
         </MenuItem>

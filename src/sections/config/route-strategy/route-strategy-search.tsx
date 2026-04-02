@@ -21,7 +21,7 @@ export function RouteStrategySearch({ onAdd, onRefresh }: Props) {
         variant="contained"
         size="small"
         onClick={onRefresh}
-        startIcon={<Iconify icon="eva:refresh-fill" />}
+        startIcon={<Iconify icon="solar:refresh-bold" />}
       >
         {t('common.refresh')}
       </Button>

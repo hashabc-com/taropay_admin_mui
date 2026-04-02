@@ -26,7 +26,7 @@ interface RechargeFormProps {
 }
 
 const INITIAL_FORM = {
-  currencyType: 'USD',
+  currencyType: 'USDT',
   exchangeRate: '',
   rechargeAmount: '',
   remark: '',

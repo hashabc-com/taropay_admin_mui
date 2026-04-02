@@ -260,7 +260,7 @@ export function SendAnnouncementView() {
                 loading ? (
                   <CircularProgress size={16} color="inherit" />
                 ) : (
-                  <Iconify icon="mdi:send" />
+                  <Iconify icon="custom:send-fill" />
                 )
               }
             >

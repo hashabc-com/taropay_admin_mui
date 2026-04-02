@@ -110,9 +110,9 @@ export function RechargeWithdrawView() {
           minWidth: 100,
           renderCell: ({ row }) => {
             if (!row.mediaId) return '-';
-            return row.local_url ? (
+            return row.mediaId ? (
               <img
-                src={row.local_url}
+                src={row.mediaId}
                 alt="voucher"
                 style={{
                   width: 48,
@@ -121,7 +121,7 @@ export function RechargeWithdrawView() {
                   borderRadius: 4,
                   cursor: 'pointer',
                 }}
-                onClick={() => setPreviewImage(row.local_url || null)}
+                onClick={() => setPreviewImage(row.mediaId || null)}
               />
             ) : (
               '...'
