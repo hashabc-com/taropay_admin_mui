@@ -31,6 +31,7 @@ const ICONS = {
   folder: icon('ic-folder'),
   course: icon('ic-course'),
   params: icon('ic-params'),
+  setting: icon('ic-setting'),
   banking: icon('ic-banking'),
   booking: icon('ic-booking'),
   invoice: icon('ic-invoice'),
@@ -103,7 +104,7 @@ export function useNavData(): NavSectionProps['data'] {
           {
             title: t('sidebar.configManagement'),
             path: paths.config.root,
-            icon: ICONS.params,
+            icon: ICONS.setting,
             children: [
               { title: t('sidebar.paymentChannel'), path: paths.config.paymentChannel },
               { title: t('sidebar.routeStrategy'), path: paths.config.routeStrategy },
