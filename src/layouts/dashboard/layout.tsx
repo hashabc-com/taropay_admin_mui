@@ -151,13 +151,15 @@ export function DashboardLayout({
           {/** @slot Country / Merchant selector */}
           <CountryMerchantSelector />
 
-          {/** @slot Language popover */}
-          <LanguagePopover
-            data={[
-              { value: 'zh', label: '中文', countryCode: 'CN' },
-              { value: 'en', label: 'English', countryCode: 'GB' },
-            ]}
-          />
+          {/** @slot Language popover — hidden on mobile */}
+          <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+            <LanguagePopover
+              data={[
+                { value: 'zh', label: '中文', countryCode: 'CN' },
+                { value: 'en', label: 'English', countryCode: 'GB' },
+              ]}
+            />
+          </Box>
 
           {/** @slot Notifications popover */}
           {/* <NotificationsDrawer data={_notifications} /> */}
@@ -165,8 +167,10 @@ export function DashboardLayout({
           {/** @slot Contacts popover */}
           {/* <ContactsPopover data={_contacts} /> */}
 
-          {/** @slot Settings button */}
-          <SettingsButton />
+          {/** @slot Settings button — hidden on mobile */}
+          <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+            <SettingsButton />
+          </Box>
 
           {/** @slot Account popover */}
           <AccountPopover />

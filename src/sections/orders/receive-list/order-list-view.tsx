@@ -104,7 +104,7 @@ export function OrderListView() {
         {
           field: 'companyName',
           headerName: t('orders.receiveOrders.merchant'),
-          minWidth: 100,
+          minWidth: 120,
           flex: 1,
           tooltip: true,
         },
@@ -128,7 +128,7 @@ export function OrderListView() {
         {
           field: 'referenceno',
           headerName: `${t('common.thirdParty')}/${t('common.platform')}/${t('orders.receiveOrders.merchantOrderNo')}`,
-          minWidth: 250,
+          minWidth: 300,
           flex: 1,
           align: 'left',
           renderCell: ({ row }) => (
@@ -161,7 +161,7 @@ export function OrderListView() {
         {
           field: 'pickupCenter',
           headerName: t('orders.receiveOrders.product'),
-          minWidth: 80,
+          minWidth: 150,
           flex: 1,
           renderCell: ({ value }) =>
             value ? <Chip label={value} size="small" variant="outlined" /> : '-',

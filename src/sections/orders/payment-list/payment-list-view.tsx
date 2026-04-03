@@ -137,7 +137,7 @@ export function PaymentListView() {
           field: 'companyName',
           headerName: t('orders.paymentOrders.merchant'),
           flex: 1,
-          minWidth: 100,
+          minWidth: 120,
           tooltip: true,
         },
         {
@@ -161,7 +161,7 @@ export function PaymentListView() {
           headerName: `${t('common.thirdParty')}/${t('common.platform')}/${t('orders.receiveOrders.merchantOrderNo')}`,
           align: 'left',
           flex: 1,
-          minWidth: 250,
+          minWidth: 300,
           renderCell: ({ row }) => (
             <Stack
               sx={{
@@ -179,27 +179,27 @@ export function PaymentListView() {
           field: 'mobile',
           headerName: t('orders.receiveOrders.mobile'),
           flex: 1,
-          minWidth: 120,
+          minWidth: 150,
           tooltip: true,
         },
         {
           field: 'pickupCenter',
           headerName: t('orders.paymentOrders.product'),
           flex: 1,
-          minWidth: 100,
+          minWidth: 150,
           renderCell: ({ value }) =>
             value ? <Chip label={value} size="small" variant="outlined" /> : '-',
         },
         {
           field: 'paymentCompany',
           headerName: t('orders.paymentOrders.paymentCompany'),
-          minWidth: 100,
+          minWidth: 200,
           flex: 1,
         },
         {
           field: 'accountNumber',
           headerName: t('orders.paymentOrders.receivingAccount'),
-          minWidth: 100,
+          minWidth: 150,
           flex: 1,
         },
         { field: 'amount', headerName: t('orders.paymentOrders.amount'), flex: 1, minWidth: 100 },

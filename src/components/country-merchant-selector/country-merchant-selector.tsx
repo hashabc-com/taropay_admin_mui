@@ -142,10 +142,16 @@ export function CountryMerchantSelector() {
         ))}
       </Select>
 
-      <Divider orientation="vertical" flexItem sx={{ my: 0.75 }} />
+      <Divider
+        orientation="vertical"
+        flexItem
+        sx={{ my: 0.75, display: { xs: 'none', sm: 'flex' } }}
+      />
 
-      {/* Currency */}
-      <CurrencySelector />
+      {/* Currency — hidden on mobile to save header space */}
+      <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+        <CurrencySelector />
+      </Box>
 
       <Divider
         orientation="vertical"

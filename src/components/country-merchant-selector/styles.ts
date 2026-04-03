@@ -30,7 +30,11 @@ export const selectorGroupSx: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
   borderRadius: 1,
-  border: (theme: Theme) => `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.2)}`,
+  border: {
+    xs: 'none',
+    sm: ((theme: Theme) =>
+      `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.2)}`) as any,
+  },
   transition: (theme: Theme) => theme.transitions.create('border-color'),
   '&:hover': {
     borderColor: (theme: Theme) => varAlpha(theme.vars.palette.grey['500Channel'], 0.32),
