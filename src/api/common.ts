@@ -25,6 +25,8 @@ export const payInNotify = (data: { transId: string; status: number }) =>
 
 export const updateStatus = (data: FormData) =>
   http.post<ResponseData>('/admin/collection/payInStatusQuery', data);
+export const updatePayOutStatus = (data: FormData) =>
+  http.post<ResponseData>(`/admin/disbursement/payOutStatusQuery`, data);
 
 // 发送公告 - 获取商户列表
 export const getMerchantListBySend = (country: string) =>

@@ -15,10 +15,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
-import { payInNotify } from 'src/api/common';
 import { payOutReject } from 'src/api/order';
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
+import { payInNotify, updatePayOutStatus } from 'src/api/common';
 
 import { Iconify } from 'src/components/iconify';
 import { dataGridSx, processColumns } from 'src/components/data-grid';
@@ -90,16 +90,14 @@ export function PaymentListView() {
       withGoogleAuth(async (gauthKey) => {
         // Payment order re-check (商户补单)
         const fd = new FormData();
-        fd.append('referenceno', record.transactionReferenceNo || '');
-        fd.append('transId', record.transactionid || '');
+        fd.append('transactionid', record.transactionid || '');
         fd.append('gauthKey', gauthKey);
-        // Using a custom endpoint for updating disbursement status would be needed
-        // For now, use similar pattern
-        try {
+        const res = await updatePayOutStatus(fd);
+        if (res.code == 200) {
           toast.success(t('common.operationSuccess'));
           mutate();
-        } catch {
-          toast.error(t('common.operationFailed'));
+        } else {
+          toast.error(res.message || t('common.operationFailed'));
         }
       });
     },
