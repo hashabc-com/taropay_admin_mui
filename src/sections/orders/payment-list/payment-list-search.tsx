@@ -46,16 +46,16 @@ export function PaymentListSearch() {
       <TextField
         size="small"
         placeholder={t('orders.paymentOrders.merchantOrderNo')}
-        value={values.refNo}
-        onChange={(e) => setField('refNo', e.target.value)}
+        value={values.transId}
+        onChange={(e) => setField('transId', e.target.value)}
         onKeyDown={handleKeyDown}
         sx={{ width: 160 }}
       />
       <TextField
         size="small"
         placeholder={t('orders.paymentOrders.platformOrderNo')}
-        value={values.transId}
-        onChange={(e) => setField('transId', e.target.value)}
+        value={values.refNo}
+        onChange={(e) => setField('refNo', e.target.value)}
         onKeyDown={handleKeyDown}
         sx={{ width: 160 }}
       />
