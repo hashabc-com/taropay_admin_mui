@@ -106,6 +106,12 @@ export function useListSearch<K extends string>(fieldKeys: readonly K[]) {
 
   /** Clear all fields and URL (keep only pageNum + pageSize) */
   const handleReset = useCallback(() => {
+    const empty = {} as Record<K, string>;
+    for (const key of keysRef.current) {
+      empty[key] = '';
+    }
+    setValues(empty);
+
     const params = new URLSearchParams();
     params.set('pageNum', '1');
     params.set('pageSize', searchParams.get('pageSize') || '10');
