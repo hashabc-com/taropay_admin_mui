@@ -1,4 +1,5 @@
 import { useDeferredValue } from 'react';
+import { useSearchParams } from 'react-router';
 
 import { useCountryStore } from 'src/stores/country-store';
 import { useMerchantStore } from 'src/stores/merchant-store';
@@ -34,13 +35,17 @@ import { useMerchantStore } from 'src/stores/merchant-store';
  * ```
  */
 export function useListSWRKey(...segments: unknown[]) {
+  const [searchParams] = useSearchParams();
   const countryCode = useCountryStore((s) => s.selectedCountry?.code);
   const merchantAppid = useMerchantStore((s) => s.selectedMerchant?.appid);
+
+  // Read _t so clicking "search" always busts the SWR cache
+  const refreshToken = searchParams.get('_t');
 
   // Defer Zustand values so they update in the same render pass as URL params,
   // avoiding the urgent-render-before-transition-settles double-request issue.
   const deferredCountry = useDeferredValue(countryCode);
   const deferredMerchant = useDeferredValue(merchantAppid);
 
-  return deferredCountry ? [...segments, deferredCountry, deferredMerchant] : null;
+  return deferredCountry ? [...segments, deferredCountry, deferredMerchant, refreshToken] : null;
 }
