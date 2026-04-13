@@ -38,6 +38,11 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
       })
     : { label: '', color: 'default' as const };
 
+  const failReason =
+    variant === 'payment'
+      ? (order as PaymentOrder)?.address
+      : (order as Order)?.message;
+
   // Resolve field names based on variant
   const merchantOrderNo =
     variant === 'payment'
@@ -95,6 +100,14 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
                 />
               </DetailRow>
 
+              {order.status === '2' && failReason && (
+                <DetailRow label={t('orders.receiveOrders.failReason')}>
+                  <Typography variant="body2" color="error.main">
+                    {failReason}
+                  </Typography>
+                </DetailRow>
+              )}
+
               <Divider />
 
               <SectionTitle>{t('orders.receiveOrders.merchant')}</SectionTitle>
@@ -109,13 +122,13 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
 
               <SectionTitle>{t('orders.receiveOrders.merchantOrderNo')}</SectionTitle>
 
-              <DetailRow label={t('orders.receiveOrders.merchantOrderNo')} mono>
+              <DetailRow label={t('orders.receiveOrders.merchantOrderNo')}>
                 {merchantOrderNo || '-'}
               </DetailRow>
-              <DetailRow label={t('orders.receiveOrders.platformOrderNo')} mono>
+              <DetailRow label={t('orders.receiveOrders.platformOrderNo')}>
                 {platformOrderNo || '-'}
               </DetailRow>
-              <DetailRow label={t('orders.receiveOrders.thirdPartyOrderNo')} mono>
+              <DetailRow label={t('orders.receiveOrders.thirdPartyOrderNo')}>
                 {thirdPartyOrderNo || '-'}
               </DetailRow>
 
@@ -133,7 +146,7 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
               <DetailRow label={t('common.channel')}>{order.paymentCompany || '-'}</DetailRow>
 
               {variant === 'payment' && (order as PaymentOrder)?.accountNumber && (
-                <DetailRow label={t('orders.paymentOrders.receivingAccount')} mono>
+                <DetailRow label={t('orders.paymentOrders.receivingAccount')}>
                   {(order as PaymentOrder).accountNumber}
                 </DetailRow>
               )}
@@ -165,16 +178,7 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
                 {finishTime || '-'}
               </DetailRow>
 
-              {order.status === '2' && (order as Order).message && (
-                <>
-                  <Divider />
-                  <DetailRow label={t('orders.receiveOrders.failReason')}>
-                    <Typography variant="body2" color="error.main">
-                      {(order as Order).message}
-                    </Typography>
-                  </DetailRow>
-                </>
-              )}
+
             </Stack>
           </Box>
 
