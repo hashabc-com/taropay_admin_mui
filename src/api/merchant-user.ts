@@ -87,7 +87,7 @@ export const getAllUserList = () =>
 /** 主账号一键登录商户后台 */
 export const autoLoginMerchantUser = (account: string, gauthKey: string) =>
   http.post(
-    `/admin/merchantUser/v1/loginCustomerBackstage?account=${encodeURIComponent(account)}&gauthKey=${encodeURIComponent(gauthKey)}`,
+    `/admin/user/v1/loginCustomerBackstage?account=${encodeURIComponent(account)}&gauthKey=${encodeURIComponent(gauthKey)}`,
     {},
     { autoAddCountry: false, autoAddMerchantId: false }
   );
