@@ -24,7 +24,6 @@ type MerchantRowActionsProps = {
   onBindIp: (merchant: MerchantInfo) => void;
   onBindTgGroup: (merchant: MerchantInfo) => void;
   onRateConfig: (merchant: MerchantInfo) => void;
-  onAutoLogin: (merchant: MerchantInfo) => void;
 };
 
 export function MerchantRowActions({
@@ -36,7 +35,6 @@ export function MerchantRowActions({
   onBindIp,
   onBindTgGroup,
   onRateConfig,
-  onAutoLogin,
 }: MerchantRowActionsProps) {
   const { t } = useLanguage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -121,15 +119,6 @@ export function MerchantRowActions({
             <Iconify icon="solar:dollar-bold" />
           </ListItemIcon>
           <ListItemText>{t('merchant.info.rateConfig')}</ListItemText>
-        </MenuItem>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <MenuItem onClick={handleAction(onAutoLogin)} disabled={row.status === 1}>
-          <ListItemIcon>
-            <Iconify icon="solar:login-bold" />
-          </ListItemIcon>
-          <ListItemText>{t('merchant.info.autoLogin')}</ListItemText>
         </MenuItem>
       </Menu>
     </>

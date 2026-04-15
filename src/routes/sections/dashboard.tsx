@@ -31,6 +31,7 @@ const LogRiskControl = lazy(() => import('src/pages/logs/risk-control'));
 
 // Merchant
 const MerchantInfo = lazy(() => import('src/pages/merchant/merchant-info'));
+const MerchantAccount = lazy(() => import('src/pages/merchant/merchant-account'));
 
 // Business
 const BusinessMerchantBind = lazy(() => import('src/pages/business/merchant-bind'));
@@ -95,7 +96,10 @@ export const dashboardRoutes: RouteObject[] = [
       },
       {
         path: 'merchant',
-        children: [{ path: 'merchant-info', element: <MerchantInfo /> }],
+        children: [
+          { path: 'merchant-info', element: <MerchantInfo /> },
+          { path: 'account', element: <MerchantAccount /> },
+        ],
       },
       {
         path: 'logs',

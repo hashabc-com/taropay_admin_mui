@@ -156,6 +156,7 @@
     "countryDailySummary": "Country Daily Summary",
     "merchantManagement": "Merchant Management",
     "merchantInfo": "Merchant Info",
+    "merchantAccount": "Master Account",
     "businessManagement": "Business Management",
     "merchantBind": "Business Bind List",
     "businessDailySummary": "Business Daily Summary",
@@ -887,5 +888,33 @@
     "downloadWarning": "File is not ready for download",
     "downloadSuccess": "Download successful",
     "downloadError": "Download failed, please try again"
+  },
+  "merchantAccount": {
+    "title": "Master Account Management",
+    "account": "Login Account",
+    "accountName": "Account Name",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New Password",
+    "passwordPlaceholder": "Leave blank to keep current",
+    "status": "Status",
+    "enable": "Enable",
+    "disable": "Disable",
+    "remark": "Remark",
+    "googleCode": "Google Auth Code",
+    "createTime": "Created At",
+    "bindMerchants": "Bound Merchants",
+    "selectMerchants": "Select merchants",
+    "addAccount": "Add Master Account",
+    "editAccount": "Edit Master Account",
+    "validation": {
+      "accountRequired": "Login account is required",
+      "accountNameRequired": "Account name is required",
+      "emailInvalid": "Please enter a valid email",
+      "passwordRequired": "Password is required",
+      "googleCodeRequired": "Google auth code is required"
+    },
+    "autoLogin": "Login Backend",
+    "autoLoginFailed": "Failed to get auto-login token"
   }
 }

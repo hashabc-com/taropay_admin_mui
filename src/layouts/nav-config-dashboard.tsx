@@ -88,7 +88,10 @@ export function useNavData(): NavSectionProps['data'] {
             title: t('sidebar.merchantManagement'),
             path: paths.merchant.root,
             icon: ICONS.user,
-            children: [{ title: t('sidebar.merchantInfo'), path: paths.merchant.merchantInfo }],
+            children: [
+              { title: t('sidebar.merchantInfo'), path: paths.merchant.merchantInfo },
+              { title: t('sidebar.merchantAccount'), path: paths.merchant.merchantAccount },
+            ],
           },
           {
             title: t('sidebar.businessManagement'),

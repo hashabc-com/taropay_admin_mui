@@ -156,6 +156,7 @@
     "countryDailySummary": "国家每日汇总",
     "merchantManagement": "商户管理",
     "merchantInfo": "商户信息",
+    "merchantAccount": "主账号管理",
     "businessManagement": "商务管理",
     "merchantBind": "商务绑定列表",
     "businessDailySummary": "商务日汇总",
@@ -887,5 +888,33 @@
     "downloadWarning": "文件尚未生成完成，无法下载",
     "downloadSuccess": "下载成功",
     "downloadError": "下载失败，请重试"
+  },
+  "merchantAccount": {
+    "title": "主账号管理",
+    "account": "登录账号",
+    "accountName": "账号名称",
+    "email": "邮箱",
+    "password": "密码",
+    "newPassword": "新密码",
+    "passwordPlaceholder": "不修改请留空",
+    "status": "状态",
+    "enable": "启用",
+    "disable": "禁用",
+    "remark": "备注",
+    "googleCode": "谷歌验证码",
+    "createTime": "创建时间",
+    "bindMerchants": "绑定商户",
+    "selectMerchants": "请选择商户",
+    "addAccount": "新增主账号",
+    "editAccount": "编辑主账号",
+    "validation": {
+      "accountRequired": "请输入登录账号",
+      "accountNameRequired": "请输入账号名称",
+      "emailInvalid": "请输入有效的邮箱地址",
+      "passwordRequired": "请输入密码",
+      "googleCodeRequired": "请输入谷歌验证码"
+    },
+    "autoLogin": "登录后台",
+    "autoLoginFailed": "获取自动登录令牌失败"
   }
 }

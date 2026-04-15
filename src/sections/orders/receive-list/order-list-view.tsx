@@ -169,7 +169,8 @@ export function OrderListView() {
         {
           field: 'paymentCompany',
           headerName: t('common.channel'),
-          minWidth: 100,
+          minWidth: 150,
+          tooltip: true,
           flex: 1,
         },
         {

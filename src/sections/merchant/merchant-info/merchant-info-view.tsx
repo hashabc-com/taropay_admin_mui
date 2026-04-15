@@ -27,7 +27,6 @@ import { useMerchantInfoList } from './hooks';
 import { AddIpDialog } from './add-ip-dialog';
 import { BindTgDialog } from './bind-tg-dialog';
 import { UnbindKeyDialog } from './unbind-key-dialog';
-import { AutoLoginDialog } from './auto-login-dialog';
 import { RateConfigDialog } from './rate-config-dialog';
 import { MerchantInfoSearch } from './merchant-info-search';
 import { MerchantRowActions } from './merchant-row-actions';
@@ -51,7 +50,6 @@ export function MerchantInfoView() {
   const [unbindKeyDialogOpen, setUnbindKeyDialogOpen] = useState(false);
   const [addIpDialogOpen, setAddIpDialogOpen] = useState(false);
   const [bindTgDialogOpen, setBindTgDialogOpen] = useState(false);
-  const [autoLoginDialogOpen, setAutoLoginDialogOpen] = useState(false);
   const [rateConfigDialogOpen, setRateConfigDialogOpen] = useState(false);
 
   // -- pagination --
@@ -132,11 +130,6 @@ export function MerchantInfoView() {
   const handleRateConfig = useCallback((merchant: MerchantInfo) => {
     setCurrentMerchant(merchant);
     setRateConfigDialogOpen(true);
-  }, []);
-
-  const handleAutoLogin = useCallback((merchant: MerchantInfo) => {
-    setCurrentMerchant(merchant);
-    setAutoLoginDialogOpen(true);
   }, []);
 
   const handleSuccess = useCallback(() => {
@@ -243,7 +236,6 @@ export function MerchantInfoView() {
               onBindIp={handleBindIp}
               onBindTgGroup={handleBindTgGroup}
               onRateConfig={handleRateConfig}
-              onAutoLogin={handleAutoLogin}
             />
           ),
         },
@@ -259,7 +251,6 @@ export function MerchantInfoView() {
       handleBindIp,
       handleBindTgGroup,
       handleRateConfig,
-      handleAutoLogin,
     ]
   );
 
@@ -347,13 +338,6 @@ export function MerchantInfoView() {
         onOpenChange={setBindTgDialogOpen}
         merchant={currentMerchant}
         onSuccess={handleSuccess}
-      />
-
-      {/* Auto Login */}
-      <AutoLoginDialog
-        open={autoLoginDialogOpen}
-        onOpenChange={setAutoLoginDialogOpen}
-        merchant={currentMerchant}
       />
 
       {/* Rate Config */}

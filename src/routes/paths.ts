@@ -41,6 +41,7 @@ export const paths = {
   merchant: {
     root: '/merchant',
     merchantInfo: '/merchant/merchant-info',
+    merchantAccount: '/merchant/account',
   },
   // BUSINESS
   business: {
