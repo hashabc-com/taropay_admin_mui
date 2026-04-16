@@ -257,7 +257,7 @@ export function MerchantInfoView() {
   return (
     <DashboardContent maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
-        <Typography variant="h4">{t('merchant.info.title')}</Typography>
+        <Typography variant="h4">{t('merchant.info.title')}-test</Typography>
         <Button
           variant="contained"
           startIcon={<Iconify icon="mingcute:add-line" />}
