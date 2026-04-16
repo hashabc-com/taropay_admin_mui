@@ -69,12 +69,12 @@ export function MerchantRowActions({
           <ListItemText>{t('common.edit')}</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={handleAction(onChangePassword)}>
+        {/* <MenuItem onClick={handleAction(onChangePassword)}>
           <ListItemIcon>
             <Iconify icon="solar:key-bold" />
           </ListItemIcon>
           <ListItemText>{t('merchant.info.changePassword')}</ListItemText>
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem
           onClick={handleAction(onToggleStatus)}

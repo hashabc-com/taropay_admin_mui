@@ -56,7 +56,7 @@ export function EditMerchantDialog({
     () =>
       z.object({
         account: z.string().min(1, t('merchant.info.validation.accountRequired')),
-        password: z.string().optional(),
+        // password: z.string().optional(),
         companyName: z.string().min(1, t('merchant.info.validation.merchantNameRequired')),
         callbackQueue: z.string().min(1, t('merchant.info.validation.callbackQueueRequired')),
         freezeType: z.number(),
@@ -74,7 +74,7 @@ export function EditMerchantDialog({
     resolver: zodResolver(schema),
     defaultValues: {
       account: '',
-      password: '',
+      // password: '',
       companyName: '',
       callbackQueue: '',
       freezeType: 0,
@@ -103,7 +103,7 @@ export function EditMerchantDialog({
     } else if (open && isAdd) {
       reset({
         account: '',
-        password: '',
+        // password: '',
         companyName: '',
         callbackQueue: '',
         freezeType: 0,
@@ -135,7 +135,7 @@ export function EditMerchantDialog({
       };
 
       if (isAdd) {
-        params.password = values.password;
+        // params.password = values.password;
         params.country = selectedCountry;
       } else {
         params.id = merchant!.id;
@@ -170,14 +170,14 @@ export function EditMerchantDialog({
           <Stack spacing={2.5} sx={{ mt: 1 }}>
             <RHFTextField name="account" label={t('merchant.info.account')} size="small" />
 
-            {isAdd && (
+            {/* {isAdd && (
               <RHFTextField
                 name="password"
                 label={t('merchant.info.password')}
                 type="password"
                 size="small"
               />
-            )}
+            )} */}
 
             <RHFTextField name="companyName" label={t('merchant.info.merchantName')} size="small" />
 
