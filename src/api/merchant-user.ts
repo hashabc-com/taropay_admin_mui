@@ -84,6 +84,13 @@ export const getAllUserList = () =>
     { autoAddCountry: false, autoAddMerchantId: false }
   );
 
+/** 解绑谷歌验证 */
+export const unbindGoogleAuth = (data: FormData) =>
+  http.post('/admin/merchantUser/v1/unbindGoogle', data, {
+    autoAddCountry: false,
+    autoAddMerchantId: false,
+  });
+
 /** 主账号一键登录商户后台 */
 export const autoLoginMerchantUser = (account: string, gauthKey: string) =>
   http.post(

@@ -20,7 +20,6 @@ type MerchantRowActionsProps = {
   onEdit: (merchant: MerchantInfo) => void;
   onChangePassword: (merchant: MerchantInfo) => void;
   onToggleStatus: (merchant: MerchantInfo) => void;
-  onUnbindKey: (merchant: MerchantInfo) => void;
   onBindIp: (merchant: MerchantInfo) => void;
   onBindTgGroup: (merchant: MerchantInfo) => void;
   onRateConfig: (merchant: MerchantInfo) => void;
@@ -31,7 +30,6 @@ export function MerchantRowActions({
   onEdit,
   onChangePassword,
   onToggleStatus,
-  onUnbindKey,
   onBindIp,
   onBindTgGroup,
   onRateConfig,
@@ -92,13 +90,6 @@ export function MerchantRowActions({
         </MenuItem>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <MenuItem onClick={handleAction(onUnbindKey)}>
-          <ListItemIcon>
-            <Iconify icon="solar:trash-bin-trash-bold" />
-          </ListItemIcon>
-          <ListItemText>{t('merchant.info.unbindSecretKey')}</ListItemText>
-        </MenuItem>
 
         <MenuItem onClick={handleAction(onBindIp)}>
           <ListItemIcon>

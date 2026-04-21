@@ -19,9 +19,16 @@ type Props = {
   onEdit: (user: MerchantUser) => void;
   onToggleStatus: (user: MerchantUser) => void;
   onAutoLogin: (user: MerchantUser) => void;
+  onUnbindGoogle: (user: MerchantUser) => void;
 };
 
-export function MerchantAccountRowActions({ row, onEdit, onToggleStatus, onAutoLogin }: Props) {
+export function MerchantAccountRowActions({
+  row,
+  onEdit,
+  onToggleStatus,
+  onAutoLogin,
+  onUnbindGoogle,
+}: Props) {
   const { t } = useLanguage();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -70,6 +77,13 @@ export function MerchantAccountRowActions({ row, onEdit, onToggleStatus, onAutoL
             <Iconify icon="solar:login-3-bold" />
           </ListItemIcon>
           <ListItemText>{t('merchantAccount.autoLogin')}</ListItemText>
+        </MenuItem>
+
+        <MenuItem onClick={handleAction(onUnbindGoogle)}>
+          <ListItemIcon>
+            <Iconify icon="solar:trash-bin-trash-bold" />
+          </ListItemIcon>
+          <ListItemText>{t('merchantAccount.unbindGoogle')}</ListItemText>
         </MenuItem>
       </Menu>
     </>

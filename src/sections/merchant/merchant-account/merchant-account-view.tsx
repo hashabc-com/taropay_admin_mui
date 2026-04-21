@@ -21,6 +21,7 @@ import { dataGridSx, processColumns } from 'src/components/data-grid';
 import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
 import { STATUS_MAP, useMerchantUserList } from './hooks';
+import { UnbindGoogleDialog } from './unbind-google-dialog';
 import { MerchantAccountSearch } from './merchant-account-search';
 import { MerchantAccountRowActions } from './merchant-account-row-actions';
 import { EditMerchantAccountDialog } from './edit-merchant-account-dialog';
@@ -37,6 +38,7 @@ export function MerchantAccountView() {
   const [currentUser, setCurrentUser] = useState<MerchantUser | null>(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [unbindGoogleDialogOpen, setUnbindGoogleDialogOpen] = useState(false);
 
   // -- pagination --
   const paginationModel: GridPaginationModel = useMemo(
@@ -75,6 +77,11 @@ export function MerchantAccountView() {
     },
     [withGoogleAuth, mutate, t]
   );
+
+  const handleUnbindGoogle = useCallback((user: MerchantUser) => {
+    setCurrentUser(user);
+    setUnbindGoogleDialogOpen(true);
+  }, []);
 
   const handleSuccess = useCallback(() => {
     mutate();
@@ -172,11 +179,12 @@ export function MerchantAccountView() {
               onEdit={handleEdit}
               onToggleStatus={handleToggleStatus}
               onAutoLogin={handleAutoLogin}
+              onUnbindGoogle={handleUnbindGoogle}
             />
           ),
         },
       ]),
-    [t, handleEdit, handleToggleStatus, handleAutoLogin]
+    [t, handleEdit, handleToggleStatus, handleAutoLogin, handleUnbindGoogle]
   );
 
   return (
@@ -230,6 +238,14 @@ export function MerchantAccountView() {
         onOpenChange={setEditDialogOpen}
         merchantUser={currentUser}
         isAdd={false}
+        onSuccess={handleSuccess}
+      />
+
+      {/* Unbind Google */}
+      <UnbindGoogleDialog
+        open={unbindGoogleDialogOpen}
+        onOpenChange={setUnbindGoogleDialogOpen}
+        user={currentUser}
         onSuccess={handleSuccess}
       />
     </DashboardContent>

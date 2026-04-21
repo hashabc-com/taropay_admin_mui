@@ -26,7 +26,6 @@ import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 import { useMerchantInfoList } from './hooks';
 import { AddIpDialog } from './add-ip-dialog';
 import { BindTgDialog } from './bind-tg-dialog';
-import { UnbindKeyDialog } from './unbind-key-dialog';
 import { RateConfigDialog } from './rate-config-dialog';
 import { MerchantInfoSearch } from './merchant-info-search';
 import { MerchantRowActions } from './merchant-row-actions';
@@ -47,7 +46,6 @@ export function MerchantInfoView() {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
-  const [unbindKeyDialogOpen, setUnbindKeyDialogOpen] = useState(false);
   const [addIpDialogOpen, setAddIpDialogOpen] = useState(false);
   const [bindTgDialogOpen, setBindTgDialogOpen] = useState(false);
   const [rateConfigDialogOpen, setRateConfigDialogOpen] = useState(false);
@@ -111,11 +109,6 @@ export function MerchantInfoView() {
     },
     [withGoogleAuth, mutate, t]
   );
-
-  const handleUnbindKey = useCallback((merchant: MerchantInfo) => {
-    setCurrentMerchant(merchant);
-    setUnbindKeyDialogOpen(true);
-  }, []);
 
   const handleBindIp = useCallback((merchant: MerchantInfo) => {
     setCurrentMerchant(merchant);
@@ -232,7 +225,6 @@ export function MerchantInfoView() {
               onEdit={handleEdit}
               onChangePassword={handleChangePassword}
               onToggleStatus={handleToggleStatus}
-              onUnbindKey={handleUnbindKey}
               onBindIp={handleBindIp}
               onBindTgGroup={handleBindTgGroup}
               onRateConfig={handleRateConfig}
@@ -247,7 +239,6 @@ export function MerchantInfoView() {
       handleEdit,
       handleChangePassword,
       handleToggleStatus,
-      handleUnbindKey,
       handleBindIp,
       handleBindTgGroup,
       handleRateConfig,
@@ -312,14 +303,6 @@ export function MerchantInfoView() {
       <ChangePasswordDialog
         open={passwordDialogOpen}
         onOpenChange={setPasswordDialogOpen}
-        merchant={currentMerchant}
-        onSuccess={handleSuccess}
-      />
-
-      {/* Unbind Google Key */}
-      <UnbindKeyDialog
-        open={unbindKeyDialogOpen}
-        onOpenChange={setUnbindKeyDialogOpen}
         merchant={currentMerchant}
         onSuccess={handleSuccess}
       />

@@ -915,6 +915,11 @@
       "googleCodeRequired": "请输入谷歌验证码"
     },
     "autoLogin": "登录后台",
-    "autoLoginFailed": "获取自动登录令牌失败"
+    "autoLoginFailed": "获取自动登录令牌失败",
+    "unbindGoogle": "解绑秘钥",
+    "unbindGoogleConfirm": "确认解绑秘钥",
+    "confirmUnbind": "确认解绑",
+    "unbindGoogleSuccess": "解绑成功",
+    "unbindGoogleFailed": "解绑失败"
   }
 }
