@@ -8,10 +8,10 @@ import Typography from '@mui/material/Typography';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
-import { CONFIG } from 'src/global-config';
 import { useCountryStore } from 'src/stores/country-store';
 import { useLanguage } from 'src/context/language-provider';
 
+import { Iconify } from 'src/components/iconify';
 import { AnimateCountUp } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
@@ -40,14 +40,14 @@ export function DashboardFlowCards({ chartResult, isLoading }: Props) {
       label: t('dashboard.rechargeAmount'),
       value: convertAmount(chartResult?.rechargeAmount || 0),
       numericValue: Number(convertAmount(chartResult?.rechargeAmount || 0, false, false)) || 0,
-      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-buy.svg`,
+      icon: 'solar:card-transfer-bold',
       color: 'primary' as const,
     },
     {
       label: t('dashboard.withdrawalAmount'),
       value: convertAmount(chartResult?.withdrawalAmount || 0),
       numericValue: Number(convertAmount(chartResult?.withdrawalAmount || 0, false, false)) || 0,
-      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-bag.svg`,
+      icon: 'solar:wad-of-money-bold',
       color: 'success' as const,
     },
   ];
@@ -66,11 +66,20 @@ export function DashboardFlowCards({ chartResult, isLoading }: Props) {
           }}
         >
           <Box
-            component="img"
-            alt={card.label}
-            src={card.icon}
-            sx={{ width: 40, height: 40, flexShrink: 0 }}
-          />
+            sx={{
+              width: 40,
+              height: 40,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 1.5,
+              bgcolor: `${card.color}.lighter`,
+              color: `${card.color}.main`,
+              flexShrink: 0,
+            }}
+          >
+            <Iconify icon={card.icon} width={24} />
+          </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
               {card.label}

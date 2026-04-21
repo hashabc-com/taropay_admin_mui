@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 
 import { useConvertAmount } from 'src/hooks/use-convert-amount';
 
-import { CONFIG } from 'src/global-config';
 import { useCountryStore } from 'src/stores/country-store';
 import { useLanguage } from 'src/context/language-provider';
 
+import { Iconify } from 'src/components/iconify';
 import { AnimateCountUp } from 'src/components/animate';
 
 // ----------------------------------------------------------------------
@@ -46,21 +46,21 @@ export function DashboardStats({ amountInfo, isLoading }: Props) {
       label: t('dashboard.availableBalance'),
       value: convertAmount(amountInfo?.availableAmount || 0),
       numericValue: Number(convertAmount(amountInfo?.availableAmount || 0, false, false)) || 0,
-      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-bag.svg`,
+      icon: 'solar:dollar-bold',
       color: 'primary' as const,
     },
     {
       label: t('dashboard.pendingSettlement'),
       value: convertAmount(amountInfo?.frozenAmount || 0),
       numericValue: Number(convertAmount(amountInfo?.frozenAmount || 0, false, false)) || 0,
-      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-message.svg`,
+      icon: 'solar:clock-circle-bold',
       color: 'info' as const,
     },
     {
       label: t('dashboard.frozenAmount'),
       value: convertAmount(amountInfo?.rechargeAmount || 0),
       numericValue: Number(convertAmount(amountInfo?.rechargeAmount || 0, false, false)) || 0,
-      icon: `${CONFIG.assetsDir}/assets/icons/glass/ic-glass-users.svg`,
+      icon: 'solar:lock-password-bold',
       color: 'warning' as const,
     },
   ];
@@ -76,11 +76,20 @@ export function DashboardStats({ amountInfo, isLoading }: Props) {
       {balanceCards.map((card) => (
         <Card key={card.label} sx={{ p: 3, display: 'flex', alignItems: 'center', gap: 2.5 }}>
           <Box
-            component="img"
-            alt={card.label}
-            src={card.icon}
-            sx={{ width: 48, height: 48, flexShrink: 0 }}
-          />
+            sx={{
+              width: 48,
+              height: 48,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 1.5,
+              bgcolor: `${card.color}.lighter`,
+              color: `${card.color}.main`,
+              flexShrink: 0,
+            }}
+          >
+            <Iconify icon={card.icon} width={28} />
+          </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
               {card.label}

@@ -15,8 +15,8 @@ export type MerchantRequest = {
   userName?: string;
   address?: string;
   mobile?: string;
-  amount?: number;
-  serviceAmount?: number;
+  amount: string;
+  serviceAmount: string;
   country?: string;
   status?: number; // 0=成功, 1=处理中, 2=失败, 3=已过期
   statusQuery?: number;
