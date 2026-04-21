@@ -132,7 +132,7 @@ export function MerchantAccountView() {
           tooltip: true,
         },
         {
-          field: 'appids',
+          field: 'customerNames',
           headerName: t('merchantAccount.bindMerchants'),
           flex: 2,
           minWidth: 200,
