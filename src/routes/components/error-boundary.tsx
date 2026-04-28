@@ -72,20 +72,31 @@ function renderErrorMessage(error: any) {
   }
 
   if (error instanceof Error) {
-    const { filePath, functionName } = parseStackTrace(error.stack);
+    if (import.meta.env.DEV) {
+      const { filePath, functionName } = parseStackTrace(error.stack);
+
+      return (
+        <>
+          <h1 className={errorBoundaryClasses.title}>Unexpected Application Error!</h1>
+          <p className={errorBoundaryClasses.message}>
+            {error.name}: {error.message}
+          </p>
+          <pre className={errorBoundaryClasses.details}>{error.stack}</pre>
+          {(filePath || functionName) && (
+            <p className={errorBoundaryClasses.filePath}>
+              {filePath} ({functionName})
+            </p>
+          )}
+        </>
+      );
+    }
 
     return (
       <>
         <h1 className={errorBoundaryClasses.title}>Unexpected Application Error!</h1>
         <p className={errorBoundaryClasses.message}>
-          {error.name}: {error.message}
+          Something went wrong. Please try refreshing the page.
         </p>
-        <pre className={errorBoundaryClasses.details}>{error.stack}</pre>
-        {(filePath || functionName) && (
-          <p className={errorBoundaryClasses.filePath}>
-            {filePath} ({functionName})
-          </p>
-        )}
       </>
     );
   }
