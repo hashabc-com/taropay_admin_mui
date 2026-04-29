@@ -19,6 +19,7 @@ export type SettlementRecord = {
   withdrawalType?: string;
   exchangeRate?: string | number;
   finalAmount?: number | string;
+  currentAvailableAmount?: number | string;
   remark?: string;
   processStatus?: number;
 };
@@ -51,6 +52,7 @@ export function useSettlementList() {
         id: i,
         rechargeAmount: convertAmount(item.rechargeAmount || 0, false),
         finalAmount: convertAmount(item.finalAmount || 0, false),
+        currentAvailableAmount: convertAmount(item.currentAvailableAmount || 0, false),
       })),
     [data, convertAmount]
   );

@@ -80,6 +80,12 @@ export function SettlementListView() {
           minWidth: 120,
         },
         {
+          field: 'currentAvailableAmount',
+          headerName: t('fund.accountSettlement.availableBalance'),
+          flex: 1,
+          minWidth: 120,
+        },
+        {
           field: 'remark',
           headerName: t('fund.settlement.remark'),
           flex: 1,
