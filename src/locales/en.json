@@ -39,6 +39,8 @@
     "total": "Total",
     "operationFailed": "Operation failed",
     "operationSuccess": "Operation successful",
+    "copied": "Copied",
+    "copyFailed": "Copy failed",
     "deleteSuccess": "Deleted successfully",
     "statusUpdateSuccess": "Status updated successfully",
     "statusUpdateFailed": "Status update failed",

@@ -39,6 +39,8 @@
     "total": "合计",
     "operationFailed": "操作失败",
     "operationSuccess": "操作成功",
+    "copied": "已复制",
+    "copyFailed": "复制失败",
     "deleteSuccess": "删除成功",
     "statusUpdateSuccess": "状态更新成功",
     "statusUpdateFailed": "状态更新失败",

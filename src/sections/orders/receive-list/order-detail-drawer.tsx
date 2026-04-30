@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import { useLanguage } from 'src/context/language-provider';
 
 import { Iconify } from 'src/components/iconify';
+import { CopyableText } from 'src/components/copyable-text';
 
 import { ORDER_STATUS_MAP } from './types';
 import { PAYMENT_STATUS_MAP } from '../payment-list/hooks';
@@ -39,9 +40,7 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
     : { label: '', color: 'default' as const };
 
   const failReason =
-    variant === 'payment'
-      ? (order as PaymentOrder)?.address
-      : (order as Order)?.message;
+    variant === 'payment' ? (order as PaymentOrder)?.address : (order as Order)?.message;
 
   // Resolve field names based on variant
   const merchantOrderNo =
@@ -123,13 +122,13 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
               <SectionTitle>{t('orders.receiveOrders.merchantOrderNo')}</SectionTitle>
 
               <DetailRow label={t('orders.receiveOrders.merchantOrderNo')}>
-                {merchantOrderNo || '-'}
+                <CopyableText value={merchantOrderNo} />
               </DetailRow>
               <DetailRow label={t('orders.receiveOrders.platformOrderNo')}>
-                {platformOrderNo || '-'}
+                <CopyableText value={platformOrderNo} />
               </DetailRow>
               <DetailRow label={t('orders.receiveOrders.thirdPartyOrderNo')}>
-                {thirdPartyOrderNo || '-'}
+                <CopyableText value={thirdPartyOrderNo} />
               </DetailRow>
 
               <Divider />
@@ -177,8 +176,6 @@ export function OrderDetailDrawer({ open, onClose, order, variant = 'receive' }:
               <DetailRow label={t('orders.receiveOrders.finishTime')}>
                 {finishTime || '-'}
               </DetailRow>
-
-
             </Stack>
           </Box>
 
