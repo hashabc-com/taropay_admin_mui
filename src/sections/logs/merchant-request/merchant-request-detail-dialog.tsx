@@ -90,8 +90,6 @@ function JsonBlock({ label, value }: { label: string; value: string | undefined 
 export function MerchantRequestDetailDialog({ open, onClose, record }: Props) {
   const { t } = useLanguage();
 
-  if (!record) return null;
-
   const getTransactionTypeLabel = (type?: string) => {
     if (!type) return '-';
     const map: Record<string, string> = {
@@ -127,101 +125,115 @@ export function MerchantRequestDetailDialog({ open, onClose, record }: Props) {
       <DialogTitle>{t('logs.merchantRequest.logDetail')}</DialogTitle>
 
       <DialogContent dividers sx={{ p: 3 }}>
-        <Stack spacing={2}>
-          {/* Basic Info */}
-          <SectionTitle>{t('logs.merchantRequest.basicInfo')}</SectionTitle>
-          <InfoRow
-            label={t('logs.merchantRequest.transactionType')}
-            value={getTransactionTypeLabel(record.transactionType)}
-          />
-          <InfoRow label={t('logs.merchantRequest.appid')} value={record.appid || '-'} />
-          <InfoRow
-            label={t('logs.merchantRequest.referenceno')}
-            value={
-              record.transactionType === 'P'
-                ? record.referenceno || '-'
-                : record.transactionReferenceNo || '-'
-            }
-          />
-          <InfoRow
-            label={t('logs.merchantRequest.transId')}
-            value={
-              record.transactionType === 'P' ? record.transId || '-' : record.transactionid || '-'
-            }
-          />
-          <InfoRow label={t('logs.merchantRequest.parameTwo')} value={record.parameTwo || '-'} />
-          <InfoRow label={t('logs.merchantRequest.country')} value={record.country || '-'} />
-          <InfoRow label={t('logs.merchantRequest.status')} value={getStatusLabel(record.status)} />
-          <InfoRow
-            label={t('logs.merchantRequest.callBackStatus')}
-            value={getCallbackStatusLabel(record.callBackStatus)}
-          />
-
-          {/* User Info */}
-          <SectionTitle>{t('logs.merchantRequest.userInfo')}</SectionTitle>
-          <InfoRow label={t('logs.merchantRequest.userName')} value={record.userName || '-'} />
-          <InfoRow label={t('logs.merchantRequest.mobile')} value={record.mobile || '-'} />
-          <InfoRow label={t('logs.merchantRequest.address')} value={record.address || '-'} />
-
-          {/* Amount Info */}
-          <SectionTitle>{t('logs.merchantRequest.amountInfo')}</SectionTitle>
-          <InfoRow label={t('logs.merchantRequest.amount')} value={record.amount} />
-          <InfoRow label={t('logs.merchantRequest.serviceAmount')} value={record.serviceAmount} />
-
-          {/* Payment Info */}
-          <SectionTitle>{t('logs.merchantRequest.paymentInfo')}</SectionTitle>
-          <InfoRow
-            label={t('logs.merchantRequest.paymentCompany')}
-            value={record.paymentCompany || '-'}
-          />
-          <InfoRow
-            label={t('logs.merchantRequest.pickupCenter')}
-            value={record.pickupCenter || '-'}
-          />
-          <InfoRow label={t('logs.merchantRequest.url')} value={record.url || '-'} />
-          <InfoRow
-            label={t('logs.merchantRequest.notificationUrl')}
-            value={record.callbackUrl || '-'}
-          />
-
-          {/* Time Info */}
-          <SectionTitle>{t('logs.merchantRequest.timeInfo')}</SectionTitle>
-          <InfoRow label={t('logs.merchantRequest.createTime')} value={record.createTime || '-'} />
-          <InfoRow label={t('logs.merchantRequest.updateTime')} value={record.updateTime || '-'} />
-          <InfoRow label={t('logs.merchantRequest.localTime')} value={record.localTime || '-'} />
-
-          {/* Request / Response Params */}
-          <SectionTitle>{t('logs.merchantRequest.requestResponseParams')}</SectionTitle>
-          <JsonBlock label={t('logs.merchantRequest.requestParam')} value={record.requestParam} />
-          <JsonBlock label={t('logs.merchantRequest.responseParam')} value={record.responseParam} />
-          <JsonBlock label={t('logs.merchantRequest.request')} value={record.request} />
-          <JsonBlock label={t('logs.merchantRequest.response')} value={record.response} />
-          <JsonBlock
-            label={t('logs.merchantRequest.notifyParams')}
-            value={record.notifyParam ?? undefined}
-          />
-          <JsonBlock
-            label={t('logs.merchantRequest.callbackRequest')}
-            value={record.callbackRequest}
-          />
-          <JsonBlock
-            label={t('logs.merchantRequest.callbackResponse')}
-            value={record.callbackResponse}
-          />
-
-          {record.callbackResponseStatus && (
+        {record && (
+          <Stack spacing={2}>
+            {/* Basic Info */}
+            <SectionTitle>{t('logs.merchantRequest.basicInfo')}</SectionTitle>
             <InfoRow
-              label={t('logs.merchantRequest.callbackResponseStatus')}
-              value={record.callbackResponseStatus}
+              label={t('logs.merchantRequest.transactionType')}
+              value={getTransactionTypeLabel(record.transactionType)}
             />
-          )}
-          {record.callbackResponseTime && (
+            <InfoRow label={t('logs.merchantRequest.appid')} value={record.appid || '-'} />
             <InfoRow
-              label={t('logs.merchantRequest.callbackResponseTime')}
-              value={`${record.callbackResponseTime}ms`}
+              label={t('logs.merchantRequest.referenceno')}
+              value={
+                record.transactionType === 'P'
+                  ? record.referenceno || '-'
+                  : record.transactionReferenceNo || '-'
+              }
             />
-          )}
-        </Stack>
+            <InfoRow
+              label={t('logs.merchantRequest.transId')}
+              value={
+                record.transactionType === 'P' ? record.transId || '-' : record.transactionid || '-'
+              }
+            />
+            <InfoRow label={t('logs.merchantRequest.parameTwo')} value={record.parameTwo || '-'} />
+            <InfoRow label={t('logs.merchantRequest.country')} value={record.country || '-'} />
+            <InfoRow
+              label={t('logs.merchantRequest.status')}
+              value={getStatusLabel(record.status)}
+            />
+            <InfoRow
+              label={t('logs.merchantRequest.callBackStatus')}
+              value={getCallbackStatusLabel(record.callBackStatus)}
+            />
+
+            {/* User Info */}
+            <SectionTitle>{t('logs.merchantRequest.userInfo')}</SectionTitle>
+            <InfoRow label={t('logs.merchantRequest.userName')} value={record.userName || '-'} />
+            <InfoRow label={t('logs.merchantRequest.mobile')} value={record.mobile || '-'} />
+            <InfoRow label={t('logs.merchantRequest.address')} value={record.address || '-'} />
+
+            {/* Amount Info */}
+            <SectionTitle>{t('logs.merchantRequest.amountInfo')}</SectionTitle>
+            <InfoRow label={t('logs.merchantRequest.amount')} value={record.amount} />
+            <InfoRow label={t('logs.merchantRequest.serviceAmount')} value={record.serviceAmount} />
+
+            {/* Payment Info */}
+            <SectionTitle>{t('logs.merchantRequest.paymentInfo')}</SectionTitle>
+            <InfoRow
+              label={t('logs.merchantRequest.paymentCompany')}
+              value={record.paymentCompany || '-'}
+            />
+            <InfoRow
+              label={t('logs.merchantRequest.pickupCenter')}
+              value={record.pickupCenter || '-'}
+            />
+            <InfoRow label={t('logs.merchantRequest.url')} value={record.url || '-'} />
+            <InfoRow
+              label={t('logs.merchantRequest.notificationUrl')}
+              value={record.callbackUrl || '-'}
+            />
+
+            {/* Time Info */}
+            <SectionTitle>{t('logs.merchantRequest.timeInfo')}</SectionTitle>
+            <InfoRow
+              label={t('logs.merchantRequest.createTime')}
+              value={record.createTime || '-'}
+            />
+            <InfoRow
+              label={t('logs.merchantRequest.updateTime')}
+              value={record.updateTime || '-'}
+            />
+            <InfoRow label={t('logs.merchantRequest.localTime')} value={record.localTime || '-'} />
+
+            {/* Request / Response Params */}
+            <SectionTitle>{t('logs.merchantRequest.requestResponseParams')}</SectionTitle>
+            <JsonBlock label={t('logs.merchantRequest.requestParam')} value={record.requestParam} />
+            <JsonBlock
+              label={t('logs.merchantRequest.responseParam')}
+              value={record.responseParam}
+            />
+            <JsonBlock label={t('logs.merchantRequest.request')} value={record.request} />
+            <JsonBlock label={t('logs.merchantRequest.response')} value={record.response} />
+            <JsonBlock
+              label={t('logs.merchantRequest.notifyParams')}
+              value={record.notifyParam ?? undefined}
+            />
+            <JsonBlock
+              label={t('logs.merchantRequest.callbackRequest')}
+              value={record.callbackRequest}
+            />
+            <JsonBlock
+              label={t('logs.merchantRequest.callbackResponse')}
+              value={record.callbackResponse}
+            />
+
+            {record.callbackResponseStatus && (
+              <InfoRow
+                label={t('logs.merchantRequest.callbackResponseStatus')}
+                value={record.callbackResponseStatus}
+              />
+            )}
+            {record.callbackResponseTime && (
+              <InfoRow
+                label={t('logs.merchantRequest.callbackResponseTime')}
+                value={`${record.callbackResponseTime}ms`}
+              />
+            )}
+          </Stack>
+        )}
       </DialogContent>
 
       <DialogActions>

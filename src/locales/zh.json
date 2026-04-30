@@ -429,6 +429,7 @@
       "partialPayment": "部分支付",
       "expired": "已失效",
       "orderDetails": "订单详情",
+      "requestLog": "请求日志",
       "viewReceiveOrderDetails": "查看收款订单的详细信息",
       "merchant": "商户",
       "createTime": "创建时间",

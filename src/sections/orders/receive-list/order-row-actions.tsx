@@ -20,9 +20,16 @@ type Props = {
   onNotify: (row: Order, status: number) => void;
   onUpdateStatus: (row: Order) => void;
   onViewDetail: (row: Order) => void;
+  onViewRequestLog: (row: Order) => void;
 };
 
-export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }: Props) {
+export function OrderRowActions({
+  row,
+  onNotify,
+  onUpdateStatus,
+  onViewDetail,
+  onViewRequestLog,
+}: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { t } = useLanguage();
@@ -80,6 +87,18 @@ export function OrderRowActions({ row, onNotify, onUpdateStatus, onViewDetail }:
         </MenuItem>
 
         <Divider />
+
+        <MenuItem
+          onClick={() => {
+            onViewRequestLog(row);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <Iconify icon="solar:document-text-bold" />
+          </ListItemIcon>
+          <ListItemText>{t('orders.receiveOrders.requestLog')}</ListItemText>
+        </MenuItem>
 
         <MenuItem
           onClick={() => {

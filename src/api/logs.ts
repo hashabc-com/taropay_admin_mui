@@ -35,6 +35,9 @@ export interface MerchantRequestParams {
 export const getMerchantRequestList = (params: MerchantRequestParams) =>
   http.get('/admin/recordTransactionLog/page', params);
 
+export const getTransactionLogByTransId = (params: { type: number; transId: string }) =>
+  http.get('/admin/recordTransactionLog/getByTransId', params);
+
 // ----------------------------------------------------------------------
 // Risk Control
 // ----------------------------------------------------------------------

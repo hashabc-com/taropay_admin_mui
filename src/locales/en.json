@@ -222,6 +222,7 @@
       "partialPayment": "Partial Payment",
       "expired": "Expired",
       "orderDetails": "Order Details",
+      "requestLog": "Request Log",
       "viewReceiveOrderDetails": "View detailed information of receive order",
       "merchant": "Merchant",
       "createTime": "Create Time",

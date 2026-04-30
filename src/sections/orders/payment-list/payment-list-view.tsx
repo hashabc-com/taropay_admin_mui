@@ -17,6 +17,7 @@ import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
 import { payOutReject } from 'src/api/order';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { getTransactionLogByTransId } from 'src/api/logs';
 import { useLanguage } from 'src/context/language-provider';
 import { payInNotify, updatePayOutStatus } from 'src/api/common';
 
@@ -28,6 +29,7 @@ import { PaymentListSearch } from './payment-list-search';
 import { OrderStatsCards } from '../receive-list/order-stats-cards';
 import { OrderDetailDrawer } from '../receive-list/order-detail-drawer';
 import { usePaymentList, usePaymentStats, PAYMENT_STATUS_MAP } from './hooks';
+import { MerchantRequestDetailDialog } from '../../logs/merchant-request/merchant-request-detail-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -51,6 +53,30 @@ export function PaymentListView() {
     setDetailOpen(false);
     setTimeout(() => setDetailOrder(null), 300);
   }, []);
+
+  // -- request log dialog --
+  const [requestLogRecord, setRequestLogRecord] = useState<any>(null);
+  const [requestLogOpen, setRequestLogOpen] = useState(false);
+
+  const handleViewRequestLog = useCallback(
+    async (row: PaymentOrder) => {
+      try {
+        const res = await getTransactionLogByTransId({
+          type: 1,
+          transId: row.transactionid || '',
+        });
+        if (res.code == 200) {
+          setRequestLogRecord(res.data || res.result);
+          setRequestLogOpen(true);
+        } else {
+          toast.error(res.message || t('common.operationFailed'));
+        }
+      } catch {
+        toast.error(t('common.operationFailed'));
+      }
+    },
+    [t]
+  );
 
   // -- pagination --
   const paginationModel: GridPaginationModel = useMemo(
@@ -231,12 +257,13 @@ export function PaymentListView() {
               onUpdateStatus={handleUpdateStatus}
               onReject={handleReject}
               onViewDetail={handleViewDetail}
+              onViewRequestLog={handleViewRequestLog}
               t={t}
             />
           ),
         },
       ]),
-    [t, handleNotify, handleUpdateStatus, handleReject, handleViewDetail]
+    [t, handleNotify, handleUpdateStatus, handleReject, handleViewDetail, handleViewRequestLog]
   );
 
   return (
@@ -275,6 +302,12 @@ export function PaymentListView() {
         variant="payment"
       />
       {googleAuthDialog}
+
+      <MerchantRequestDetailDialog
+        open={requestLogOpen}
+        onClose={() => setRequestLogOpen(false)}
+        record={requestLogRecord}
+      />
     </DashboardContent>
   );
 }
@@ -287,6 +320,7 @@ type PaymentRowActionsProps = {
   onUpdateStatus: (row: PaymentOrder) => void;
   onReject: (row: PaymentOrder) => void;
   onViewDetail: (row: PaymentOrder) => void;
+  onViewRequestLog: (row: PaymentOrder) => void;
   t: (key: string) => string;
 };
 
@@ -296,6 +330,7 @@ function PaymentRowActions({
   onUpdateStatus,
   onReject,
   onViewDetail,
+  onViewRequestLog,
   t,
 }: PaymentRowActionsProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -315,33 +350,33 @@ function PaymentRowActions({
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {row.status === '1' && (
-          <>
-            <MenuItem
-              onClick={() => {
-                onUpdateStatus(row);
-                setAnchorEl(null);
-              }}
-            >
-              <ListItemIcon>
-                <Iconify icon="solar:refresh-bold" />
-              </ListItemIcon>
-              <ListItemText>{t('orders.paymentOrders.updateStatus')}</ListItemText>
-            </MenuItem>
+        {row.status === '1' && [
+          <MenuItem
+            key="update"
+            onClick={() => {
+              onUpdateStatus(row);
+              setAnchorEl(null);
+            }}
+          >
+            <ListItemIcon>
+              <Iconify icon="solar:refresh-bold" />
+            </ListItemIcon>
+            <ListItemText>{t('orders.paymentOrders.updateStatus')}</ListItemText>
+          </MenuItem>,
 
-            <MenuItem
-              onClick={() => {
-                onReject(row);
-                setAnchorEl(null);
-              }}
-            >
-              <ListItemIcon>
-                <Iconify icon="solar:forbidden-circle-bold" sx={{ color: 'error.main' }} />
-              </ListItemIcon>
-              <ListItemText>{t('orders.paymentOrders.reject')}</ListItemText>
-            </MenuItem>
-          </>
-        )}
+          <MenuItem
+            key="reject"
+            onClick={() => {
+              onReject(row);
+              setAnchorEl(null);
+            }}
+          >
+            <ListItemIcon>
+              <Iconify icon="solar:forbidden-circle-bold" sx={{ color: 'error.main' }} />
+            </ListItemIcon>
+            <ListItemText>{t('orders.paymentOrders.reject')}</ListItemText>
+          </MenuItem>,
+        ]}
 
         <MenuItem
           onClick={() => {
@@ -368,6 +403,18 @@ function PaymentRowActions({
         </MenuItem>
 
         <Divider />
+
+        <MenuItem
+          onClick={() => {
+            onViewRequestLog(row);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <Iconify icon="solar:document-text-bold" />
+          </ListItemIcon>
+          <ListItemText>{t('orders.receiveOrders.requestLog')}</ListItemText>
+        </MenuItem>
 
         <MenuItem
           onClick={() => {

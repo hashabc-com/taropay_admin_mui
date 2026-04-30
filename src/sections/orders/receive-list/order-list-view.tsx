@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
 import { DashboardContent } from 'src/layouts/dashboard';
+import { getTransactionLogByTransId } from 'src/api/logs';
 import { payOutNotify, updateStatus } from 'src/api/common';
 import { useLanguage } from 'src/context/language-provider';
 
@@ -20,6 +21,7 @@ import { OrderRowActions } from './order-row-actions';
 import { OrderListSearch } from './order-list-search';
 import { type Order, ORDER_STATUS_MAP } from './types';
 import { OrderDetailDrawer } from './order-detail-drawer';
+import { MerchantRequestDetailDialog } from '../../logs/merchant-request/merchant-request-detail-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -44,6 +46,27 @@ export function OrderListView() {
     // 等滑出动画结束后再清空数据
     setTimeout(() => setDetailOrder(null), 300);
   }, []);
+
+  // -- request log dialog --
+  const [requestLogRecord, setRequestLogRecord] = useState<any>(null);
+  const [requestLogOpen, setRequestLogOpen] = useState(false);
+
+  const handleViewRequestLog = useCallback(
+    async (row: Order) => {
+      try {
+        const res = await getTransactionLogByTransId({ type: 2, transId: row.transId });
+        if (res.code == 200) {
+          setRequestLogRecord(res.data || res.result);
+          setRequestLogOpen(true);
+        } else {
+          toast.error(res.message || t('common.operationFailed'));
+        }
+      } catch {
+        toast.error(t('common.operationFailed'));
+      }
+    },
+    [t]
+  );
 
   // -- pagination --
   const paginationModel: GridPaginationModel = useMemo(
@@ -214,11 +237,12 @@ export function OrderListView() {
               onNotify={handleNotify}
               onUpdateStatus={handleUpdateStatus}
               onViewDetail={handleViewDetail}
+              onViewRequestLog={handleViewRequestLog}
             />
           ),
         },
       ]),
-    [handleNotify, handleUpdateStatus, handleViewDetail, t]
+    [handleNotify, handleUpdateStatus, handleViewDetail, handleViewRequestLog, t]
   );
 
   return (
@@ -253,6 +277,12 @@ export function OrderListView() {
       {googleAuthDialog}
 
       <OrderDetailDrawer open={detailOpen} onClose={handleCloseDetail} order={detailOrder} />
+
+      <MerchantRequestDetailDialog
+        open={requestLogOpen}
+        onClose={() => setRequestLogOpen(false)}
+        record={requestLogRecord}
+      />
     </DashboardContent>
   );
 }
