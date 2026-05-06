@@ -465,7 +465,10 @@
       "transactionSummary": "交易摘要",
       "product": "产品",
       "updateStatus": "商户补单",
-      "reject": "驳回"
+      "reject": "驳回",
+      "notifyConfirmTitle": "确认发送回调通知",
+      "successNotifyConfirmDesc": "确定要向商户发送成功回调通知吗？",
+      "failureNotifyConfirmDesc": "确定要向商户发送失败回调通知吗？"
     },
     "receiveSummary": {
       "title": "收款汇总",

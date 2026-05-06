@@ -7,12 +7,18 @@ import { useMemo, useState, useCallback } from 'react';
 import Chip from '@mui/material/Chip';
 import Menu from '@mui/material/Menu';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import DialogTitle from '@mui/material/DialogTitle';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
 import { payOutReject } from 'src/api/order';
@@ -336,6 +342,29 @@ function PaymentRowActions({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  // -- notify confirm dialog --
+  const [notifyConfirmOpen, setNotifyConfirmOpen] = useState(false);
+  const [pendingNotifyStatus, setPendingNotifyStatus] = useState<number | null>(null);
+
+  const handleNotifyClick = (status: number) => {
+    setPendingNotifyStatus(status);
+    setNotifyConfirmOpen(true);
+    setAnchorEl(null);
+  };
+
+  const handleNotifyConfirm = () => {
+    if (pendingNotifyStatus !== null) {
+      onNotify(row, pendingNotifyStatus);
+    }
+    setNotifyConfirmOpen(false);
+    setPendingNotifyStatus(null);
+  };
+
+  const handleNotifyCancel = () => {
+    setNotifyConfirmOpen(false);
+    setPendingNotifyStatus(null);
+  };
+
   return (
     <>
       <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)}>
@@ -378,24 +407,14 @@ function PaymentRowActions({
           </MenuItem>,
         ]}
 
-        <MenuItem
-          onClick={() => {
-            onNotify(row, 0);
-            setAnchorEl(null);
-          }}
-        >
+        <MenuItem onClick={() => handleNotifyClick(0)}>
           <ListItemIcon>
             <Iconify icon="solar:check-circle-bold" sx={{ color: 'success.main' }} />
           </ListItemIcon>
           <ListItemText>{t('orders.paymentOrders.successNotification')}</ListItemText>
         </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            onNotify(row, 2);
-            setAnchorEl(null);
-          }}
-        >
+        <MenuItem onClick={() => handleNotifyClick(2)}>
           <ListItemIcon>
             <Iconify icon="solar:close-circle-bold" sx={{ color: 'error.main' }} />
           </ListItemIcon>
@@ -428,6 +447,28 @@ function PaymentRowActions({
           <ListItemText>{t('orders.paymentOrders.viewMore')}</ListItemText>
         </MenuItem>
       </Menu>
+
+      {/* Notify confirm dialog */}
+      <Dialog open={notifyConfirmOpen} onClose={handleNotifyCancel}>
+        <DialogTitle>{t('orders.paymentOrders.notifyConfirmTitle')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {pendingNotifyStatus === 0
+              ? t('orders.paymentOrders.successNotifyConfirmDesc')
+              : t('orders.paymentOrders.failureNotifyConfirmDesc')}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleNotifyCancel}>{t('common.cancel')}</Button>
+          <Button
+            variant="contained"
+            color={pendingNotifyStatus === 0 ? 'success' : 'error'}
+            onClick={handleNotifyConfirm}
+          >
+            {t('common.confirm')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

@@ -258,7 +258,10 @@
       "transactionSummary": "Transaction Summary",
       "product": "Product",
       "updateStatus": "Update Status",
-      "reject": "Reject"
+      "reject": "Reject",
+      "notifyConfirmTitle": "Confirm Callback Notification",
+      "successNotifyConfirmDesc": "Are you sure you want to send a success callback notification to the merchant?",
+      "failureNotifyConfirmDesc": "Are you sure you want to send a failure callback notification to the merchant?"
     },
     "receiveSummary": {
       "title": "Receive Summary",
