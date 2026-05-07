@@ -8,9 +8,10 @@ import { DataGrid, type GridPaginationModel } from '@mui/x-data-grid';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 import { useLanguage } from 'src/context/language-provider';
-import { addRouteStrategy, updateRouteStrategyStatus } from 'src/api/config';
+import { addRouteStrategy, deleteRouteStrategy, updateRouteStrategyStatus } from 'src/api/config';
 
 import { dataGridSx, processColumns } from 'src/components/data-grid';
+import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
 import { type RouteStrategy } from './types';
 import { useRouteStrategyList } from './hooks';
@@ -24,6 +25,7 @@ export function RouteStrategyView() {
   const { records, totalRecord, isLoading, mutate, params } = useRouteStrategyList();
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
+  const { dialog: googleAuthDialog, withGoogleAuth } = useGoogleAuthDialog();
 
   // -- dialog state --
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -85,6 +87,21 @@ export function RouteStrategyView() {
       }
     },
     [t, mutate]
+  );
+
+  const handleDelete = useCallback(
+    (row: RouteStrategy) => {
+      withGoogleAuth(async (gauthKey) => {
+        const res = await deleteRouteStrategy({ id: row.id, gauthCode: gauthKey });
+        if (res.code == 1) {
+          toast.success(t('common.deleteSuccess'));
+          mutate();
+        } else {
+          toast.error(res.message || t('common.deleteFailed'));
+        }
+      });
+    },
+    [withGoogleAuth, t, mutate]
   );
 
   // -- columns --
@@ -163,11 +180,12 @@ export function RouteStrategyView() {
               row={row}
               onEdit={handleEdit}
               onToggleStatus={handleToggleStatus}
+              onDelete={handleDelete}
             />
           ),
         },
       ]),
-    [t, handleEdit, handleToggleStatus]
+    [t, handleEdit, handleToggleStatus, handleDelete]
   );
 
   return (
@@ -203,6 +221,7 @@ export function RouteStrategyView() {
         strategy={currentStrategy}
         isEdit={dialogIsEdit}
       />
+      {googleAuthDialog}
     </DashboardContent>
   );
 }

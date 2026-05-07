@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 
 import Menu from '@mui/material/Menu';
+import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,9 +19,10 @@ type Props = {
   row: RouteStrategy;
   onEdit: (row: RouteStrategy) => void;
   onToggleStatus: (row: RouteStrategy) => void;
+  onDelete: (row: RouteStrategy) => void;
 };
 
-export function RouteStrategyRowActions({ row, onEdit, onToggleStatus }: Props) {
+export function RouteStrategyRowActions({ row, onEdit, onToggleStatus, onDelete }: Props) {
   const { t } = useLanguage();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -63,6 +65,21 @@ export function RouteStrategyRowActions({ row, onEdit, onToggleStatus }: Props) 
           <ListItemText>
             {row.status === '0' ? t('common.disable') : t('common.enable')}
           </ListItemText>
+        </MenuItem>
+
+        <Divider />
+
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            onDelete(row);
+          }}
+          sx={{ color: 'error.main' }}
+        >
+          <ListItemIcon>
+            <Iconify icon="solar:trash-bin-trash-bold" sx={{ color: 'error.main' }} />
+          </ListItemIcon>
+          <ListItemText>{t('common.delete')}</ListItemText>
         </MenuItem>
       </Menu>
     </>

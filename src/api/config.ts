@@ -93,6 +93,14 @@ export const getPaymentChannelsByMethod = (params: {
 export const updateRouteStrategyStatus = (data: { id: number; status: string }) =>
   http.post('/admin/paymentRouteConfig/update', data, { autoAddCountry: false });
 
+/** 删除路由策略 */
+export const deleteRouteStrategy = (data: { id: number; gauthCode: string }) => {
+  const fd = new FormData();
+  fd.append('id', String(data.id));
+  fd.append('gauthCode', data.gauthCode);
+  return http.post('/admin/paymentRouteConfig/delete', fd, { autoAddCountry: false });
+};
+
 // ======================== 风控规则配置 API ========================
 
 export interface RuleConfigListParams {
