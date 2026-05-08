@@ -93,7 +93,7 @@ export function RouteStrategyView() {
     (row: RouteStrategy) => {
       withGoogleAuth(async (gauthKey) => {
         const res = await deleteRouteStrategy({ id: row.id, gauthCode: gauthKey });
-        if (res.code == 1) {
+        if (res.code == 200) {
           toast.success(t('common.deleteSuccess'));
           mutate();
         } else {
