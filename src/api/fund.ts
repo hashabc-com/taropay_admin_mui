@@ -33,6 +33,7 @@ export type FundChangesParams = {
   pageNum?: number;
   pageSize?: number;
   type?: string;
+  orderNo?: string;
   startTime?: string;
   endTime?: string;
 };

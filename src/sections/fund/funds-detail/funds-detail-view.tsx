@@ -41,6 +41,13 @@ export function FundsDetailView() {
     () =>
       processColumns<FundsDetailRecord>([
         {
+          field: 'customerName',
+          headerName: t('fund.fundsDetail.merchantName'),
+          flex: 1,
+          minWidth: 140,
+          tooltip: true,
+        },
+        {
           field: 'typeName',
           headerName: t('fund.fundsDetail.fundType'),
           flex: 1,

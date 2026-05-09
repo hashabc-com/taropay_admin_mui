@@ -12,6 +12,7 @@ import { getFundChanges } from 'src/api/fund';
 
 export type FundsDetailRecord = {
   id?: number;
+  customerName?: string;
   typeName?: string;
   orderNo?: string;
   befAmountChanges?: number | string;
@@ -28,7 +29,7 @@ export const FUND_TYPE_MAP: Record<string, string> = {
   '5': 'fund.fundsDetail.merchantWithdrawal',
 };
 
-export const FIELD_KEYS = ['type', 'startTime', 'endTime'] as const;
+export const FIELD_KEYS = ['type', 'orderNo', 'startTime', 'endTime'] as const;
 
 export function useFundsDetailList() {
   const params = useSearchParamsObject(FIELD_KEYS) as unknown as FundChangesParams;

@@ -404,6 +404,7 @@
   "fund": {
     "fundsDetail": {
       "title": "Merchant Fund Flow",
+      "merchantName": "Merchant Name",
       "fundType": "Fund Type",
       "orderNo": "Order No",
       "originalAmount": "Original Amount",

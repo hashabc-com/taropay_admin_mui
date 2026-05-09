@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
@@ -59,6 +60,16 @@ export function FundsDetailSearch() {
           ))}
         </Select>
       </FormControl>
+
+      <TextField
+        size="small"
+        label={t('fund.fundsDetail.orderNo')}
+        placeholder={t('fund.fundsDetail.orderNo')}
+        value={values.orderNo}
+        onChange={(e) => setField('orderNo', e.target.value)}
+        slotProps={{ inputLabel: { shrink: true } }}
+        sx={{ width: 160 }}
+      />
 
       <Button
         variant="contained"
