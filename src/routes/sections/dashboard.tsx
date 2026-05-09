@@ -41,6 +41,7 @@ const BusinessCustomerConsult = lazy(() => import('src/pages/business/customer-c
 
 // Fund
 const FundSettlementList = lazy(() => import('src/pages/fund/settlement-list'));
+const FundFundsDetail = lazy(() => import('src/pages/fund/funds-detail'));
 const FundRechargeWithdraw = lazy(() => import('src/pages/fund/recharge-withdraw'));
 const FundAccountSettlement = lazy(() => import('src/pages/fund/account-settlement'));
 const FundMerchantDailySummary = lazy(() => import('src/pages/fund/merchant-daily-summary'));
@@ -122,6 +123,7 @@ export const dashboardRoutes: RouteObject[] = [
         path: 'fund',
         children: [
           { path: 'settlement-list', element: <FundSettlementList /> },
+          { path: 'funds-detail', element: <FundFundsDetail /> },
           { path: 'recharge-withdraw', element: <FundRechargeWithdraw /> },
           { path: 'account-settlement', element: <FundAccountSettlement /> },
           { path: 'merchant-daily-summary', element: <FundMerchantDailySummary /> },

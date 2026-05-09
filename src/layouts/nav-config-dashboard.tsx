@@ -80,6 +80,7 @@ export function useNavData(): NavSectionProps['data'] {
               { title: t('sidebar.settlementRecords'), path: paths.fund.settlementList },
               { title: t('sidebar.applicationApproval'), path: paths.fund.rechargeWithdraw },
               { title: t('sidebar.accountSettlement'), path: paths.fund.accountSettlement },
+              { title: t('sidebar.merchantFundFlow'), path: paths.fund.fundsDetail },
               { title: t('sidebar.merchantDailySummary'), path: paths.fund.merchantDailySummary },
               { title: t('sidebar.countryDailySummary'), path: paths.fund.countryDailySummary },
             ],

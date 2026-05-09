@@ -32,6 +32,7 @@ export const paths = {
   fund: {
     root: '/fund',
     settlementList: '/fund/settlement-list',
+    fundsDetail: '/fund/funds-detail',
     rechargeWithdraw: '/fund/recharge-withdraw',
     accountSettlement: '/fund/account-settlement',
     merchantDailySummary: '/fund/merchant-daily-summary',

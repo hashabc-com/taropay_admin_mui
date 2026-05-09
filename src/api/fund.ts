@@ -29,6 +29,14 @@ export type DailySummaryParams = {
   endTime?: string;
 };
 
+export type FundChangesParams = {
+  pageNum?: number;
+  pageSize?: number;
+  type?: string;
+  startTime?: string;
+  endTime?: string;
+};
+
 export type ApprovePayload = {
   merchantId: string;
   id: number;
@@ -76,6 +84,11 @@ export type WithdrawData = {
 
 export const getSettlementList = (params: SettlementListParams) =>
   http.get('/admin/bill/v1/getBillList', params);
+
+// Merchant fund flow (changes)
+
+export const getFundChanges = (params: FundChangesParams) =>
+  http.get('/admin/bill/v1/changes', params);
 
 // Recharge & Withdraw approval
 

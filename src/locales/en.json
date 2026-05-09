@@ -152,6 +152,7 @@
     "riskControl": "Risk Control Log",
     "fundManagement": "Fund Management",
     "settlementRecords": "Settlement Records",
+    "merchantFundFlow": "Merchant Fund Flow",
     "applicationApproval": "Application Approval",
     "accountSettlement": "Account Settlement",
     "merchantDailySummary": "Merchant Daily Summary",
@@ -401,6 +402,20 @@
     }
   },
   "fund": {
+    "fundsDetail": {
+      "title": "Merchant Fund Flow",
+      "fundType": "Fund Type",
+      "orderNo": "Order No",
+      "originalAmount": "Original Amount",
+      "changeAmount": "Change Amount",
+      "afterChangeAmount": "After Change Amount",
+      "changeDateTime": "Change Date Time",
+      "paymentDeduction": "Payment Deduction",
+      "paymentFailureRefund": "Payment Failure Refund",
+      "receiveSettlement": "Receive Settlement",
+      "merchantRecharge": "Merchant Recharge",
+      "merchantWithdrawal": "Merchant Withdrawal"
+    },
     "settlement": {
       "title": "Settlement Records",
       "merchant": "Merchant",
