@@ -55,6 +55,7 @@
     "pleaseSelect": "Please select",
     "merchant": "Merchant",
     "allMerchants": "All Merchants",
+    "searchMerchant": "Search Merchant",
     "country": "Country",
     "fetchRateFailed": "Failed to fetch exchange rates",
     "balance": "Balance",

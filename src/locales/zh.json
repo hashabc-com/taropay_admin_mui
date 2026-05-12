@@ -55,6 +55,7 @@
     "pleaseSelect": "请选择",
     "merchant": "商户",
     "allMerchants": "全部商户",
+    "searchMerchant": "搜索商户",
     "country": "国家",
     "fetchRateFailed": "获取汇率失败",
     "balance": "余额",

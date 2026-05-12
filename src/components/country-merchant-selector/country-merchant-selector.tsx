@@ -7,8 +7,8 @@ import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { useCountries } from 'src/hooks/use-countries';
 
@@ -16,8 +16,6 @@ import { getMerchantList } from 'src/api/common';
 import { useCountryStore } from 'src/stores/country-store';
 import { useLanguage } from 'src/context/language-provider';
 import { type Merchant, useMerchantStore } from 'src/stores/merchant-store';
-
-import { Iconify } from 'src/components/iconify';
 
 import { CurrencySelector } from './currency-selector';
 import { compactSelectSx, selectorGroupSx } from './styles';
@@ -81,24 +79,17 @@ export function CountryMerchantSelector() {
     }
   }, [countries, handleCountryChange, selectedCountry]);
 
-  const handleMerchantChange = (merchantId: string) => {
-    const m = merchants.find((item) => String(item.appid) === merchantId) || null;
-    setSelectedMerchant(m);
-  };
+  const handleMerchantChange = useCallback(
+    (value: Merchant | null) => {
+      setSelectedMerchant(value);
 
-  // const handleMerchantChange = useCallback(
-  //   (merchantId: string) => {
-  //     const m = merchants.find((item) => String(item.appid) === merchantId) || null;
-  //     setSelectedMerchant(m);
-
-  //     // 切换商户时重置 URL 筛选参数，只保留分页
-  //     const params = new URLSearchParams();
-  //     params.set('pageNum', '1');
-  //     params.set('pageSize', searchParams.get('pageSize') || '10');
-  //     setSearchParams(params);
-  //   },
-  //   [merchants, setSelectedMerchant, searchParams, setSearchParams]
-  // );
+      // 切换/清空商户时清空 URL 筛选参数，避免残留筛选条件
+      if (Array.from(searchParams.keys()).length > 0) {
+        setSearchParams(new URLSearchParams());
+      }
+    },
+    [setSelectedMerchant, searchParams, setSearchParams]
+  );
 
   // ---------- render ----------
   return (
@@ -160,65 +151,43 @@ export function CountryMerchantSelector() {
       />
 
       {/* Merchant */}
-      <Select
+      <Autocomplete
         size="small"
-        displayEmpty
         disabled={!selectedCountry}
-        value={selectedMerchant?.appid ? String(selectedMerchant.appid) : ''}
-        onChange={(e) => handleMerchantChange(e.target.value)}
-        MenuProps={{ disableAutoFocus: true }}
-        renderValue={(selected) => {
-          if (!selected) {
-            return (
-              <Typography variant="body2" sx={{ color: 'text.disabled', fontWeight: 400 }}>
-                {t('common.allMerchants')}
-              </Typography>
-            );
-          }
-          const m = merchants.find((item) => String(item.appid) === selected);
-          return m?.companyName || selected;
+        options={merchants}
+        value={selectedMerchant}
+        onChange={(_, value) => handleMerchantChange(value)}
+        getOptionLabel={(option) => option.companyName || ''}
+        isOptionEqualToValue={(option, value) => String(option.appid) === String(value.appid)}
+        filterOptions={(options, { inputValue }) => {
+          const keyword = inputValue.trim().toLowerCase();
+          if (!keyword) return options;
+          return options.filter(
+            (o) =>
+              o.companyName?.toLowerCase().includes(keyword) ||
+              String(o.appid).toLowerCase().includes(keyword)
+          );
         }}
+        noOptionsText={t('common.noData', '暂无数据')}
         sx={{
-          ...compactSelectSx,
-          minWidth: 90,
-          maxWidth: 160,
+          minWidth: 160,
+          maxWidth: 220,
           display: { xs: 'none', md: 'flex' },
-          '& .MuiSelect-select': {
-            ...compactSelectSx['& .MuiSelect-select'],
+          '& .MuiOutlinedInput-root': {
+            py: '0 !important',
+            pl: '8px !important',
+          },
+          '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+          '& .MuiAutocomplete-input': {
+            typography: 'body2',
             fontWeight: 400,
+            py: '6px !important',
           },
         }}
-        endAdornment={
-          selectedMerchant ? (
-            <IconButton
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedMerchant(null);
-              }}
-              sx={{ mr: 2 }}
-            >
-              <Iconify icon="solar:close-circle-bold" width={16} sx={{ color: 'text.disabled' }} />
-            </IconButton>
-          ) : null
-        }
-      >
-        {selectedMerchant &&
-          !merchants.some((m) => String(m.appid) === String(selectedMerchant.appid)) && (
-            <MenuItem
-              key={selectedMerchant.appid}
-              value={String(selectedMerchant.appid)}
-              sx={{ display: 'none' }}
-            >
-              {selectedMerchant.companyName}
-            </MenuItem>
-          )}
-        {merchants.map((m) => (
-          <MenuItem key={m.appid} value={String(m.appid)}>
-            {m.companyName}
-          </MenuItem>
-        ))}
-      </Select>
+        renderInput={(params) => (
+          <TextField {...params} placeholder={selectedMerchant ? '' : t('common.allMerchants')} />
+        )}
+      />
     </Box>
   );
 }
