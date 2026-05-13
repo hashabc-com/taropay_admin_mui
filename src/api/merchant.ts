@@ -67,6 +67,18 @@ export const unbindGoogle = (data: FormData) =>
 export const addIP = (data: { merchantId: string; ip: string; googleCode: string }) =>
   http.post('/admin/deplop/v1/addIp', data);
 
+/** IP 白名单列表（不分页） */
+export const getIpList = (params: { customerName: string }) =>
+  http.get<string[] | { id?: number | string; ip: string }[]>(
+    '/admin/deplop/v1/getIpList',
+    params,
+    { autoAddMerchantId: false }
+  );
+
+/** 删除IP */
+export const delIp = (data: { merchantId: string; ip: string; googleCode: string }) =>
+  http.post('/admin/deplop/v1/delIp', data);
+
 /** 绑定TG群组 */
 export const bindTgGroup = (data: FormData) =>
   http.post('/admin/user/v1/bindTgGroup', data, { autoAddCountry: false });

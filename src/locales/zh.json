@@ -643,6 +643,9 @@
       "password": "密码",
       "settlementDays": "结算天数",
       "addIP": "添加IP",
+      "ipList": "已绑定IP列表",
+      "deleteIp": "删除IP",
+      "deleteIpFor": "确认删除该IP？",
       "ipAddress": "IP地址",
       "chatId": "TG群组ID",
       "rate": "费率",
@@ -691,6 +694,7 @@
       "success": {
         "unbindSuccess": "解绑成功",
         "addSuccess": "添加成功",
+        "deleteSuccess": "删除成功",
         "bindTgGroupSuccess": "绑定TG群组成功",
         "rateConfigUpdated": "费率配置更新成功",
         "passwordChanged": "密码修改成功"
@@ -698,6 +702,7 @@
       "error": {
         "unbindFailed": "解绑失败",
         "addFailed": "添加失败",
+        "deleteFailed": "删除失败",
         "bindTgGroupFailed": "绑定TG群组失败",
         "autoLoginFailed": "获取自动登录令牌失败",
         "rateConfigUpdateFailed": "费率配置更新失败",

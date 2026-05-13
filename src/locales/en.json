@@ -643,6 +643,9 @@
       "password": "Password",
       "settlementDays": "Settlement Days",
       "addIP": "Add IP",
+      "ipList": "Bound IP List",
+      "deleteIp": "Delete IP",
+      "deleteIpFor": "Confirm to delete this IP?",
       "ipAddress": "IP Address",
       "chatId": "Chat ID",
       "rate": "Rate",
@@ -691,6 +694,7 @@
       "success": {
         "unbindSuccess": "Unbind successful",
         "addSuccess": "Add successful",
+        "deleteSuccess": "Delete successful",
         "bindTgGroupSuccess": "Bind TG group successful",
         "rateConfigUpdated": "Rate configuration updated successfully",
         "passwordChanged": "Password changed successfully"
@@ -698,6 +702,7 @@
       "error": {
         "unbindFailed": "Unbind failed",
         "addFailed": "Add failed",
+        "deleteFailed": "Delete failed",
         "bindTgGroupFailed": "Bind TG group failed",
         "autoLoginFailed": "Failed to get auto login token",
         "rateConfigUpdateFailed": "Rate configuration update failed",
