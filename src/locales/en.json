@@ -644,6 +644,8 @@
       "settlementDays": "Settlement Days",
       "addIP": "Add IP",
       "ipList": "Bound IP List",
+      "viewIpList": "View IP List",
+      "ipListFor": "Backend IP whitelist bound for merchant",
       "deleteIp": "Delete IP",
       "deleteIpFor": "Confirm to delete this IP?",
       "ipAddress": "IP Address",

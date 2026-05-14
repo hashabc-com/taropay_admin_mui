@@ -21,6 +21,7 @@ type MerchantRowActionsProps = {
   onChangePassword: (merchant: MerchantInfo) => void;
   onToggleStatus: (merchant: MerchantInfo) => void;
   onBindIp: (merchant: MerchantInfo) => void;
+  onViewIp: (merchant: MerchantInfo) => void;
   onBindTgGroup: (merchant: MerchantInfo) => void;
   onRateConfig: (merchant: MerchantInfo) => void;
 };
@@ -31,6 +32,7 @@ export function MerchantRowActions({
   onChangePassword,
   onToggleStatus,
   onBindIp,
+  onViewIp,
   onBindTgGroup,
   onRateConfig,
 }: MerchantRowActionsProps) {
@@ -96,6 +98,13 @@ export function MerchantRowActions({
             <Iconify icon="solar:global-bold" />
           </ListItemIcon>
           <ListItemText>{t('merchant.info.bindIp')}</ListItemText>
+        </MenuItem>
+
+        <MenuItem onClick={handleAction(onViewIp)}>
+          <ListItemIcon>
+            <Iconify icon="solar:list-bold" />
+          </ListItemIcon>
+          <ListItemText>{t('merchant.info.viewIpList')}</ListItemText>
         </MenuItem>
 
         <MenuItem onClick={handleAction(onBindTgGroup)}>

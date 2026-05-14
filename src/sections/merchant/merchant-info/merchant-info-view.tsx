@@ -25,6 +25,7 @@ import { useGoogleAuthDialog } from 'src/components/google-auth-dialog';
 
 import { useMerchantInfoList } from './hooks';
 import { AddIpDialog } from './add-ip-dialog';
+import { IpListDialog } from './ip-list-dialog';
 import { BindTgDialog } from './bind-tg-dialog';
 import { RateConfigDialog } from './rate-config-dialog';
 import { MerchantInfoSearch } from './merchant-info-search';
@@ -47,6 +48,7 @@ export function MerchantInfoView() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
   const [addIpDialogOpen, setAddIpDialogOpen] = useState(false);
+  const [ipListDialogOpen, setIpListDialogOpen] = useState(false);
   const [bindTgDialogOpen, setBindTgDialogOpen] = useState(false);
   const [rateConfigDialogOpen, setRateConfigDialogOpen] = useState(false);
 
@@ -113,6 +115,11 @@ export function MerchantInfoView() {
   const handleBindIp = useCallback((merchant: MerchantInfo) => {
     setCurrentMerchant(merchant);
     setAddIpDialogOpen(true);
+  }, []);
+
+  const handleViewIp = useCallback((merchant: MerchantInfo) => {
+    setCurrentMerchant(merchant);
+    setIpListDialogOpen(true);
   }, []);
 
   const handleBindTgGroup = useCallback((merchant: MerchantInfo) => {
@@ -226,6 +233,7 @@ export function MerchantInfoView() {
               onChangePassword={handleChangePassword}
               onToggleStatus={handleToggleStatus}
               onBindIp={handleBindIp}
+              onViewIp={handleViewIp}
               onBindTgGroup={handleBindTgGroup}
               onRateConfig={handleRateConfig}
             />
@@ -240,6 +248,7 @@ export function MerchantInfoView() {
       handleChangePassword,
       handleToggleStatus,
       handleBindIp,
+      handleViewIp,
       handleBindTgGroup,
       handleRateConfig,
     ]
@@ -311,6 +320,14 @@ export function MerchantInfoView() {
       <AddIpDialog
         open={addIpDialogOpen}
         onOpenChange={setAddIpDialogOpen}
+        merchant={currentMerchant}
+        onSuccess={handleSuccess}
+      />
+
+      {/* IP List */}
+      <IpListDialog
+        open={ipListDialogOpen}
+        onOpenChange={setIpListDialogOpen}
         merchant={currentMerchant}
         onSuccess={handleSuccess}
       />

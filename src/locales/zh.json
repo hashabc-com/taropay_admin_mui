@@ -644,6 +644,8 @@
       "settlementDays": "结算天数",
       "addIP": "添加IP",
       "ipList": "已绑定IP列表",
+      "viewIpList": "查看IP列表",
+      "ipListFor": "商户已绑定的后台IP白名单",
       "deleteIp": "删除IP",
       "deleteIpFor": "确认删除该IP？",
       "ipAddress": "IP地址",
