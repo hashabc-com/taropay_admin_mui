@@ -85,7 +85,9 @@ export const getBusinessBindList = (params: BusinessBindParams) =>
 
 /** 根据商务ID获取商户列表 */
 export const getMerchantsByBusinessId = (params: { supervisorsId: number }) =>
-  http.get('/admin/supervisorsCustomer/getCustomerListBySuperId', params);
+  http.get('/admin/supervisorsCustomer/getCustomerListBySuperId', params, {
+    autoAddCountry: false,
+  });
 
 /** 更新商务绑定 */
 export const updateBusinessBind = (data: UpdateBusinessBindPayload) =>

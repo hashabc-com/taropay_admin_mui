@@ -1,21 +1,25 @@
 import type { MerchantBindRecord } from './hooks';
 
 import { toast } from 'sonner';
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import InputAdornment from '@mui/material/InputAdornment';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useLanguage } from 'src/context/language-provider';
 import { updateBusinessBind, getMerchantsByBusinessId } from 'src/api/business';
+
+import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -39,9 +43,11 @@ export function BindMerchantDialog({ open, business, onClose, onSuccess }: Props
   const [submitting, setSubmitting] = useState(false);
   const [merchants, setMerchants] = useState<MerchantItem[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     if (open && business) {
+      setKeyword('');
       loadMerchants();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,6 +74,15 @@ export function BindMerchantDialog({ open, business, onClose, onSuccess }: Props
       prev.includes(appId) ? prev.filter((id) => id !== appId) : [...prev, appId]
     );
   };
+
+  const filteredMerchants = useMemo(() => {
+    const kw = keyword.trim().toLowerCase();
+    if (!kw) return merchants;
+    return merchants.filter(
+      (m) =>
+        m.customerName?.toLowerCase().includes(kw) || m.customerappId?.toLowerCase().includes(kw)
+    );
+  }, [merchants, keyword]);
 
   const handleSubmit = async () => {
     if (!business) return;
@@ -110,21 +125,46 @@ export function BindMerchantDialog({ open, business, onClose, onSuccess }: Props
             {t('common.noData')}
           </Typography>
         ) : (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {merchants.map((m) => (
-              <FormControlLabel
-                key={m.customerappId}
-                label={m.customerName}
-                control={
-                  <Checkbox
-                    checked={selected.includes(m.customerappId)}
-                    onChange={() => handleToggle(m.customerappId)}
-                    size="small"
+          <>
+            <TextField
+              fullWidth
+              size="small"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder={t('common.searchPlaceholder')}
+              sx={{ mb: 2 }}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Iconify icon="eva:search-fill" width={18} sx={{ color: 'text.disabled' }} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+            {filteredMerchants.length === 0 ? (
+              <Typography color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>
+                {t('common.noData')}
+              </Typography>
+            ) : (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {filteredMerchants.map((m) => (
+                  <FormControlLabel
+                    key={m.customerappId}
+                    label={m.customerName}
+                    control={
+                      <Checkbox
+                        checked={selected.includes(m.customerappId)}
+                        onChange={() => handleToggle(m.customerappId)}
+                        size="small"
+                      />
+                    }
                   />
-                }
-              />
-            ))}
-          </Box>
+                ))}
+              </Box>
+            )}
+          </>
         )}
       </DialogContent>
       <DialogActions>
