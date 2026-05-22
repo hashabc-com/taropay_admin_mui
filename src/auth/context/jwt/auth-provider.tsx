@@ -25,7 +25,12 @@ export function AuthProvider({ children }: Props) {
   const checkUserSession = useCallback(async () => {
     const token = localStorage.getItem('_token');
     if (token) {
-      const userInfo = JSON.parse(localStorage.getItem('_userInfo') || 'null');
+      let userInfo = null;
+      try {
+        userInfo = JSON.parse(localStorage.getItem('_userInfo') || 'null');
+      } catch {
+        localStorage.removeItem('_userInfo');
+      }
       setState({ user: userInfo, loading: false });
     } else {
       setState({ user: null, loading: false });

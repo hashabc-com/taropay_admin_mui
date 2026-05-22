@@ -32,9 +32,18 @@ interface AuthState {
 }
 
 // Hydrate from localStorage
+function safeParse<T>(key: string): T | null {
+  try {
+    return JSON.parse(localStorage.getItem(key) || 'null');
+  } catch {
+    localStorage.removeItem(key);
+    return null;
+  }
+}
+
 const initialToken = localStorage.getItem('_token');
-const initialUserInfo = JSON.parse(localStorage.getItem('_userInfo') || 'null');
-const initialPermissions = JSON.parse(localStorage.getItem('_permissions') || 'null');
+const initialUserInfo = safeParse<UserInfo>('_userInfo');
+const initialPermissions = safeParse<Permissions>('_permissions');
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   token: initialToken,
