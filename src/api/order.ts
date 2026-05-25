@@ -25,6 +25,7 @@ export const getCollectionOrderStats = (params: {
   endTime?: string;
   pickupCenter?: string;
   status?: string;
+  userName?: string;
 }) => http.get('/admin/collection/orderdata', params);
 
 // -- Receive summary --

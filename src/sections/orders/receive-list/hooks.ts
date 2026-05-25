@@ -55,7 +55,7 @@ export function useOrderList() {
 // ----------------------------------------------------------------------
 
 export function useOrderStats() {
-  const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status'] as const);
+  const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status','userName'] as const);
 
   const key = useListSWRKey(
     'orders',
@@ -63,7 +63,8 @@ export function useOrderStats() {
     params.startTime,
     params.endTime,
     params.pickupCenter,
-    params.status
+    params.status,
+    params.userName
   );
 
   const { data, isLoading } = useSWR(
@@ -72,6 +73,7 @@ export function useOrderStats() {
       getCollectionOrderStats({
         startTime: params.startTime as string | undefined,
         endTime: params.endTime as string | undefined,
+        userName: params.userName as string | undefined,
         pickupCenter: params.pickupCenter as string | undefined,
         status: params.status as string | undefined,
       }),
