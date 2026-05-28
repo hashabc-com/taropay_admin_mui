@@ -50,6 +50,7 @@ export type OrderListResponse = {
   amountServiceTotalUSD: number | null;
   totalAmountTotalUSD: number | null;
   orderAmount?: number | string | null;
+  serviceAmount?: number | string | null;
   failedOrder?: number | string | null;
   failOrder?: number | string | null;
   fiveMinuteSuccessRate?: number | string | null;
@@ -65,6 +66,7 @@ export type OrderStats = {
   successOrder: number;
   failedOrder: number;
   orderAmount: number | string;
+  serviceAmount: number | string;
   successRate: string;
   fiveMinuteSuccessRate: string;
   tenMinuteSuccessRate: string;

@@ -74,7 +74,7 @@ function StatCard({ label, value, icon, color, bgcolor }: StatCardData) {
 
 // ----------------------------------------------------------------------
 
-const CARD_COUNT = 11;
+const CARD_COUNT = 12;
 const SUCCESS_RATE_ICON = 'solar:graph-up-bold';
 const SUCCESS_RATE_COLOR = 'warning.main';
 const SUCCESS_RATE_BGCOLOR = 'warning.lighter';
@@ -125,6 +125,13 @@ export function OrderStatsCards({ stats, isLoading }: Props) {
       icon: 'solar:wallet-money-bold',
       color: 'info.main',
       bgcolor: 'info.lighter',
+    },
+    {
+      label: t('orders.stats.serviceAmount'),
+      value: stats.serviceAmount || 0,
+      icon: 'solar:bill-list-bold',
+      color: 'secondary.main',
+      bgcolor: 'secondary.lighter',
     },
     {
       label: t('orders.stats.successRate'),

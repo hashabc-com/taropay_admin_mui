@@ -210,6 +210,7 @@
       "successOrders": "Successful Orders",
       "failedOrders": "Failed Orders",
       "orderAmount": "Order Amount",
+      "serviceAmount": "Order Service Fee",
       "successRate": "Success Rate",
       "fiveMinuteSuccessRate": "5 Min Success Rate",
       "tenMinuteSuccessRate": "10 Min Success Rate",

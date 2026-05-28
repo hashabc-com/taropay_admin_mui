@@ -432,6 +432,7 @@
       "successOrders": "成功订单",
       "failedOrders": "失败订单",
       "orderAmount": "订单金额",
+      "serviceAmount": "订单手续费",
       "successRate": "成功率",
       "fiveMinuteSuccessRate": "5分钟成功率",
       "tenMinuteSuccessRate": "10分钟成功率",
