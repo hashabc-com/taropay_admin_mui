@@ -49,12 +49,29 @@ export type OrderListResponse = {
   amountTotalUSD: number | null;
   amountServiceTotalUSD: number | null;
   totalAmountTotalUSD: number | null;
+  orderAmount?: number | string | null;
+  failedOrder?: number | string | null;
+  failOrder?: number | string | null;
+  fiveMinuteSuccessRate?: number | string | null;
+  tenMinuteSuccessRate?: number | string | null;
+  fifteenMinuteSuccessRate?: number | string | null;
+  thirtyMinuteSuccessRate?: number | string | null;
+  oneHourSuccessRate?: number | string | null;
+  todaySuccessRate?: number | string | null;
 };
 
 export type OrderStats = {
-  totalOrders: number;
-  successOrders: number;
+  allOrder: number;
+  successOrder: number;
+  failedOrder: number;
+  orderAmount: number | string;
   successRate: string;
+  fiveMinuteSuccessRate: string;
+  tenMinuteSuccessRate: string;
+  fifteenMinuteSuccessRate: string;
+  thirtyMinuteSuccessRate: string;
+  oneHourSuccessRate: string;
+  todaySuccessRate: string;
 };
 
 export const ORDER_STATUS_MAP: Record<

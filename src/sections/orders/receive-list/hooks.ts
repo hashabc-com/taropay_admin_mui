@@ -26,6 +26,28 @@ export const FIELD_KEYS = [
 
 // ----------------------------------------------------------------------
 
+const EMPTY_STATS: OrderStats = {
+  allOrder: 0,
+  successOrder: 0,
+  failedOrder: 0,
+  orderAmount: 0,
+  successRate: '0',
+  fiveMinuteSuccessRate: '0',
+  tenMinuteSuccessRate: '0',
+  fifteenMinuteSuccessRate: '0',
+  thirtyMinuteSuccessRate: '0',
+  oneHourSuccessRate: '0',
+  todaySuccessRate: '0',
+};
+
+function normalizeRate(value: unknown) {
+  const text = String(value ?? '0').trim();
+
+  return text ? text.replace('%', '') : '0';
+}
+
+// ----------------------------------------------------------------------
+
 export function useOrderList() {
   const params = useSearchParamsObject(FIELD_KEYS) as OrderListParams;
   const convertAmount = useConvertAmount();
@@ -55,7 +77,14 @@ export function useOrderList() {
 // ----------------------------------------------------------------------
 
 export function useOrderStats() {
-  const params = useSearchParamsObject(['startTime', 'endTime', 'pickupCenter', 'status','userName'] as const);
+  const params = useSearchParamsObject([
+    'startTime',
+    'endTime',
+    'pickupCenter',
+    'status',
+    'userName',
+  ] as const);
+  const convertAmount = useConvertAmount();
 
   const key = useListSWRKey(
     'orders',
@@ -87,13 +116,21 @@ export function useOrderStats() {
     const r = data?.result;
     if (r) {
       return {
-        totalOrders: Number(r.allOrder) || 0,
-        successOrders: Number(r.successOrder) || 0,
-        successRate: (r.successRate ?? '0').replace('%', ''),
+        allOrder: Number(r.allOrder) || 0,
+        successOrder: Number(r.successOrder) || 0,
+        failedOrder: Number(r.failedOrder ?? r.failOrder) || 0,
+        orderAmount: convertAmount(r.orderAmount ?? r.amountTotal ?? 0, false),
+        successRate: normalizeRate(r.successRate),
+        fiveMinuteSuccessRate: normalizeRate(r.fiveMinuteSuccessRate),
+        tenMinuteSuccessRate: normalizeRate(r.tenMinuteSuccessRate),
+        fifteenMinuteSuccessRate: normalizeRate(r.fifteenMinuteSuccessRate),
+        thirtyMinuteSuccessRate: normalizeRate(r.thirtyMinuteSuccessRate),
+        oneHourSuccessRate: normalizeRate(r.oneHourSuccessRate),
+        todaySuccessRate: normalizeRate(r.todaySuccessRate),
       };
     }
-    return { totalOrders: 0, successOrders: 0, successRate: '0' };
-  }, [data?.result]);
+    return EMPTY_STATS;
+  }, [convertAmount, data?.result]);
 
   return { stats, isLoading };
 }

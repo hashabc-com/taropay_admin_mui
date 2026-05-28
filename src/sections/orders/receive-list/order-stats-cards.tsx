@@ -26,15 +26,17 @@ function StatCard({ label, value, icon, color, bgcolor }: StatCardData) {
         p: 2,
         display: 'flex',
         alignItems: 'center',
-        gap: 2,
+        gap: 1.5,
+        minHeight: 76,
+        minWidth: 0,
         borderLeft: 3,
         borderColor: color,
       }}
     >
       <Box
         sx={{
-          width: 40,
-          height: 40,
+          width: 36,
+          height: 36,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -43,22 +45,46 @@ function StatCard({ label, value, icon, color, bgcolor }: StatCardData) {
           flexShrink: 0,
         }}
       >
-        <Iconify icon={icon} width={22} sx={{ color }} />
+        <Iconify icon={icon} width={20} sx={{ color }} />
       </Box>
 
-      <Box>
+      <Box sx={{ minWidth: 0 }}>
         <Typography
           variant="caption"
-          sx={{ color: 'text.secondary', textTransform: 'uppercase', fontWeight: 600 }}
+          sx={{
+            display: 'block',
+            color: 'text.secondary',
+            fontWeight: 600,
+            lineHeight: 1.2,
+            wordBreak: 'break-word',
+          }}
         >
           {label}
         </Typography>
-        <Typography variant="h5" sx={{ fontWeight: 700 }}>
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: 700, lineHeight: 1.25, overflowWrap: 'anywhere' }}
+        >
           {value}
         </Typography>
       </Box>
     </Card>
   );
+}
+
+// ----------------------------------------------------------------------
+
+const CARD_COUNT = 11;
+const SUCCESS_RATE_ICON = 'solar:graph-up-bold';
+const SUCCESS_RATE_COLOR = 'warning.main';
+const SUCCESS_RATE_BGCOLOR = 'warning.lighter';
+
+function formatPercent(value: string | number) {
+  const text = String(value ?? '').trim();
+
+  if (!text) return '0%';
+
+  return text.includes('%') ? text : `${text}%`;
 }
 
 // ----------------------------------------------------------------------
@@ -74,24 +100,80 @@ export function OrderStatsCards({ stats, isLoading }: Props) {
   const cards: StatCardData[] = [
     {
       label: t('orders.stats.totalOrders'),
-      value: isLoading ? '-' : stats.totalOrders.toLocaleString(),
+      value: stats.allOrder.toLocaleString(),
       icon: 'solar:hashtag-bold',
       color: 'primary.main',
       bgcolor: 'primary.lighter',
     },
     {
       label: t('orders.stats.successOrders'),
-      value: isLoading ? '-' : stats.successOrders.toLocaleString(),
+      value: stats.successOrder.toLocaleString(),
       icon: 'solar:check-circle-bold',
       color: 'success.main',
       bgcolor: 'success.lighter',
     },
     {
+      label: t('orders.stats.failedOrders'),
+      value: stats.failedOrder.toLocaleString(),
+      icon: 'solar:close-circle-bold',
+      color: 'error.main',
+      bgcolor: 'error.lighter',
+    },
+    {
+      label: t('orders.stats.orderAmount'),
+      value: stats.orderAmount || 0,
+      icon: 'solar:wallet-money-bold',
+      color: 'info.main',
+      bgcolor: 'info.lighter',
+    },
+    {
       label: t('orders.stats.successRate'),
-      value: isLoading ? '-' : `${stats.successRate}%`,
-      icon: 'solar:graph-up-bold',
-      color: 'warning.main',
-      bgcolor: 'warning.lighter',
+      value: formatPercent(stats.successRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
+    },
+    {
+      label: t('orders.stats.fiveMinuteSuccessRate'),
+      value: formatPercent(stats.fiveMinuteSuccessRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
+    },
+    {
+      label: t('orders.stats.tenMinuteSuccessRate'),
+      value: formatPercent(stats.tenMinuteSuccessRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
+    },
+    {
+      label: t('orders.stats.fifteenMinuteSuccessRate'),
+      value: formatPercent(stats.fifteenMinuteSuccessRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
+    },
+    {
+      label: t('orders.stats.thirtyMinuteSuccessRate'),
+      value: formatPercent(stats.thirtyMinuteSuccessRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
+    },
+    {
+      label: t('orders.stats.oneHourSuccessRate'),
+      value: formatPercent(stats.oneHourSuccessRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
+    },
+    {
+      label: t('orders.stats.todaySuccessRate'),
+      value: formatPercent(stats.todaySuccessRate),
+      icon: SUCCESS_RATE_ICON,
+      color: SUCCESS_RATE_COLOR,
+      bgcolor: SUCCESS_RATE_BGCOLOR,
     },
   ];
 
@@ -100,12 +182,17 @@ export function OrderStatsCards({ stats, isLoading }: Props) {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, minmax(0, 1fr))',
+            md: 'repeat(4, minmax(0, 1fr))',
+            lg: 'repeat(6, minmax(0, 1fr))',
+          },
           gap: 2,
           mb: 3,
         }}
       >
-        {[1, 2, 3].map((i) => (
+        {Array.from({ length: CARD_COUNT }).map((_, i) => (
           <Skeleton key={i} variant="rounded" height={80} />
         ))}
       </Box>
@@ -116,7 +203,12 @@ export function OrderStatsCards({ stats, isLoading }: Props) {
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+        gridTemplateColumns: {
+          xs: '1fr',
+          sm: 'repeat(2, minmax(0, 1fr))',
+          md: 'repeat(4, minmax(0, 1fr))',
+          lg: 'repeat(6, minmax(0, 1fr))',
+        },
         gap: 2,
         mb: 3,
       }}

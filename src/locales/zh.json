@@ -428,9 +428,17 @@
   },
   "orders": {
     "stats": {
-      "totalOrders": "总订单数",
-      "successOrders": "成功订单数",
-      "successRate": "成功率"
+      "totalOrders": "总订单",
+      "successOrders": "成功订单",
+      "failedOrders": "失败订单",
+      "orderAmount": "订单金额",
+      "successRate": "成功率",
+      "fiveMinuteSuccessRate": "5分钟成功率",
+      "tenMinuteSuccessRate": "10分钟成功率",
+      "fifteenMinuteSuccessRate": "15分钟成功率",
+      "thirtyMinuteSuccessRate": "30分钟成功率",
+      "oneHourSuccessRate": "一小时成功率",
+      "todaySuccessRate": "今天成功率"
     },
     "receiveOrders": {
       "title": "收款订单明细",

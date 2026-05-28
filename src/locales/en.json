@@ -208,7 +208,15 @@
     "stats": {
       "totalOrders": "Total Orders",
       "successOrders": "Successful Orders",
-      "successRate": "Success Rate"
+      "failedOrders": "Failed Orders",
+      "orderAmount": "Order Amount",
+      "successRate": "Success Rate",
+      "fiveMinuteSuccessRate": "5 Min Success Rate",
+      "tenMinuteSuccessRate": "10 Min Success Rate",
+      "fifteenMinuteSuccessRate": "15 Min Success Rate",
+      "thirtyMinuteSuccessRate": "30 Min Success Rate",
+      "oneHourSuccessRate": "1 Hour Success Rate",
+      "todaySuccessRate": "Today Success Rate"
     },
     "receiveOrders": {
       "title": "Receive Order Details",
